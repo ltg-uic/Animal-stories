@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="2844" systemVersion="12C60" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES" initialViewController="4">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="3084" systemVersion="12C60" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES" initialViewController="4">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1930"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="2083"/>
     </dependencies>
     <scenes>
         <!--Label View Controller - Label-->
@@ -138,8 +138,8 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="10" sceneMemberID="firstResponder"/>
-                <swipeGestureRecognizer direction="left" id="WhJ-4L-Bio"/>
-                <swipeGestureRecognizer direction="right" id="E1M-uQ-asd"/>
+                <swipeGestureRecognizer direction="left" numberOfTouchesRequired="2" id="WhJ-4L-Bio"/>
+                <swipeGestureRecognizer direction="right" numberOfTouchesRequired="2" id="E1M-uQ-asd"/>
                 <panGestureRecognizer minimumNumberOfTouches="1" id="Hpx-i2-YQK"/>
             </objects>
             <point key="canvasLocation" x="3085" y="-618"/>
@@ -199,29 +199,6 @@
         <image name="first" width="16" height="16"/>
         <image name="second" width="16" height="16"/>
     </resources>
-    <classes>
-        <class className="AnalyzeViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/AnalyzeViewController.h"/>
-        </class>
-        <class className="LabelViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/LabelViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="handleDrag:" candidateClass="UIPanGestureRecognizer"/>
-                <relationship kind="action" name="handleSwipeRecognizer:" candidateClass="UISwipeGestureRecognizer"/>
-                <relationship kind="outlet" name="addLabelText" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="currentImage" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="dragGesture" candidateClass="UIPanGestureRecognizer"/>
-                <relationship kind="outlet" name="editModeButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="notesBox" candidateClass="UITextView"/>
-                <relationship kind="outlet" name="progressBar" candidateClass="UIProgressView"/>
-                <relationship kind="outlet" name="swipeRecognizer" candidateClass="UISwipeGestureRecognizer"/>
-                <relationship kind="outlet" name="swipeRecognizer2" candidateClass="UISwipeGestureRecognizer"/>
-            </relationships>
-        </class>
-        <class className="NSLayoutConstraint" superclassName="NSObject">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar" statusBarStyle="blackTranslucent"/>
         <simulatedOrientationMetrics key="orientation"/>

@@ -27,6 +27,9 @@
 		1234A3D616B1EF79005D3B6B /* image_notes.png in Resources */ = {isa = PBXBuildFile; fileRef = 1234A3C516B1EF79005D3B6B /* image_notes.png */; };
 		1234A3D716B1EF79005D3B6B /* imageBackdrop.png in Resources */ = {isa = PBXBuildFile; fileRef = 1234A3C616B1EF79005D3B6B /* imageBackdrop.png */; };
 		1234A3D816B1EF79005D3B6B /* imageBackdrop.svg in Resources */ = {isa = PBXBuildFile; fileRef = 1234A3C716B1EF79005D3B6B /* imageBackdrop.svg */; };
+		123E564816C318AC000A910E /* SDWebImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 123E564716C318AC000A910E /* SDWebImage.framework */; };
+		123E564B16C329DB000A910E /* CaptureRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = 123E564A16C329DB000A910E /* CaptureRecord.m */; };
+		123E564E16C32F2C000A910E /* Tag.m in Sources */ = {isa = PBXBuildFile; fileRef = 123E564D16C32F2B000A910E /* Tag.m */; };
 		1270612B16B18C33008CF0A0 /* 6990815470_6e5cab95aa_o.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 1270612616B18C33008CF0A0 /* 6990815470_6e5cab95aa_o.jpg */; };
 		1270612C16B18C33008CF0A0 /* 6990815768_ac2f693e04_o.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 1270612716B18C33008CF0A0 /* 6990815768_ac2f693e04_o.jpg */; };
 		1270612D16B18C33008CF0A0 /* 6990816026_355530e1a3_o.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 1270612816B18C33008CF0A0 /* 6990816026_355530e1a3_o.jpg */; };
@@ -84,6 +87,11 @@
 		1234A3C516B1EF79005D3B6B /* image_notes.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = image_notes.png; sourceTree = "<group>"; };
 		1234A3C616B1EF79005D3B6B /* imageBackdrop.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = imageBackdrop.png; sourceTree = "<group>"; };
 		1234A3C716B1EF79005D3B6B /* imageBackdrop.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = imageBackdrop.svg; sourceTree = "<group>"; };
+		123E564716C318AC000A910E /* SDWebImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SDWebImage.framework; sourceTree = "<group>"; };
+		123E564916C329DB000A910E /* CaptureRecord.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CaptureRecord.h; sourceTree = "<group>"; };
+		123E564A16C329DB000A910E /* CaptureRecord.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CaptureRecord.m; sourceTree = "<group>"; };
+		123E564C16C32F2B000A910E /* Tag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Tag.h; path = ../Tag.h; sourceTree = "<group>"; };
+		123E564D16C32F2B000A910E /* Tag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Tag.m; path = ../Tag.m; sourceTree = "<group>"; };
 		1270612616B18C33008CF0A0 /* 6990815470_6e5cab95aa_o.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = 6990815470_6e5cab95aa_o.jpg; path = "../../../../../Downloads/AnimalStoriesFirstCollection/Eagles-1/6990815470_6e5cab95aa_o.jpg"; sourceTree = "<group>"; };
 		1270612716B18C33008CF0A0 /* 6990815768_ac2f693e04_o.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = 6990815768_ac2f693e04_o.jpg; path = "../../../../../Downloads/AnimalStoriesFirstCollection/Eagles-1/6990815768_ac2f693e04_o.jpg"; sourceTree = "<group>"; };
 		1270612816B18C33008CF0A0 /* 6990816026_355530e1a3_o.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = 6990816026_355530e1a3_o.jpg; path = "../../../../../Downloads/AnimalStoriesFirstCollection/Eagles-1/6990816026_355530e1a3_o.jpg"; sourceTree = "<group>"; };
@@ -125,6 +133,7 @@
 				127FED9D16A73B6000801699 /* UIKit.framework in Frameworks */,
 				127FED9F16A73B6000801699 /* Foundation.framework in Frameworks */,
 				127FEDA116A73B6000801699 /* CoreGraphics.framework in Frameworks */,
+				123E564816C318AC000A910E /* SDWebImage.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -144,6 +153,7 @@
 		127FED8D16A73B6000801699 = {
 			isa = PBXGroup;
 			children = (
+				123E564716C318AC000A910E /* SDWebImage.framework */,
 				127FEDA216A73B6000801699 /* as_test */,
 				127FEDD116A73B6000801699 /* as_testTests */,
 				127FED9B16A73B6000801699 /* Frameworks */,
@@ -174,11 +184,15 @@
 		127FEDA216A73B6000801699 /* as_test */ = {
 			isa = PBXGroup;
 			children = (
+				123E564C16C32F2B000A910E /* Tag.h */,
+				123E564D16C32F2B000A910E /* Tag.m */,
 				127FEDAB16A73B6000801699 /* AppDelegate.h */,
 				127FEDAC16A73B6000801699 /* AppDelegate.m */,
 				12336A6716B871EB004DCF43 /* MainStoryboard.storyboard */,
 				127FEDB716A73B6000801699 /* LabelViewController.h */,
 				12336A6A16B871F8004DCF43 /* LabelViewController.m */,
+				123E564916C329DB000A910E /* CaptureRecord.h */,
+				123E564A16C329DB000A910E /* CaptureRecord.m */,
 				1234A3B516B1EF42005D3B6B /* BL_Storyboard.storyboard */,
 				127FEDBA16A73B6000801699 /* first.png */,
 				127FEDBC16A73B6000801699 /* first@2x.png */,
@@ -387,6 +401,8 @@
 				127FEDAD16A73B6000801699 /* AppDelegate.m in Sources */,
 				127FEDC016A73B6000801699 /* AnalyzeViewController.m in Sources */,
 				12336A6B16B871F8004DCF43 /* LabelViewController.m in Sources */,
+				123E564B16C329DB000A910E /* CaptureRecord.m in Sources */,
+				123E564E16C32F2C000A910E /* Tag.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -492,6 +508,11 @@
 		127FEDDD16A73B6000801699 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../../Downloads\"",
+					"\"$(SRCROOT)\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "as_test/as_test-Prefix.pch";
 				INFOPLIST_FILE = "as_test/as_test-Info.plist";
@@ -503,6 +524,11 @@
 		127FEDDE16A73B6000801699 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../../Downloads\"",
+					"\"$(SRCROOT)\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "as_test/as_test-Prefix.pch";
 				INFOPLIST_FILE = "as_test/as_test-Info.plist";
