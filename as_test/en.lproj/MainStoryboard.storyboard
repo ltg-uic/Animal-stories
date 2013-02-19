@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="3084" systemVersion="12C60" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES" initialViewController="4">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="3084" systemVersion="11G63" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES" initialViewController="4">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="2083"/>
     </dependencies>
@@ -184,7 +184,7 @@
         <!--Analyze View Controller - Anaylze-->
         <scene sceneID="13">
             <objects>
-                <viewController id="3" customClass="AnalyzeViewController" sceneMemberID="viewController">
+                <viewController wantsFullScreenLayout="YES" hidesBottomBarWhenPushed="YES" id="3" customClass="AnalyzeViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="16">
                         <rect key="frame" x="0.0" y="20" width="1024" height="699"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -194,11 +194,19 @@
                                     <navigationItem id="24"/>
                                 </items>
                             </navigationBar>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" image="bg_Analyze.png" translatesAutoresizingMaskIntoConstraints="NO" id="e0f-qM-bFR">
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="1057" id="Gnw-s1-zOH"/>
+                                    <constraint firstAttribute="height" constant="721" id="Z0J-Zz-dzQ"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="23" firstAttribute="top" secondItem="16" secondAttribute="top" type="default" id="YQd-P8-ET5"/>
+                            <constraint firstItem="e0f-qM-bFR" firstAttribute="leading" secondItem="16" secondAttribute="leading" constant="-20" id="e83-aj-c72"/>
                             <constraint firstItem="23" firstAttribute="trailing" secondItem="16" secondAttribute="trailing" type="default" id="eH6-Me-VTD"/>
+                            <constraint firstItem="e0f-qM-bFR" firstAttribute="bottom" secondItem="16" secondAttribute="bottom" type="default" id="iUu-Rb-8JI"/>
                             <constraint firstItem="23" firstAttribute="leading" secondItem="16" secondAttribute="leading" type="default" id="kTD-uS-vbp"/>
                         </constraints>
                         <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
@@ -233,6 +241,7 @@
     <resources>
         <image name="arrowLeft.png" width="25" height="24"/>
         <image name="arrowRight.png" width="25" height="24"/>
+        <image name="bg_Analyze.png" width="5518" height="4139"/>
         <image name="first" width="16" height="16"/>
         <image name="second" width="16" height="16"/>
         <image name="trash.png" width="128" height="128"/>
