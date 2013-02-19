@@ -54,7 +54,7 @@
 		127FEDCE16A73B6000801699 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 127FED9E16A73B6000801699 /* Foundation.framework */; };
 		127FEDD616A73B6000801699 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 127FEDD416A73B6000801699 /* InfoPlist.strings */; };
 		127FEDD916A73B6000801699 /* as_testTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 127FEDD816A73B6000801699 /* as_testTests.m */; };
-		852CDE7916D427610048F317 /* bg_Analyze.png in Resources */ = {isa = PBXBuildFile; fileRef = 852CDE7816D427610048F317 /* bg_Analyze.png */; };
+		85D7E09E16D4297700E89260 /* bg_Analyze.png in Resources */ = {isa = PBXBuildFile; fileRef = 85D7E09D16D4297700E89260 /* bg_Analyze.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -124,7 +124,7 @@
 		127FEDD516A73B6000801699 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		127FEDD716A73B6000801699 /* as_testTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = as_testTests.h; sourceTree = "<group>"; };
 		127FEDD816A73B6000801699 /* as_testTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = as_testTests.m; sourceTree = "<group>"; };
-		852CDE7816D427610048F317 /* bg_Analyze.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = bg_Analyze.png; path = ../../../../Dropbox/Animal_Stories/DesignIteration4/images/bg_Analyze.png; sourceTree = "<group>"; };
+		85D7E09D16D4297700E89260 /* bg_Analyze.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bg_Analyze.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -254,7 +254,7 @@
 		852CDE7516D426CF0048F317 /* UI images */ = {
 			isa = PBXGroup;
 			children = (
-				852CDE7816D427610048F317 /* bg_Analyze.png */,
+				85D7E09D16D4297700E89260 /* bg_Analyze.png */,
 				1234A3B716B1EF79005D3B6B /* icon_analyze_0.png */,
 				1234A3B816B1EF79005D3B6B /* icon_analyze.png */,
 				1234A3B916B1EF79005D3B6B /* icon_AS_app_2x.png */,
@@ -374,7 +374,7 @@
 				123E565216CAEB49000A910E /* arrowRight.png in Resources */,
 				123F7D3316D404D100474EDF /* startImage.png in Resources */,
 				123F7D3516D4089800474EDF /* trash.png in Resources */,
-				852CDE7916D427610048F317 /* bg_Analyze.png in Resources */,
+				85D7E09E16D4297700E89260 /* bg_Analyze.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
