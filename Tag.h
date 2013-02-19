@@ -14,4 +14,12 @@
 @property int imgSet;
 @property CGPoint center;
 @property NSString *labelText;
+@property UILabel   *uiTag;
+@property CGRect labelFrame;
+
+-(void)moveTagToPosition : (CGPoint) center;
+-(Tag*)initWithCenter : (CGPoint) center withIdentifier: (int) imgSet withText: (NSString*) labelText;
+-(void)addLabelToView: (UIView*) view;
+-(Tag *) initWithUIlabel : (UILabel *) label andID: (int) imgSet;
+-(void)removeLabelFromView;
 @end
