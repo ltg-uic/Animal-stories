@@ -8,6 +8,7 @@
 
 #import "LabelViewController.h"
 #import "SDWebImage/UIImageView+WebCache.h"
+#import "CaptureRecord.h"
 
 @interface LabelViewController ()
 
@@ -22,6 +23,7 @@
 @property (strong, nonatomic) NSMutableArray *labelsAddedToImage;
 @property (nonatomic) NSInteger currentLabelIndex;
 @property (strong, nonatomic) NSMutableData *tagListData;
+@property (strong, nonatomic) Tag *activeTag;
 @end
 
 @implementation LabelViewController
@@ -38,18 +40,20 @@
 @synthesize editModeButton = _editModeButton;
 @synthesize addLabelText = _addLabelText;
 @synthesize tagListData = _tagListData;
+@synthesize captureRecords = _captureRecords;
+@synthesize rightArrowButton = _rightArrowButton;
+@synthesize leftArrowButton = _leftArrowButton;
+@synthesize activeTag = _activeTag;
 
-NSString *server = @"http://animal-stories.danceforscience.com/";
+NSURL *server;
+NSMutableString *currentCaptureRecord = @"0 ";
 
-//this is a placeholder method. In final version, this needs to query
-//the database, download the images and then set up the imageList
-//imageList will probably need to be composed of a row of data per line
-//to match the number of inserted labels, etc.
+
 - (NSMutableArray*)imageList: (NSMutableArray *) fileList{
     if(!_imageList){
         _imageList = [[NSMutableArray alloc] init];
         for (int i=0; i < [fileList count]; i++){
-            NSString *fileUrl = [server stringByAppendingString:[fileList objectAtIndex: i] ];
+            NSString *fileUrl = [ [server absoluteString] stringByAppendingString:[fileList objectAtIndex: i] ];
             NSLog(@"%@", fileUrl);
             [_imageList addObject: [UIImage imageWithContentsOfFile : fileUrl]  ];
         }
@@ -57,47 +61,89 @@ NSString *server = @"http://animal-stories.danceforscience.com/";
     return _imageList;
 }
 
-- (NSMutableArray*) imageList{
-    if(!_imageList){
-        _imageList = [[NSMutableArray alloc] init];
-        [_imageList addObject: [ UIImage imageNamed:@"6990815470_6e5cab95aa_o.jpg"]];
-        [_imageList addObject: [ UIImage imageNamed:@"6990815768_ac2f693e04_o.jpg"]];
-        [_imageList addObject: [ UIImage imageNamed:@"6990816026_355530e1a3_o.jpg"]];
-    }
-    return _imageList;
-}
+
+//this is a placeholder method. In final version, this needs to query
+//the database, download the images and then set up the imageList
+//imageList will probably need to be composed of a row of data per line
+//to match the number of inserted labels, etc.
+//- (NSMutableArray*) imageList{
+//    if(!_imageList){
+//        _imageList = [[NSMutableArray alloc] init];
+//        [_imageList addObject: [ UIImage imageNamed:@"6990815470_6e5cab95aa_o.jpg"]];
+//        [_imageList addObject: [ UIImage imageNamed:@"6990815768_ac2f693e04_o.jpg"]];
+//        [_imageList addObject: [ UIImage imageNamed:@"6990816026_355530e1a3_o.jpg"]];
+//    }
+//    return _imageList;
+//}
 
 //initializes swipeRecognizer, the TableView that contains everything else
 //and will eventually use locally stored data to get to the labels the group
 //has used before
 
 - (void)viewDidLoad {
+    server = [NSURL URLWithString: @"http://animal-stories.danceforscience.com/"];
     //instantiates the labelTable
     _labelTable = [[UITableView alloc] initWithFrame:CGRectMake(10, 59, 320, 460) style: UITableViewStylePlain];
     
+    NSString *captureData = [NSString stringWithContentsOfURL:[NSURL URLWithString: @"filelistplusdata.php" relativeToURL:server] encoding:NSUTF8StringEncoding error: nil];
+    captureData = [captureData stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    NSArray *captureDataArray = [captureData componentsSeparatedByString: @"\n"];
+    _captureRecords = [[NSMutableDictionary alloc] init];
+    
+    //for each entry line, which represents an image, checks to see if there is an existing record for that imageSet. If not, it creates a new record, and adds to the dictionary. Else, adds the new image to the existing record.
+    for( int i = 0; i < captureDataArray.count; i++){
+        NSString *recordText = [ [captureDataArray objectAtIndex:i ] stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]];
+        NSArray *record = [recordText componentsSeparatedByString: @"\t"];
+        if(![_captureRecords objectForKey: [record objectAtIndex:1]]){
+            CaptureRecord *newRecord = [[ CaptureRecord alloc] initWithPathName:[[server absoluteString] stringByAppendingString:[record objectAtIndex:2] ] identifier: [[record objectAtIndex: 1] intValue]  author:[record objectAtIndex: 3] ];
+            [_captureRecords setObject:newRecord forKey:[record objectAtIndex:1]];
+        }else {
+            [[_captureRecords objectForKey: [record objectAtIndex:1] ] addPathName: [[server absoluteString] stringByAppendingString:[record objectAtIndex:2]]];
+        }
+    }
+    
     //instantiates tableData from the web: later need to make this user specific.
-    NSString *tagList = [NSString stringWithContentsOfURL: [NSURL URLWithString: @"http://animal-stories.danceforscience.com/taglist.php" ] encoding:NSUTF8StringEncoding error:nil];
+    NSString *tagList = [NSString stringWithContentsOfURL: [NSURL URLWithString: @"taglist.php" relativeToURL:server] encoding:NSUTF8StringEncoding error:nil];
     tagList = [tagList stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     _tableData = [[ tagList componentsSeparatedByString:@"\n"] mutableCopy];
     
     //instantiates labels
     _labelsAddedToImage = [[NSMutableArray alloc] init];
-    NSString *tagPositions = [NSString stringWithContentsOfURL: [NSURL URLWithString: @"http://animal-stories.danceforscience.com/getalltags.php" ] encoding:NSUTF8StringEncoding error:nil];
+    NSString *tagPositions = [NSString stringWithContentsOfURL: [NSURL URLWithString: @"getalltags.php" relativeToURL: server] encoding:NSUTF8StringEncoding error:nil];
+    NSLog(@"%@", tagPositions);
     tagPositions = [tagPositions stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    NSArray *tagPos = [tagPositions componentsSeparatedByString:@"\n"];
+    for(int i = 0; i < tagPos.count; i++){
+        NSString *recordText = [ [tagPos objectAtIndex:i ] stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]];
+        //NSLog(@"%@", recordText);
+        NSArray *record = [recordText componentsSeparatedByString: @"\t"];
+        //NSLog(@"%@, %d", [record objectAtIndex:0], [[record objectAtIndex:0] intValue]);
+        if([_captureRecords objectForKey: [record objectAtIndex:0] ]){
+            Tag* lastTag = [[_captureRecords objectForKey: [record objectAtIndex:0]] addTag: [[Tag alloc] initWithCenter:CGPointMake([[record objectAtIndex:2] intValue], [[record objectAtIndex: 3] intValue]) withIdentifier:[[record objectAtIndex: 0] intValue] withText:[record objectAtIndex: 1]]];
+            [lastTag addLabelToView:self.view];
+            
+        }
+    }
 
-    //downloads image list and sticks into the image list.
-    NSString *imageList = [NSString stringWithContentsOfURL: [NSURL URLWithString: @"http://animal-stories.danceforscience.com/filelist.php" ] encoding:NSUTF8StringEncoding error:nil];
-    imageList = [imageList stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-    NSMutableArray *fileNameData = [[ imageList componentsSeparatedByString:@"\n"] mutableCopy];
-    NSLog(@"%@", fileNameData);
-    //[self imageList: fileNameData];
-    [self imageList];
+    //[self imageList];
     [_addLabelText setAlpha:1.0];
+    //NSLog(@"%@", [_captureRecords description]);
+
 
     [super viewDidLoad];
     [self loadView];
+    if (![[_captureRecords objectForKey:currentCaptureRecord] pathNames]){
+        self.currentImage.image = [UIImage imageNamed:@"startImage.png"];
+        [NSString stringWithFormat:@"%d ", -1];
+    } else {
+    self.currentImage.animationImages = [[_captureRecords objectForKey:currentCaptureRecord] pathNames];
+    }
+    self.currentImage.animationDuration = 6;
+    [self.currentImage startAnimating];
+    //NSLog(@"Key: %@, %@", currentCaptureRecord,[_captureRecords objectForKey:currentCaptureRecord]);
+    //NSLog(@"%@", self.currentImage.image);
     
-    _currentLabelIndex = - 1;
+    _addLabelText.borderStyle = UITextBorderStyleRoundedRect;
     
     //instantiates swipeRecognizers; one each for left and right
 
@@ -127,49 +173,51 @@ NSString *server = @"http://animal-stories.danceforscience.com/";
             duplicate.textColor =  [UIColor whiteColor];
             duplicate.backgroundColor = [UIColor clearColor];
             duplicate.shadowColor =[UIColor blackColor];
-            [_labelsAddedToImage addObject: duplicate];
+            _activeTag = [[Tag alloc] initWithUIlabel:duplicate andID: [[_captureRecords objectForKey:currentCaptureRecord] imgSet]];
+            [[_captureRecords objectForKey:currentCaptureRecord] addTag: _activeTag];
+            //[_labelsAddedToImage addObject: duplicate];
             [self.view addSubview: duplicate];
             //NSLog(@"%@ , %@", duplicate, _labelsAddedToImage);
             [recognizer setTranslation:CGPointZero inView:[duplicate superview]];
         } else if([recognizer state]  == UIGestureRecognizerStateChanged){
             
-            CGPoint translation = [recognizer translationInView:[ [_labelsAddedToImage lastObject] superview]];
+            CGPoint translation = [recognizer translationInView:[ _activeTag.uiTag superview]];
             //NSLog(@"%f, %f", translation.x, translation.y);
-            [[_labelsAddedToImage lastObject] setCenter:CGPointMake([[_labelsAddedToImage lastObject] center].x + translation.x, [[_labelsAddedToImage lastObject] center].y + translation.y)];
-            [recognizer setTranslation:CGPointZero inView:[[_labelsAddedToImage lastObject] superview]];
+            [_activeTag moveTagToPosition:CGPointMake([_activeTag center].x + translation.x, [_activeTag center].y + translation.y)];
+            [recognizer setTranslation:CGPointZero inView:[_activeTag.uiTag superview]];
         }else if([recognizer state] == UIGestureRecognizerStateEnded){
             //label has been dropped onto the image
             
             [_labelTable deselectRowAtIndexPath:test animated: YES];
             //Confirm that the label is within the image: if not, remove it from the list
-            if (!CGRectContainsPoint(self.currentImage.frame, [[_labelsAddedToImage lastObject] center]) ){
-                [[_labelsAddedToImage lastObject] removeFromSuperview ];
-                [_labelsAddedToImage removeLastObject];
+            if (!CGRectContainsPoint(self.currentImage.frame, [_activeTag center]) ){
+                [_activeTag.uiTag removeFromSuperview ];
+                [[_captureRecords objectForKey:currentCaptureRecord] removeTag: _activeTag];
+
             }
+            _activeTag = nil;
         }
         
     } else {
         if([recognizer state]  == UIGestureRecognizerStateBegan){
             //check if any labels have been selected
-            for(int i = 0; i < _labelsAddedToImage.count ; i++ ){
-                if( CGRectContainsPoint( [[_labelsAddedToImage objectAtIndex: i ] frame], [recognizer locationInView:recognizer.view] )){
-                    _currentLabelIndex = i;
-                    //NSLog(@"selected label: %@", [[_labelsAddedToImage objectAtIndex: i ] text] );
+            for( Tag * tag in [[_captureRecords objectForKey:currentCaptureRecord] tagData]){
+                if( CGRectContainsPoint( [tag.uiTag frame], [recognizer locationInView:recognizer.view] )){
+                    _activeTag = tag;
                 }
             }
             
-        } else if( [recognizer state] == UIGestureRecognizerStateChanged && _currentLabelIndex != -1) {
-            CGPoint translation = [recognizer translationInView:[ [_labelsAddedToImage objectAtIndex: _currentLabelIndex] superview]];
-            //NSLog(@"%f, %f", translation.x, translation.y);
-            [[_labelsAddedToImage lastObject] setCenter:CGPointMake([[_labelsAddedToImage objectAtIndex: _currentLabelIndex] center].x + translation.x, [[_labelsAddedToImage objectAtIndex: _currentLabelIndex] center].y + translation.y)];
-            [recognizer setTranslation:CGPointZero inView:[[_labelsAddedToImage objectAtIndex: _currentLabelIndex] superview]];
-        } else if ([recognizer state] == UIGestureRecognizerStateEnded && _currentLabelIndex != -1){
+        } else if( [recognizer state] == UIGestureRecognizerStateChanged && _activeTag != nil) {
+            CGPoint translation = [recognizer translationInView:[ _activeTag.uiTag superview]];
+            [_activeTag moveTagToPosition:CGPointMake([_activeTag center].x + translation.x, [_activeTag center].y + translation.y)];
+            [recognizer setTranslation:CGPointZero inView:[_activeTag.uiTag superview]];
+        } else if ([recognizer state] == UIGestureRecognizerStateEnded && _activeTag != nil){
             //NSLog(@"%@, %@", NSStringFromCGPoint([[_labelsAddedToImage objectAtIndex: _currentLabelIndex] center]), NSStringFromCGRect(self.currentImage.frame));
-            if (!CGRectContainsPoint(self.currentImage.frame, [[_labelsAddedToImage objectAtIndex: _currentLabelIndex] center]) ){
-                [[_labelsAddedToImage objectAtIndex: _currentLabelIndex] removeFromSuperview ];
-                [_labelsAddedToImage removeObjectAtIndex: _currentLabelIndex];
+            if (!CGRectContainsPoint(self.currentImage.frame, [_activeTag center]) ){
+                [_activeTag.uiTag removeFromSuperview ];
+                [[_captureRecords objectForKey:currentCaptureRecord] removeTag: _activeTag];
             }
-            _currentLabelIndex = -1;
+            _activeTag = nil;
         }
     }
     
@@ -208,6 +256,25 @@ NSString *server = @"http://animal-stories.danceforscience.com/";
     }
 }
 
+- (IBAction)arrowPressed:(UIButton *)sender {
+    NSInteger currentRecordNum = [currentCaptureRecord intValue];
+    if(sender == _rightArrowButton){
+        currentRecordNum++;
+        if(currentRecordNum == _captureRecords.count) currentRecordNum = 1;
+    } else if(sender == _leftArrowButton){
+        currentRecordNum--;
+        if(currentRecordNum < 1) currentRecordNum = _captureRecords.count-1;
+    }
+    [[_captureRecords objectForKey:currentCaptureRecord] removeTagsFromView];
+    currentCaptureRecord = [NSString stringWithFormat:@"%d ", currentRecordNum];
+    //NSLog(@"%@", currentCaptureRecord);
+    self.currentImage.animationImages = [[_captureRecords objectForKey: currentCaptureRecord] pathNames];
+    self.currentImage.animationDuration = 6;
+    [self.currentImage startAnimating];
+    [[_captureRecords objectForKey:currentCaptureRecord] addTagsToView: self.view];
+    
+    //NSLog(@"%@, %@", self.currentImage.isAnimating? @"YES" : @"NO", self.currentImage.animationImages);
+}
 
 - (void)setEditing:(BOOL)editing animated:(BOOL)animated {
     [super setEditing:editing animated:animated];

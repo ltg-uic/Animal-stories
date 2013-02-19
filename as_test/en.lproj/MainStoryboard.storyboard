@@ -15,12 +15,6 @@
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="20">
                                 <items/>
                             </toolbar>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="Default.png" translatesAutoresizingMaskIntoConstraints="NO" id="F7K-Tn-dGG">
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="460" id="JH7-Yf-h2u"/>
-                                    <constraint firstAttribute="width" constant="666" id="rJ8-0g-EIZ"/>
-                                </constraints>
-                            </imageView>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" horizontalCompressionResistancePriority="739" verticalCompressionResistancePriority="1000" showsHorizontalScrollIndicator="NO" text="Notes" translatesAutoresizingMaskIntoConstraints="NO" id="iFi-TQ-KSA">
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
@@ -29,8 +23,12 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
-                            <imageView contentMode="scaleToFill" image="6990815470_6e5cab95aa_o.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="wgk-I3-EU1">
+                            <imageView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wgk-I3-EU1">
                                 <gestureRecognizers/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="460" id="Uih-Jl-fVQ"/>
+                                    <constraint firstAttribute="width" constant="666" id="ecT-up-P5T"/>
+                                </constraints>
                                 <connections>
                                     <outletCollection property="gestureRecognizers" destination="WhJ-4L-Bio" appends="YES" id="aDc-DH-xYz"/>
                                     <outletCollection property="gestureRecognizers" destination="E1M-uQ-asd" appends="YES" id="5Ee-4n-Nuu"/>
@@ -44,13 +42,13 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="ZQP-nc-FHD">
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="320" id="BuS-1y-WRo"/>
-                                    <constraint firstAttribute="height" constant="460" id="DGV-rJ-tUn"/>
+                                    <constraint firstAttribute="width" constant="266" id="Bgp-y8-l9r"/>
+                                    <constraint firstAttribute="height" constant="459" id="mc6-uO-iZl"/>
                                 </constraints>
-                                <textField key="tableFooterView" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" id="xmR-wD-Xik">
-                                    <rect key="frame" x="0.0" y="66" width="320" height="30"/>
+                                <textField key="tableFooterView" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" minimumFontSize="20" id="xmR-wD-Xik">
+                                    <rect key="frame" x="0.0" y="66" width="266" height="44"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                     <textInputTraits key="textInputTraits"/>
                                     <connections>
                                         <action selector="addNewLabel" destination="2" eventType="editingDidEnd" id="ge4-XX-4UM"/>
@@ -58,10 +56,10 @@
                                 </textField>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell1" id="WRE-pj-1a3">
-                                        <rect key="frame" x="0.0" y="22" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="22" width="266" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="266" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
@@ -94,30 +92,67 @@
                                     <action selector="editPressed" destination="2" eventType="touchUpInside" id="jEc-Zx-KvH"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="t2p-dF-gj0">
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" backgroundImage="arrowRight.png">
+                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="arrowPressed:" destination="2" eventType="touchUpInside" id="zhY-yh-90V"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qr5-U7-8x3">
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="25" id="MHs-hO-HZj"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" title="Button" backgroundImage="arrowLeft.png">
+                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="arrowPressed:" destination="2" eventType="touchUpInside" id="95I-ST-xZP"/>
+                                </connections>
+                            </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="trash.png" translatesAutoresizingMaskIntoConstraints="NO" id="FPk-H2-cxW">
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="84" id="6Bb-al-NMa"/>
+                                    <constraint firstAttribute="height" constant="96" id="ac8-f8-4GC"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                         <gestureRecognizers/>
                         <constraints>
+                            <constraint firstItem="qr5-U7-8x3" firstAttribute="top" secondItem="17" secondAttribute="top" constant="264" id="0Ay-Vh-mJL"/>
+                            <constraint firstItem="iFi-TQ-KSA" firstAttribute="top" secondItem="wgk-I3-EU1" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="0NR-Ho-1Jo"/>
                             <constraint firstItem="20" firstAttribute="leading" secondItem="17" secondAttribute="leading" type="default" id="21X-Fc-h5m"/>
-                            <constraint firstItem="wgk-I3-EU1" firstAttribute="trailing" secondItem="iFi-TQ-KSA" secondAttribute="trailing" type="default" id="2kx-Df-9im"/>
+                            <constraint firstAttribute="bottom" secondItem="FPk-H2-cxW" secondAttribute="bottom" constant="33" id="5Sy-7q-L9p"/>
                             <constraint firstItem="20" firstAttribute="top" secondItem="17" secondAttribute="top" type="default" id="82v-FK-dPD"/>
-                            <constraint firstItem="iFi-TQ-KSA" firstAttribute="top" secondItem="wgk-I3-EU1" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="8Wa-Qr-26n"/>
-                            <constraint firstItem="F7K-Tn-dGG" firstAttribute="leading" secondItem="KY2-Pw-5eU" secondAttribute="trailing" constant="8" symbolic="YES" type="default" id="CxB-3p-adl"/>
+                            <constraint firstItem="qr5-U7-8x3" firstAttribute="top" secondItem="t2p-dF-gj0" secondAttribute="top" type="default" id="9mF-gL-zG9"/>
+                            <constraint firstItem="iFi-TQ-KSA" firstAttribute="trailing" secondItem="sMW-L2-dc7" secondAttribute="trailing" type="default" id="AeZ-mk-XlE"/>
+                            <constraint firstItem="KY2-Pw-5eU" firstAttribute="leading" secondItem="17" secondAttribute="leading" constant="186" id="AhE-2N-0fF"/>
                             <constraint firstItem="ZQP-nc-FHD" firstAttribute="top" secondItem="B1k-hq-HRS" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="Dd8-aG-hVQ"/>
-                            <constraint firstItem="wgk-I3-EU1" firstAttribute="leading" secondItem="KY2-Pw-5eU" secondAttribute="trailing" constant="8" symbolic="YES" type="default" id="Hd6-Ay-xx3"/>
                             <constraint firstItem="B1k-hq-HRS" firstAttribute="leading" secondItem="17" secondAttribute="leading" constant="31" id="LdR-tm-WyZ"/>
-                            <constraint firstItem="ZQP-nc-FHD" firstAttribute="leading" secondItem="17" secondAttribute="leading" constant="16" id="Shm-Aj-7dy"/>
+                            <constraint firstItem="qr5-U7-8x3" firstAttribute="leading" secondItem="17" secondAttribute="leading" constant="288" id="Ne3-NE-Yg2"/>
+                            <constraint firstItem="FPk-H2-cxW" firstAttribute="leading" secondItem="17" secondAttribute="leading" constant="190" id="Ord-0m-H2d"/>
+                            <constraint firstItem="iFi-TQ-KSA" firstAttribute="leading" secondItem="wgk-I3-EU1" secondAttribute="leading" type="default" id="PNS-Hm-qmR"/>
+                            <constraint firstItem="iFi-TQ-KSA" firstAttribute="trailing" secondItem="wgk-I3-EU1" secondAttribute="trailing" type="default" id="UiV-zp-UE9"/>
                             <constraint firstItem="sMW-L2-dc7" firstAttribute="leading" secondItem="17" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="X2E-XM-GQu"/>
-                            <constraint firstItem="wgk-I3-EU1" firstAttribute="top" secondItem="F7K-Tn-dGG" secondAttribute="top" type="default" id="Xyj-PF-Pfh"/>
                             <constraint firstItem="KY2-Pw-5eU" firstAttribute="top" secondItem="17" secondAttribute="top" constant="49" id="eHF-cO-LLC"/>
-                            <constraint firstItem="iFi-TQ-KSA" firstAttribute="top" secondItem="F7K-Tn-dGG" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="fTo-UL-TDa"/>
-                            <constraint firstItem="iFi-TQ-KSA" firstAttribute="leading" secondItem="ZQP-nc-FHD" secondAttribute="trailing" constant="8" symbolic="YES" type="default" id="gbS-sl-gFJ"/>
-                            <constraint firstItem="KY2-Pw-5eU" firstAttribute="top" secondItem="wgk-I3-EU1" secondAttribute="top" type="default" id="hWM-Zs-cc3"/>
                             <constraint firstItem="20" firstAttribute="trailing" secondItem="17" secondAttribute="trailing" type="default" id="i7B-V8-9lR"/>
+                            <constraint firstItem="wgk-I3-EU1" firstAttribute="top" secondItem="17" secondAttribute="top" constant="50" id="ieu-gU-dA5"/>
+                            <constraint firstAttribute="trailing" secondItem="t2p-dF-gj0" secondAttribute="trailing" constant="12" id="jgs-la-yBl"/>
+                            <constraint firstAttribute="bottom" secondItem="sMW-L2-dc7" secondAttribute="bottom" constant="9" id="kCd-YN-dfX"/>
                             <constraint firstItem="B1k-hq-HRS" firstAttribute="top" secondItem="17" secondAttribute="top" constant="60" id="mF3-v3-XEB"/>
-                            <constraint firstAttribute="bottom" secondItem="sMW-L2-dc7" secondAttribute="bottom" constant="9" id="nYx-Bf-ock"/>
-                            <constraint firstItem="F7K-Tn-dGG" firstAttribute="leading" secondItem="ZQP-nc-FHD" secondAttribute="trailing" constant="8" symbolic="YES" type="default" id="x6g-81-sch"/>
-                            <constraint firstItem="wgk-I3-EU1" firstAttribute="trailing" secondItem="F7K-Tn-dGG" secondAttribute="trailing" type="default" id="xWt-US-2W8"/>
+                            <constraint firstItem="KY2-Pw-5eU" firstAttribute="trailing" secondItem="ZQP-nc-FHD" secondAttribute="trailing" type="default" id="nQo-iI-Vc8"/>
                         </constraints>
                         <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                         <connections>
@@ -131,8 +166,10 @@
                         <outlet property="dragGesture" destination="Hpx-i2-YQK" id="NAn-7s-tow"/>
                         <outlet property="editModeButton" destination="KY2-Pw-5eU" id="TAZ-Db-q6b"/>
                         <outlet property="labelTable" destination="ZQP-nc-FHD" id="hDg-T1-zA3"/>
+                        <outlet property="leftArrowButton" destination="qr5-U7-8x3" id="Yeg-et-Lzf"/>
                         <outlet property="notesBox" destination="iFi-TQ-KSA" id="hn1-Gs-BYp"/>
                         <outlet property="progressBar" destination="sMW-L2-dc7" id="Rez-5e-mfy"/>
+                        <outlet property="rightArrowButton" destination="t2p-dF-gj0" id="MEo-w9-jdW"/>
                         <outlet property="swipeRecognizer" destination="WhJ-4L-Bio" id="Dl8-fy-2b9"/>
                         <outlet property="swipeRecognizer2" destination="E1M-uQ-asd" id="Iz7-zy-TNN"/>
                     </connections>
@@ -194,11 +231,35 @@
         </scene>
     </scenes>
     <resources>
-        <image name="6990815470_6e5cab95aa_o.jpg" width="2592" height="1944"/>
-        <image name="Default.png" width="320" height="480"/>
+        <image name="arrowLeft.png" width="25" height="24"/>
+        <image name="arrowRight.png" width="25" height="24"/>
         <image name="first" width="16" height="16"/>
         <image name="second" width="16" height="16"/>
+        <image name="trash.png" width="128" height="128"/>
     </resources>
+    <classes>
+        <class className="AnalyzeViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/AnalyzeViewController.h"/>
+        </class>
+        <class className="LabelViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/LabelViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="addLabelText" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="currentImage" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="dragGesture" candidateClass="UIPanGestureRecognizer"/>
+                <relationship kind="outlet" name="editModeButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="leftArrowButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="notesBox" candidateClass="UITextView"/>
+                <relationship kind="outlet" name="progressBar" candidateClass="UIProgressView"/>
+                <relationship kind="outlet" name="rightArrowButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="swipeRecognizer" candidateClass="UISwipeGestureRecognizer"/>
+                <relationship kind="outlet" name="swipeRecognizer2" candidateClass="UISwipeGestureRecognizer"/>
+            </relationships>
+        </class>
+        <class className="NSLayoutConstraint" superclassName="NSObject">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar" statusBarStyle="blackTranslucent"/>
         <simulatedOrientationMetrics key="orientation"/>
