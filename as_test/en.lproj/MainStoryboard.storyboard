@@ -243,31 +243,6 @@
         <image name="second" width="16" height="16"/>
         <image name="trash.png" width="128" height="128"/>
     </resources>
-    <classes>
-        <class className="AnalyzeViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/AnalyzeViewController.h"/>
-        </class>
-        <class className="LabelViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/LabelViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="arrowPressed:" candidateClass="UIButton"/>
-                <relationship kind="action" name="handleDrag:" candidateClass="UIPanGestureRecognizer"/>
-                <relationship kind="action" name="handleSwipeRecognizer:" candidateClass="UISwipeGestureRecognizer"/>
-                <relationship kind="outlet" name="addLabelText" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="currentImage" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="dragGesture" candidateClass="UIPanGestureRecognizer"/>
-                <relationship kind="outlet" name="editModeButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="leftArrowButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="notesBox" candidateClass="UITextView"/>
-                <relationship kind="outlet" name="rightArrowButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="swipeRecognizer" candidateClass="UISwipeGestureRecognizer"/>
-                <relationship kind="outlet" name="swipeRecognizer2" candidateClass="UISwipeGestureRecognizer"/>
-            </relationships>
-        </class>
-        <class className="NSLayoutConstraint" superclassName="NSObject">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar" statusBarStyle="blackTranslucent"/>
         <simulatedOrientationMetrics key="orientation"/>

@@ -74,7 +74,18 @@ NSMutableString *currentCaptureRecord = @"0 ";
             [[_captureRecords objectForKey: [record objectAtIndex:1] ] addPathName: [[server absoluteString] stringByAppendingString:[record objectAtIndex:2]]];
         }
     }
-    NSLog(@"Earliest Picture: %@ \n Last Picture: %@", begin, end);
+    [formattedDate setDateStyle: NSDateFormatterShortStyle];
+    [formattedDate setTimeStyle: NSDateFormatterShortStyle];
+    UILabel* beginningTime = [[UILabel alloc] initWithFrame: CGRectMake(55, 675, 200, 30)];
+    beginningTime.textColor = [UIColor blackColor];
+    beginningTime.backgroundColor = [UIColor clearColor];
+    beginningTime.font = [UIFont systemFontOfSize:12];
+    beginningTime.text = [formattedDate stringFromDate: begin];
+    UILabel* endTime = [[UILabel alloc] initWithFrame: CGRectMake(878, 675, 200, 30)];
+    endTime.textColor = [UIColor blackColor];
+    endTime.backgroundColor = [UIColor clearColor];
+    endTime.font = [UIFont systemFontOfSize:12];
+    endTime.text = [formattedDate stringFromDate: end];
     //instantiates tableData from the web: later need to make this user specific.
     NSString *tagList = [NSString stringWithContentsOfURL: [NSURL URLWithString: @"taglist.php" relativeToURL:server] encoding:NSUTF8StringEncoding error:nil];
     tagList = [tagList stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
@@ -101,10 +112,12 @@ NSMutableString *currentCaptureRecord = @"0 ";
     //[self imageList];
     [_addLabelText setAlpha:1.0];
     //NSLog(@"%@", [_captureRecords description]);
-
+    
 
     [super viewDidLoad];
     [self loadView];
+    [self.view addSubview:beginningTime];
+    [self.view addSubview:endTime];
     if (![[_captureRecords objectForKey:currentCaptureRecord] pathNames]){
         self.currentImage.image = [UIImage imageNamed:@"startImage.png"];
         [NSString stringWithFormat:@"%d ", -1];
