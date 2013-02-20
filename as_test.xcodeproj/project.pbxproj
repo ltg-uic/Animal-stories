@@ -220,6 +220,8 @@
 		127FEDA316A73B6000801699 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				1220528316D557EF00734F0D /* unsorted.png */,
+				1220528216D557EF00734F0D /* sorted.png */,
 				852CDE7516D426CF0048F317 /* UI images */,
 				123F7D3416D4089800474EDF /* trash.png */,
 				123F7D3216D404D100474EDF /* startImage.png */,
@@ -258,8 +260,6 @@
 		852CDE7516D426CF0048F317 /* UI images */ = {
 			isa = PBXGroup;
 			children = (
-				1220528216D557EF00734F0D /* sorted.png */,
-				1220528316D557EF00734F0D /* unsorted.png */,
 				85D7E09D16D4297700E89260 /* bg_Analyze.png */,
 				1234A3B716B1EF79005D3B6B /* icon_analyze_0.png */,
 				1234A3B816B1EF79005D3B6B /* icon_analyze.png */,

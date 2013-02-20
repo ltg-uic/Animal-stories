@@ -82,6 +82,13 @@ SDWebImageDownloader *downloader;
     }
 }
 
+- (bool) isUntagged{
+    for( Tag* tag in _tagData){
+        if ([tag.uiTag.text isEqual: @"Untagged"]) return YES;
+    }
+    return NO;
+}
+
 - (void) print{
     NSLog(@"PathNames: %@ \n imgSet: %d \n Scientist: %@ \n Tag Count: %d \n \n", _pathNames, _imgSet, _scientist, [_tagData count]);
 }

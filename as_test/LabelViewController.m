@@ -21,11 +21,12 @@
 @property (nonatomic) NSInteger currentLabelIndex;
 @property (strong, nonatomic) NSMutableData *tagListData;
 @property (strong, nonatomic) Tag *activeTag;
+@property (strong, nonatomic) NSMutableArray *circleList;
 @end
 
 @implementation LabelViewController
 
-
+@synthesize circleList = _circleList;
 @synthesize currentLabelIndex = _currentLabelIndex;
 @synthesize labelTable = _labelTable;
 @synthesize notesBox = _notesBox;
@@ -143,6 +144,19 @@ NSMutableString *currentCaptureRecord = @"0 ";
     
     _dragGesture =[[UIPanGestureRecognizer alloc] initWithTarget:self action: @selector(handleDrag:)];
     [self.view addGestureRecognizer:_dragGesture];
+    for(CaptureRecord* record in _captureRecords){
+        UIImageView *circle;
+        if([[_captureRecords objectForKey: record ] isUntagged]){
+            circle = [[UIImageView alloc] initWithImage: [UIImage imageNamed: @"unsorted.png"]];
+        } else {
+            circle = [[UIImageView alloc] initWithImage:[UIImage imageNamed: @"sorted.png"]];
+        }
+                circle.center = CGPointMake([self mapTimeToDisplay: [[_captureRecords objectForKey:record] firstImageTime]  withBeginTime:begin withEndTime:end beginX:105 width:814], 678);
+        [self.view addSubview: circle];
+
+        //[circle drawAtPoint: CGPointMake([self mapTimeToDisplay: [[_captureRecords objectForKey:record] firstImageTime]  withBeginTime:begin withEndTime:end beginX:105 width:814], 655) blendMode:kCGBlendModeNormal alpha:1.0];
+        
+    }
     
 }
 
@@ -235,6 +249,16 @@ NSMutableString *currentCaptureRecord = @"0 ";
 }
 
 //End of Gesture Recognition processing
+
+//map function for placing the circles on the timeline
+
+- (int) mapTimeToDisplay : (NSDate *) imageTime withBeginTime : (NSDate *) begin withEndTime : (NSDate *) end beginX : (int) x width : (int) w{
+    NSTimeInterval totalTime = [end timeIntervalSinceDate:begin];
+    NSTimeInterval currentTimeDistance = [imageTime timeIntervalSinceDate:begin];
+    return x + ( w * currentTimeDistance/totalTime );
+}
+
+
 //Begin button processing
 
 - (IBAction)editPressed {
