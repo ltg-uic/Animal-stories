@@ -14,11 +14,8 @@
 
 @property (weak, nonatomic) IBOutlet UITextView *notesBox;
 @property (weak, nonatomic) IBOutlet UIImageView *currentImage;
-@property (weak, nonatomic) IBOutlet UIProgressView *progressBar;
-@property (strong, nonatomic) NSMutableArray *imageList;
 @property (nonatomic, strong) IBOutlet UISwipeGestureRecognizer *swipeRecognizer;
 @property (strong, nonatomic) IBOutlet UISwipeGestureRecognizer *swipeRecognizer2;
-@property int imageListPointer;
 @property (strong, nonatomic) IBOutlet UIPanGestureRecognizer *dragGesture;
 @property (strong, nonatomic) NSMutableArray *labelsAddedToImage;
 @property (nonatomic) NSInteger currentLabelIndex;
@@ -33,9 +30,6 @@
 @synthesize labelTable = _labelTable;
 @synthesize notesBox = _notesBox;
 @synthesize currentImage = _currentImage;
-@synthesize progressBar = _progressBar;
-@synthesize imageListPointer = _imageListPointer;
-@synthesize imageList = _imageList;
 @synthesize tableData = _tableData;
 @synthesize editModeButton = _editModeButton;
 @synthesize addLabelText = _addLabelText;
@@ -48,40 +42,9 @@
 NSURL *server;
 NSMutableString *currentCaptureRecord = @"0 ";
 
-
-- (NSMutableArray*)imageList: (NSMutableArray *) fileList{
-    if(!_imageList){
-        _imageList = [[NSMutableArray alloc] init];
-        for (int i=0; i < [fileList count]; i++){
-            NSString *fileUrl = [ [server absoluteString] stringByAppendingString:[fileList objectAtIndex: i] ];
-            NSLog(@"%@", fileUrl);
-            [_imageList addObject: [UIImage imageWithContentsOfFile : fileUrl]  ];
-        }
-    }
-    return _imageList;
-}
-
-
-//this is a placeholder method. In final version, this needs to query
-//the database, download the images and then set up the imageList
-//imageList will probably need to be composed of a row of data per line
-//to match the number of inserted labels, etc.
-//- (NSMutableArray*) imageList{
-//    if(!_imageList){
-//        _imageList = [[NSMutableArray alloc] init];
-//        [_imageList addObject: [ UIImage imageNamed:@"6990815470_6e5cab95aa_o.jpg"]];
-//        [_imageList addObject: [ UIImage imageNamed:@"6990815768_ac2f693e04_o.jpg"]];
-//        [_imageList addObject: [ UIImage imageNamed:@"6990816026_355530e1a3_o.jpg"]];
-//    }
-//    return _imageList;
-//}
-
-//initializes swipeRecognizer, the TableView that contains everything else
-//and will eventually use locally stored data to get to the labels the group
-//has used before
-
 - (void)viewDidLoad {
     server = [NSURL URLWithString: @"http://animal-stories.danceforscience.com/"];
+    NSString* GMTOffset = @"-0600";
     //instantiates the labelTable
     _labelTable = [[UITableView alloc] initWithFrame:CGRectMake(10, 59, 320, 460) style: UITableViewStylePlain];
     
@@ -91,17 +54,27 @@ NSMutableString *currentCaptureRecord = @"0 ";
     _captureRecords = [[NSMutableDictionary alloc] init];
     
     //for each entry line, which represents an image, checks to see if there is an existing record for that imageSet. If not, it creates a new record, and adds to the dictionary. Else, adds the new image to the existing record.
+    NSDateFormatter* formattedDate = [[NSDateFormatter alloc] init];
+    [formattedDate setDateFormat:@"yyyy-MM-dd HH:mm:ss Z"];
+    NSDate *begin = [NSDate distantFuture];
+    NSDate *end = [NSDate distantPast];
     for( int i = 0; i < captureDataArray.count; i++){
         NSString *recordText = [ [captureDataArray objectAtIndex:i ] stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]];
         NSArray *record = [recordText componentsSeparatedByString: @"\t"];
         if(![_captureRecords objectForKey: [record objectAtIndex:1]]){
-            CaptureRecord *newRecord = [[ CaptureRecord alloc] initWithPathName:[[server absoluteString] stringByAppendingString:[record objectAtIndex:2] ] identifier: [[record objectAtIndex: 1] intValue]  author:[record objectAtIndex: 3] ];
+            //processes dateTime data
+            NSString* dateTime = [[NSString alloc] initWithFormat: @"%@ %@ %@", [record objectAtIndex:5], [record objectAtIndex:6], GMTOffset] ;
+            //NSLog(@"%@, %@", dateTime, [formattedDate dateFromString:dateTime ]);
+            NSDate* fileDate = [formattedDate dateFromString:dateTime];
+            if ( [begin earlierDate: fileDate] == fileDate) begin = fileDate;
+            if ( [end laterDate: fileDate] == fileDate) end = fileDate;
+            CaptureRecord *newRecord = [[ CaptureRecord alloc] initWithPathName:[[server absoluteString] stringByAppendingString:[record objectAtIndex:2] ] identifier: [[record objectAtIndex: 1] intValue]  author:[record objectAtIndex: 3] atTime: [formattedDate dateFromString:dateTime]];
             [_captureRecords setObject:newRecord forKey:[record objectAtIndex:1]];
         }else {
             [[_captureRecords objectForKey: [record objectAtIndex:1] ] addPathName: [[server absoluteString] stringByAppendingString:[record objectAtIndex:2]]];
         }
     }
-    
+    NSLog(@"Earliest Picture: %@ \n Last Picture: %@", begin, end);
     //instantiates tableData from the web: later need to make this user specific.
     NSString *tagList = [NSString stringWithContentsOfURL: [NSURL URLWithString: @"taglist.php" relativeToURL:server] encoding:NSUTF8StringEncoding error:nil];
     tagList = [tagList stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
@@ -229,16 +202,23 @@ NSMutableString *currentCaptureRecord = @"0 ";
 //handles swipe in both direction
 - (IBAction)handleSwipeRecognizer:(UISwipeGestureRecognizer *)recognizer {
     NSLog(@"swipe recognized");
+    NSInteger currentRecordNum = [currentCaptureRecord intValue];
     if (recognizer.direction == UISwipeGestureRecognizerDirectionRight) {
-        if(self.imageListPointer < self.imageList.count -1) self.imageListPointer++;
-        else self.imageListPointer = 0;
+        currentRecordNum++;
+        if(currentRecordNum == _captureRecords.count) currentRecordNum = 1;
     }
     else if(recognizer.direction == UISwipeGestureRecognizerDirectionLeft){
-        if(self.imageListPointer > 0 ) self.imageListPointer--;
-        else self.imageListPointer = self.imageList.count-1;
+        currentRecordNum--;
+        if(currentRecordNum < 1) currentRecordNum = _captureRecords.count-1;
     }
-	
-    self.currentImage.image = [self.imageList objectAtIndex:(self.imageListPointer)];
+    [[_captureRecords objectForKey:currentCaptureRecord] removeTagsFromView];
+    currentCaptureRecord = [NSString stringWithFormat:@"%d ", currentRecordNum];
+    //NSLog(@"%@", currentCaptureRecord);
+    self.currentImage.animationImages = [[_captureRecords objectForKey: currentCaptureRecord] pathNames];
+    self.currentImage.animationDuration = 6;
+    [self.currentImage startAnimating];
+    [[_captureRecords objectForKey:currentCaptureRecord] addTagsToView: self.view];
+    
 }
 
 //End of Gesture Recognition processing

@@ -18,10 +18,11 @@
 @synthesize imgSet = _imgSet;
 @synthesize scientist = _scientist;
 @synthesize tagData = _tagData;
+@synthesize firstImageTime = _firstImageTime;
 
 SDWebImageDownloader *downloader;
 
--(CaptureRecord*)  initWithPathName: (NSString *) pathName identifier:(int) imgSet author:(NSString *) scientist{
+-(CaptureRecord*)  initWithPathName: (NSString *) pathName identifier:(int) imgSet author:(NSString *) scientist atTime: (NSDate *) dateTime{
     pathName = [pathName stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]];
     [SDWebImageDownloader.sharedDownloader
      downloadImageWithURL:[NSURL URLWithString:pathName]
@@ -41,6 +42,7 @@ SDWebImageDownloader *downloader;
     _imgSet = imgSet;
     _scientist = [ [NSString alloc] initWithString: scientist];
     _tagData = [[NSMutableArray alloc] init];
+    _firstImageTime = dateTime;
     return self;
 }
 
