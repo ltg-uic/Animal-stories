@@ -22,4 +22,5 @@
 -(void)addLabelToView: (UIView*) view;
 -(Tag *) initWithUIlabel : (UILabel *) label andID: (int) imgSet;
 -(void)removeLabelFromView;
+- (NSString *) tagText;
 @end

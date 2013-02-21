@@ -12,9 +12,6 @@
                         <rect key="frame" x="0.0" y="20" width="1024" height="699"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="20">
-                                <items/>
-                            </toolbar>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" horizontalCompressionResistancePriority="739" verticalCompressionResistancePriority="1000" showsHorizontalScrollIndicator="NO" text="Notes" translatesAutoresizingMaskIntoConstraints="NO" id="iFi-TQ-KSA">
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
@@ -140,8 +137,6 @@
                             <constraint firstItem="qr5-U7-8x3" firstAttribute="top" secondItem="17" secondAttribute="top" constant="264" id="0Ay-Vh-mJL"/>
                             <constraint firstItem="iFi-TQ-KSA" firstAttribute="top" secondItem="wgk-I3-EU1" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="0NR-Ho-1Jo"/>
                             <constraint firstItem="wgk-I3-EU1" firstAttribute="leading" secondItem="17" secondAttribute="leading" constant="318" id="0hd-3P-SCK"/>
-                            <constraint firstItem="20" firstAttribute="leading" secondItem="17" secondAttribute="leading" type="default" id="21X-Fc-h5m"/>
-                            <constraint firstItem="20" firstAttribute="top" secondItem="17" secondAttribute="top" type="default" id="82v-FK-dPD"/>
                             <constraint firstItem="qr5-U7-8x3" firstAttribute="top" secondItem="t2p-dF-gj0" secondAttribute="top" type="default" id="9mF-gL-zG9"/>
                             <constraint firstItem="ZQP-nc-FHD" firstAttribute="top" secondItem="B1k-hq-HRS" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="Dd8-aG-hVQ"/>
                             <constraint firstItem="B1k-hq-HRS" firstAttribute="leading" secondItem="17" secondAttribute="leading" constant="31" id="LdR-tm-WyZ"/>
@@ -153,11 +148,10 @@
                             <constraint firstAttribute="bottom" secondItem="Zm8-Kv-3f0" secondAttribute="bottom" constant="20" symbolic="YES" type="default" id="XKq-YF-71b"/>
                             <constraint firstItem="ZQP-nc-FHD" firstAttribute="leading" secondItem="17" secondAttribute="leading" constant="16" id="dea-w6-QTP"/>
                             <constraint firstItem="KY2-Pw-5eU" firstAttribute="top" secondItem="17" secondAttribute="top" constant="49" id="eHF-cO-LLC"/>
-                            <constraint firstItem="Zm8-Kv-3f0" firstAttribute="centerX" secondItem="20" secondAttribute="centerX" type="default" id="hf4-ol-Owd"/>
-                            <constraint firstItem="20" firstAttribute="trailing" secondItem="17" secondAttribute="trailing" type="default" id="i7B-V8-9lR"/>
                             <constraint firstItem="wgk-I3-EU1" firstAttribute="top" secondItem="17" secondAttribute="top" constant="50" id="ieu-gU-dA5"/>
                             <constraint firstItem="B1k-hq-HRS" firstAttribute="top" secondItem="17" secondAttribute="top" constant="60" id="mF3-v3-XEB"/>
                             <constraint firstItem="KY2-Pw-5eU" firstAttribute="trailing" secondItem="ZQP-nc-FHD" secondAttribute="trailing" type="default" id="nQo-iI-Vc8"/>
+                            <constraint firstItem="Zm8-Kv-3f0" firstAttribute="centerX" secondItem="17" secondAttribute="centerX" type="default" id="noM-N9-Gdy"/>
                             <constraint firstAttribute="bottom" secondItem="FPk-H2-cxW" secondAttribute="bottom" constant="38" id="yPr-Zw-8ul"/>
                         </constraints>
                         <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
@@ -243,6 +237,28 @@
         <image name="second" width="16" height="16"/>
         <image name="trash.png" width="128" height="128"/>
     </resources>
+    <classes>
+        <class className="AnalyzeViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/AnalyzeViewController.h"/>
+        </class>
+        <class className="LabelViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/LabelViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="addLabelText" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="currentImage" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="dragGesture" candidateClass="UIPanGestureRecognizer"/>
+                <relationship kind="outlet" name="editModeButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="leftArrowButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="notesBox" candidateClass="UITextView"/>
+                <relationship kind="outlet" name="rightArrowButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="swipeRecognizer" candidateClass="UISwipeGestureRecognizer"/>
+                <relationship kind="outlet" name="swipeRecognizer2" candidateClass="UISwipeGestureRecognizer"/>
+            </relationships>
+        </class>
+        <class className="NSLayoutConstraint" superclassName="NSObject">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar" statusBarStyle="blackTranslucent"/>
         <simulatedOrientationMetrics key="orientation"/>

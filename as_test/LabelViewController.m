@@ -95,7 +95,7 @@ NSMutableString *currentCaptureRecord = @"0 ";
     //instantiates labels
     _labelsAddedToImage = [[NSMutableArray alloc] init];
     NSString *tagPositions = [NSString stringWithContentsOfURL: [NSURL URLWithString: @"getalltags.php" relativeToURL: server] encoding:NSUTF8StringEncoding error:nil];
-    NSLog(@"%@", tagPositions);
+    //NSLog(@"%@", tagPositions);
     tagPositions = [tagPositions stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     NSArray *tagPos = [tagPositions componentsSeparatedByString:@"\n"];
     for(int i = 0; i < tagPos.count; i++){

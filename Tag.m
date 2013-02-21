@@ -19,7 +19,7 @@
 -(Tag*) initWithCenter : (CGPoint) center withIdentifier: (int) imgSet withText: (NSString*) labelText{
     _imgSet = imgSet;
     _center = center;
-    _labelText = [_labelText initWithString: labelText];
+    _labelText = [[NSString alloc] initWithString: labelText];
     _labelFrame = CGRectMake(center.x, center.y, 100, 60);
     _uiTag = [[UILabel alloc] initWithFrame:_labelFrame];
     _uiTag.text = _labelText;
@@ -55,6 +55,10 @@
 
 -(void) removeLabelFromView{
     [_uiTag removeFromSuperview];
+}
+
+- (NSString *) tagText{
+    return _uiTag.text;
 }
 
 @end

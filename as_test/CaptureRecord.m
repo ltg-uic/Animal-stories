@@ -84,7 +84,7 @@ SDWebImageDownloader *downloader;
 
 - (bool) isUntagged{
     for( Tag* tag in _tagData){
-        if ([tag.uiTag.text isEqual: @"Untagged"]) return YES;
+        if ([[tag tagText] isEqual: @"Untagged "]) return YES;
     }
     return NO;
 }
