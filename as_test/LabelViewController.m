@@ -22,6 +22,7 @@
 @property (strong, nonatomic) NSMutableData *tagListData;
 @property (strong, nonatomic) Tag *activeTag;
 @property (strong, nonatomic) NSMutableArray *circleList;
+@property (strong, nonatomic) NSString *scientist;
 @end
 
 @implementation LabelViewController
@@ -39,11 +40,13 @@
 @synthesize rightArrowButton = _rightArrowButton;
 @synthesize leftArrowButton = _leftArrowButton;
 @synthesize activeTag = _activeTag;
+@synthesize scientist = _scientist;
 
 NSURL *server;
 NSMutableString *currentCaptureRecord = @"0 ";
 
 - (void)viewDidLoad {
+    _scientist = @"TheSquirrelKids";
     server = [NSURL URLWithString: @"http://animal-stories.danceforscience.com/"];
     NSString* GMTOffset = @"-0600";
     //instantiates the labelTable
@@ -300,10 +303,13 @@ NSMutableString *currentCaptureRecord = @"0 ";
 
 - (IBAction)addNewLabel {
     NSLog(@"%@", _addLabelText.text);
+    NSString *stringText = [NSString stringWithFormat: @"insertTag.php?scientist=%@&tag=%@", _scientist, _addLabelText.text];
+    //NSLog(@"%@", stringText);
     [_tableData addObject: _addLabelText.text];
     [_labelTable reloadData];
+    NSString *addLabelData = [NSString stringWithContentsOfURL:[NSURL URLWithString: stringText relativeToURL:server] encoding:NSUTF8StringEncoding error:nil];
+    NSLog(@"%@", addLabelData);
     _addLabelText.text = @"";
-    
 }
 
 
@@ -336,6 +342,11 @@ NSMutableString *currentCaptureRecord = @"0 ";
     // If row is deleted, remove it from the list.
     if (_labelTable.editing){
         if (editingStyle == UITableViewCellEditingStyleDelete) {
+            NSString *tag = [_tableData objectAtIndex:indexPath.row];
+            NSString *stringText = [NSString stringWithFormat:@"deleteTag.php?scientist=%@&tag=%@", _scientist, tag];
+            NSString *addLabelData = [NSString stringWithContentsOfURL:[NSURL URLWithString: stringText relativeToURL:server] encoding:NSUTF8StringEncoding error:nil];
+            NSLog(@"%@", addLabelData);
+
             [_tableData removeObjectAtIndex:indexPath.row];
             [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
         }
