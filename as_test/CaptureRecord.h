@@ -38,6 +38,8 @@
 //specialized logging method that specifically prints the set of pathnames included, the imgSet identifier, the group that owns the images, and the number of tags present in the image.
 - (void) print;
 
+- (void) updateDB : (NSURL *) server;
+
 -(bool) isUntagged;
 @end
 

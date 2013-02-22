@@ -157,7 +157,7 @@ NSMutableString *currentCaptureRecord = @"0 ";
                 circle.center = CGPointMake([self mapTimeToDisplay: [[_captureRecords objectForKey:record] firstImageTime]  withBeginTime:begin withEndTime:end beginX:105 width:814], 678);
         [self.view addSubview: circle];
 
-        //[circle drawAtPoint: CGPointMake([self mapTimeToDisplay: [[_captureRecords objectForKey:record] firstImageTime]  withBeginTime:begin withEndTime:end beginX:105 width:814], 655) blendMode:kCGBlendModeNormal alpha:1.0];
+        _labelTable.editing = NO;
         
     }
     
@@ -168,6 +168,9 @@ NSMutableString *currentCaptureRecord = @"0 ";
 //handles drags
 - (IBAction)handleDrag: (UIPanGestureRecognizer *) recognizer{
     NSIndexPath* test = [_labelTable indexPathForSelectedRow];
+    
+    //first case: there is a label selected on the left and we're creating a new label to drag onto the view for the first time.
+    //second case: there is an existing label on the image and we're moving it
     if(test){
         if([recognizer state] == UIGestureRecognizerStateBegan){
             CGPoint gestureBegan = [recognizer locationInView:recognizer.view];
@@ -190,8 +193,8 @@ NSMutableString *currentCaptureRecord = @"0 ";
             [recognizer setTranslation:CGPointZero inView:[_activeTag.uiTag superview]];
         }else if([recognizer state] == UIGestureRecognizerStateEnded){
             //label has been dropped onto the image
-            
             [_labelTable deselectRowAtIndexPath:test animated: YES];
+            
             //Confirm that the label is within the image: if not, remove it from the list
             if (!CGRectContainsPoint(self.currentImage.frame, [_activeTag center]) ){
                 [_activeTag.uiTag removeFromSuperview ];
@@ -286,6 +289,7 @@ NSMutableString *currentCaptureRecord = @"0 ";
         if(currentRecordNum < 1) currentRecordNum = _captureRecords.count-1;
     }
     [[_captureRecords objectForKey:currentCaptureRecord] removeTagsFromView];
+    [[_captureRecords objectForKey:currentCaptureRecord] updateDB:server];
     currentCaptureRecord = [NSString stringWithFormat:@"%d ", currentRecordNum];
     //NSLog(@"%@", currentCaptureRecord);
     self.currentImage.animationImages = [[_captureRecords objectForKey: currentCaptureRecord] pathNames];
