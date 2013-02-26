@@ -37,13 +37,14 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     NSInteger yDist = (CGRectGetHeight([self.view frame]) - 300)/([_tableData count] + 1);
-
+    int totals[[_tableData count] +1];
     for (int i = 0; i < [_tableData count] + 1 ; i++){
+        totals[i] = 0;
         UILabel *blackLine = [[UILabel alloc] initWithFrame:CGRectMake(105, 316 + (yDist * i), 814, 3)];
         blackLine.backgroundColor = [UIColor blackColor];
         [self.view addSubview:blackLine];
         UILabel *label = [[UILabel alloc] initWithFrame: CGRectMake(30, 300 + (yDist * i), 100, 30 )];
-        NSLog(@"%f", (CGRectGetMaxY(self.currentImage.frame) + (yDist * i)) );
+        //NSLog(@"%f", (CGRectGetMaxY(self.currentImage.frame) + (yDist * i)) );
         label.textColor = [UIColor whiteColor];
         label.backgroundColor = [UIColor clearColor];
         label.font = [UIFont systemFontOfSize:14];
@@ -54,6 +55,7 @@
     }
     for(CaptureRecord* record in _captureRecords){
         if ([[[_captureRecords objectForKey:record] tagData] count] == 0){
+            totals[[_tableData count]]++;
             UIImageView *circle =[[UIImageView alloc] initWithImage:[UIImage imageNamed: @"unsorted.png"]];
             circle.center = CGPointMake([self mapTimeToDisplay: [[_captureRecords objectForKey:record] firstImageTime]  withBeginTime:_begin withEndTime: _end beginX:105 width:814], 316 + (yDist * [_tableData count] + 1));
             [self.view addSubview: circle];
@@ -65,12 +67,23 @@
                         circle = [[UIImageView alloc] initWithImage:[UIImage imageNamed: @"sorted.png"]];
                         circle.center = CGPointMake([self mapTimeToDisplay: [[_captureRecords objectForKey:record] firstImageTime]  withBeginTime:_begin withEndTime: _end beginX:105 width:814], 316 + (yDist * i));
                         [self.view addSubview: circle];
+                        totals[i]++;
+                        
                     }
                 }
             }
+        }
+        
     }
-}
-
+    for(int i= 0; i <[_tableData count] + 1; i++){
+        UILabel *label = [[UILabel alloc] initWithFrame: CGRectMake(900, 300 + (yDist * i), 100, 30 )];
+        label.textColor = [UIColor whiteColor];
+        label.backgroundColor = [UIColor clearColor];
+        label.font = [UIFont systemFontOfSize:14];
+        label.text = [[NSString alloc] initWithFormat:@"%d", totals[i]];
+        [self.view addSubview:label];
+    }
+    
 }
 
 - (void)printData {
