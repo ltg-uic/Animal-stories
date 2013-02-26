@@ -7,17 +7,20 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "AnalyzeViewController.h"
 
-@interface LabelViewController : UIViewController
+@interface LabelViewController : UIViewController <UITextFieldDelegate>
 {
     UITableView* labelTable;
     NSMutableArray* tableData;
+    
     IBOutlet UIButton *editModeButton;
     IBOutlet UITextField *addLabelText;
     IBOutlet UIButton *rightArrowButton;
     IBOutlet UIButton *leftArrowButton;
 }
 
+@property (strong, nonatomic) AnalyzeViewController *av;
 @property (strong, nonatomic) IBOutlet UIButton *editModeButton;
 @property (strong, nonatomic) UITableView* labelTable;
 @property (strong, nonatomic) NSMutableArray* tableData;

@@ -10,6 +10,8 @@
 #import "SDWebImage/UIImageView+WebCache.h"
 #import "CaptureRecord.h"
 
+
+
 @interface LabelViewController ()
 
 @property (weak, nonatomic) IBOutlet UITextView *notesBox;
@@ -23,6 +25,7 @@
 @property (strong, nonatomic) Tag *activeTag;
 @property (strong, nonatomic) NSMutableArray *circleList;
 @property (strong, nonatomic) NSString *scientist;
+
 @end
 
 @implementation LabelViewController
@@ -41,11 +44,13 @@
 @synthesize leftArrowButton = _leftArrowButton;
 @synthesize activeTag = _activeTag;
 @synthesize scientist = _scientist;
+@synthesize av = _av;
 
 NSURL *server;
 NSMutableString *currentCaptureRecord = @"0 ";
 
 - (void)viewDidLoad {
+    [super viewDidLoad];
     _scientist = @"TheSquirrelKids";
     server = [NSURL URLWithString: @"http://animal-stories.danceforscience.com/"];
     NSString* GMTOffset = @"-0600";
@@ -112,14 +117,16 @@ NSMutableString *currentCaptureRecord = @"0 ";
             
         }
     }
-
+    
     //[self imageList];
     [_addLabelText setAlpha:1.0];
     //NSLog(@"%@", [_captureRecords description]);
     
 
-    [super viewDidLoad];
+    
     [self loadView];
+    _av = [self.tabBarController.viewControllers objectAtIndex:1];
+    self.addLabelText.delegate = self;
     [self.view addSubview:beginningTime];
     [self.view addSubview:endTime];
     if (![[_captureRecords objectForKey:currentCaptureRecord] pathNames]){
@@ -205,6 +212,7 @@ NSMutableString *currentCaptureRecord = @"0 ";
         }
         
     } else {
+        //handles moving labels that have already been placed on the image
         if([recognizer state]  == UIGestureRecognizerStateBegan){
             //check if any labels have been selected
             for( Tag * tag in [[_captureRecords objectForKey:currentCaptureRecord] tagData]){
@@ -227,9 +235,29 @@ NSMutableString *currentCaptureRecord = @"0 ";
         }
     }
     
-    //next step is creating an else statement that handles moving objects that are already on the image
-    
 }
+
+
+//hides keyboard when enter is clicked
+- (BOOL) textFieldShouldReturn: (UITextField *) textField{
+    return [textField resignFirstResponder];
+}
+
+
+//- (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+//    NSLog(@"Segue preparation beginning");
+//    NSString * segueIdentifier = [segue identifier];
+//    NSLog(@"%@", segueIdentifier);
+//    if([segueIdentifier isEqualToString:@"tabbarGo"]){
+//        
+//        
+//        UITabBarController* tbc = [segue destinationViewController];
+//        self.av = (AnalyzeViewController *)[[tbc customizableViewControllers] objectAtIndex:0];
+//        self.av.captureRecords = self.captureRecords;
+//        self.av.tableData = self.tableData;
+//        NSLog(@"%@", self.av.captureRecords);
+//    }
+//}
 
 
 //handles swipe in both direction
@@ -296,7 +324,7 @@ NSMutableString *currentCaptureRecord = @"0 ";
     self.currentImage.animationDuration = 6;
     [self.currentImage startAnimating];
     [[_captureRecords objectForKey:currentCaptureRecord] addTagsToView: self.view];
-    
+    self.av.captureRecords = self.captureRecords;
     //NSLog(@"%@, %@", self.currentImage.isAnimating? @"YES" : @"NO", self.currentImage.animationImages);
 }
 

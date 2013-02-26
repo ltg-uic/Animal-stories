@@ -9,5 +9,14 @@
 #import <UIKit/UIKit.h>
 
 @interface AnalyzeViewController : UIViewController
+{
+    NSMutableArray* tableData;
+    NSMutableDictionary* captureRecords;
 
+    
+}
+
+@property (strong, nonatomic) NSMutableArray* tableData;
+
+@property (strong, nonatomic) NSMutableDictionary* captureRecords;
 @end
