@@ -36,6 +36,7 @@
 }
 
 -(void)viewWillAppear:(BOOL)animated{
+
     NSInteger yDist = (CGRectGetHeight([self.view frame]) - 300)/([_tableData count] + 1);
     int totals[[_tableData count] +1];
     for (int i = 0; i < [_tableData count] + 1 ; i++){
@@ -76,7 +77,7 @@
         
     }
     for(int i= 0; i <[_tableData count] + 1; i++){
-        UILabel *label = [[UILabel alloc] initWithFrame: CGRectMake(900, 300 + (yDist * i), 100, 30 )];
+        UILabel *label = [[UILabel alloc] initWithFrame: CGRectMake(930, 300 + (yDist * i), 100, 30 )];
         label.textColor = [UIColor whiteColor];
         label.backgroundColor = [UIColor clearColor];
         label.font = [UIFont systemFontOfSize:14];
