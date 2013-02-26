@@ -12,6 +12,7 @@
 {
     NSMutableArray* tableData;
     NSMutableDictionary* captureRecords;
+    IBOutlet UIImageView *currentImage;
 
     
 }
@@ -19,4 +20,7 @@
 @property (strong, nonatomic) NSMutableArray* tableData;
 
 @property (strong, nonatomic) NSMutableDictionary* captureRecords;
+@property (strong, nonatomic)IBOutlet UIImageView *currentImage;
+@property (strong, nonatomic) NSDate * begin;
+@property (strong, nonatomic) NSDate * end;
 @end

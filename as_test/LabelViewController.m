@@ -112,7 +112,7 @@ NSMutableString *currentCaptureRecord = @"0 ";
         NSArray *record = [recordText componentsSeparatedByString: @"\t"];
         //NSLog(@"%@, %d", [record objectAtIndex:0], [[record objectAtIndex:0] intValue]);
         if([_captureRecords objectForKey: [record objectAtIndex:0] ]){
-            Tag* lastTag = [[_captureRecords objectForKey: [record objectAtIndex:0]] addTag: [[Tag alloc] initWithCenter:CGPointMake([[record objectAtIndex:2] intValue], [[record objectAtIndex: 3] intValue]) withIdentifier:[[record objectAtIndex: 0] intValue] withText:[record objectAtIndex: 1]]];
+            Tag* lastTag = [[_captureRecords objectForKey: [record objectAtIndex:0]] addTag: [[Tag alloc] initWithCenter:CGPointMake([[record objectAtIndex:2] intValue], [[record objectAtIndex: 3] intValue]) withIdentifier:[[record objectAtIndex: 0] intValue] withText:[[record objectAtIndex: 1] stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet] ] ]];
             [lastTag addLabelToView:self.view];
             
         }
@@ -126,6 +126,9 @@ NSMutableString *currentCaptureRecord = @"0 ";
     
     [self loadView];
     _av = [self.tabBarController.viewControllers objectAtIndex:1];
+    self.av.tableData = _tableData;
+    self.av.begin = begin;
+    self.av.end = end;
     self.addLabelText.delegate = self;
     [self.view addSubview:beginningTime];
     [self.view addSubview:endTime];
@@ -141,6 +144,7 @@ NSMutableString *currentCaptureRecord = @"0 ";
     //NSLog(@"%@", self.currentImage.image);
     
     _addLabelText.borderStyle = UITextBorderStyleRoundedRect;
+    _addLabelText.alpha = 0.0;
     
     //instantiates swipeRecognizers; one each for left and right
 
