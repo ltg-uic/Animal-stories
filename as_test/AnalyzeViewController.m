@@ -10,7 +10,7 @@
 #import "CaptureRecord.h"
 
 @interface AnalyzeViewController ()
-@property (strong, nonatomic) NSMutableArray *dataPoints;
+@property (strong, nonatomic) NSMutableDictionary *dataPoints;
 @property (strong, nonatomic) NSMutableArray *labels;
 @property (strong, nonatomic) NSMutableArray *lines;
 @property (strong, nonatomic) NSMutableArray *totals;
@@ -31,26 +31,26 @@
 -(AnalyzeViewController *) init{
     _captureRecords = [[NSMutableDictionary alloc] init];
     _tableData = [[NSMutableArray alloc] init];
-
+    
     return self;
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    _dataPoints = [[NSMutableArray alloc] init];
+    _dataPoints = [[NSMutableDictionary alloc] init];
     _labels = [[NSMutableArray alloc] init];
     _lines = [[NSMutableArray alloc] init];
     _totals = [[NSMutableArray alloc] init];
-
+    
 	// Do any additional setup after loading the view, typically from a nib.
 }
 
 -(void)viewWillAppear:(BOOL)animated{
-     NSLog(@"%@", _dataPoints);
+    NSLog(@"%@", _dataPoints);
     //clear last visualization
-    for( UIImageView *view in _dataPoints){
-        [view removeFromSuperview];
+    for( NSString *view in _dataPoints){
+        [[_dataPoints objectForKey:view ] removeFromSuperview];
     }
     for(UILabel *label in _labels){
         [label removeFromSuperview];
@@ -87,12 +87,13 @@
         [self.view addSubview:label];
         [_labels addObject:label];
     }
-    for(CaptureRecord* record in _captureRecords){
+    for(NSString* record in _captureRecords){
         if ([[[_captureRecords objectForKey:record] tagData] count] == 0){
             totals[[_tableData count]]++;
             UIImageView *circle =[[UIImageView alloc] initWithImage:[UIImage imageNamed: @"unsorted.png"]];
             circle.center = CGPointMake([self mapTimeToDisplay: [[_captureRecords objectForKey:record] firstImageTime]  withBeginTime:_begin withEndTime: _end beginX:105 width:814], 290 + (yDist * [_tableData count] + 1));
             [self.view addSubview: circle];
+            [_dataPoints setValue:circle forKey: record];
         } else {
             for( Tag * tag in [[_captureRecords objectForKey:record] tagData]){
                 for (int i = 0; i < [_tableData count]; i++){
@@ -101,9 +102,9 @@
                         circle = [[UIImageView alloc] initWithImage:[UIImage imageNamed: @"sorted.png"]];
                         circle.center = CGPointMake([self mapTimeToDisplay: [[_captureRecords objectForKey:record] firstImageTime]  withBeginTime:_begin withEndTime: _end beginX:105 width:814], 290 + (yDist * i));
                         [self.view addSubview: circle];
-                        [_dataPoints addObject:circle];
+                        [_dataPoints setValue:circle forKey: record];
                         totals[i]++;
-                        NSLog(@"%d, %d, %@, %@ \n", i, totals[i], [[tag uiTag] text], [_captureRecords objectForKey:record]);
+                        //NSLog(@"%d, %d, %@, %@ \n", i, totals[i], [[tag uiTag] text], [_captureRecords objectForKey:record]);
                         
                     }
                 }
@@ -140,6 +141,20 @@
     NSTimeInterval totalTime = [end timeIntervalSinceDate:begin];
     NSTimeInterval currentTimeDistance = [imageTime timeIntervalSinceDate:begin];
     return x + ( w * currentTimeDistance/totalTime );
+}
+
+- (IBAction)tapAction:(UITapGestureRecognizer *)tap {
+    CGPoint tapLocation = [tap locationInView:tap.view];
+    for(NSString *circleRecord in _dataPoints){
+        if(CGRectContainsPoint([[_dataPoints objectForKey:circleRecord] frame], tapLocation)){
+            
+            self.currentImage.animationImages = [[self.captureRecords objectForKey:circleRecord] pathNames];
+            self.currentImage.animationDuration = 6;
+            [self.currentImage startAnimating];
+            
+        }
+    }
+    
 }
 
 @end

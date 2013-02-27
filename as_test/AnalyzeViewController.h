@@ -13,6 +13,7 @@
     NSMutableArray* tableData;
     NSMutableDictionary* captureRecords;
     IBOutlet UIImageView *currentImage;
+    IBOutlet UITapGestureRecognizer *Tap;
 
     
 }
@@ -23,4 +24,5 @@
 @property (strong, nonatomic)IBOutlet UIImageView *currentImage;
 @property (strong, nonatomic) NSDate * begin;
 @property (strong, nonatomic) NSDate * end;
+@property (strong, nonatomic) IBOutlet UITapGestureRecognizer *Tap;
 @end
