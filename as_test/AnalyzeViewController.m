@@ -146,7 +146,7 @@ NSInteger yDist = 50;
         [_labels addObject:label];
     }
     [self drawCirclesWithBegin:_begin withEndTime:_end andWithTotals:totals];
-    [self updateTotals:totals];
+
     
 }
 
@@ -188,7 +188,6 @@ NSInteger yDist = 50;
     _rightLabel.text = [formattedDate stringFromDate:rightTime];
     int totals[[_tableData count] +1];
     [self drawCirclesWithBegin:leftTime withEndTime:rightTime andWithTotals:totals];
-    [self updateTotals:totals];
 }
 
 - (NSDate *) mapDisplayToTime: (int) sliderPosition withBeginTime : (NSDate *) begin {
@@ -225,8 +224,8 @@ NSInteger yDist = 50;
                 }
             }
         }
-        
     }
+    [self updateTotals: totals];
 }
 
 - (void) updateTotals : (int[]) totals{
