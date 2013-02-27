@@ -18,6 +18,8 @@
 @property (strong, nonatomic) REDRangeSlider *timeSlider;
 @property (strong, nonatomic) UILabel *beginLabel;
 @property (strong, nonatomic) UILabel *endLabel;
+@property (strong, nonatomic) UILabel *leftLabel;
+@property (strong, nonatomic) UILabel *rightLabel;
 @end
 
 
@@ -36,6 +38,10 @@
 @synthesize timeSlider = _timeSlider;
 @synthesize beginLabel = _beginLabel;
 @synthesize endLabel = _endLabel;
+@synthesize rightLabel = _rightLabel;
+@synthesize leftLabel = _leftLabel;
+
+NSInteger yDist = 50;
 
 -(AnalyzeViewController *) init{
     _captureRecords = [[NSMutableDictionary alloc] init];
@@ -56,25 +62,47 @@
     _labels = [[NSMutableArray alloc] init];
     _lines = [[NSMutableArray alloc] init];
     _totals = [[NSMutableArray alloc] init];
+    
     _timeSlider = [[REDRangeSlider alloc] initWithFrame: CGRectMake(105, 650, 814, 20)];
     [self.view addSubview:_timeSlider];
+    [_timeSlider addTarget:self action:@selector(rangeSliderValueChanged:) forControlEvents:UIControlEventValueChanged];
+    _timeSlider.maxValue = [_end timeIntervalSinceDate:_begin ];
+    _timeSlider.minValue = 0;
+    
     
     _beginLabel = [[UILabel alloc] initWithFrame:CGRectMake(105, 675, 120, 30)];
-    _beginLabel.textColor = [UIColor whiteColor];
+    _beginLabel.textColor = [UIColor blackColor];
     _beginLabel.backgroundColor = [UIColor clearColor];
     _beginLabel.font = [UIFont systemFontOfSize:12];
     _beginLabel.text = [formattedDate stringFromDate: _begin];
     [self.view addSubview:_beginLabel];
     
     _endLabel = [[UILabel alloc] initWithFrame:CGRectMake(814, 675, 120, 30)];
-    _endLabel.textColor = [UIColor whiteColor];
+    _endLabel.textColor = [UIColor blackColor];
     _endLabel.backgroundColor = [UIColor clearColor];
     _endLabel.font = [UIFont systemFontOfSize:12];
     _endLabel.text = [formattedDate stringFromDate:_end];
     [self.view addSubview:_endLabel];
     
+    _leftLabel = [[UILabel alloc] initWithFrame:CGRectMake(105, 635, 120, 30)];
+    _leftLabel.textColor = [UIColor whiteColor];
+    _leftLabel.backgroundColor = [UIColor clearColor];
+    _leftLabel.font = [UIFont systemFontOfSize:12];
+    _leftLabel.text = [formattedDate stringFromDate: _begin];
+    [self.view addSubview:_leftLabel];
+    
+    _rightLabel = [[UILabel alloc] initWithFrame:CGRectMake(814, 635, 120, 30)];
+    _rightLabel.textColor = [UIColor whiteColor];
+    _rightLabel.backgroundColor = [UIColor clearColor];
+    _rightLabel.font = [UIFont systemFontOfSize:12];
+    _rightLabel.text = [formattedDate stringFromDate:_end];
+    [self.view addSubview:_rightLabel];
+    
 	// Do any additional setup after loading the view, typically from a nib.
 }
+
+
+
 
 -(void)viewWillAppear:(BOOL)animated{
     NSLog(@"%@", _dataPoints);
@@ -95,11 +123,10 @@
     [_labels removeAllObjects];
     [_lines removeAllObjects];
     [_totals removeAllObjects];
-    NSLog(@"%@", _dataPoints);
     
     
     //NSInteger yDist = (CGRectGetHeight([self.view frame]) - 300)/([_tableData count] + 1);
-    NSInteger yDist = 50;
+
     int totals[[_tableData count] +1];
     for (int i = 0; i < [_tableData count] + 1 ; i++){
         totals[i] = 0;
@@ -118,8 +145,8 @@
         [self.timeLineContainer addSubview:label];
         [_labels addObject:label];
     }
-    [self drawCirclesWithBegin:_begin withEndTime:_end andWithTotals:totals withYDist:yDist];
-    [self updateTotals:totals atYDistance:yDist];
+    [self drawCirclesWithBegin:_begin withEndTime:_end andWithTotals:totals];
+    [self updateTotals:totals];
     
 }
 
@@ -136,13 +163,45 @@
     // Dispose of any resources that can be recreated.
 }
 
+
+
 - (int) mapTimeToDisplay : (NSDate *) imageTime withBeginTime : (NSDate *) begin withEndTime : (NSDate *) end beginX : (int) x width : (int) w{
     NSTimeInterval totalTime = [end timeIntervalSinceDate:begin];
     NSTimeInterval currentTimeDistance = [imageTime timeIntervalSinceDate:begin];
     return x + ( w * currentTimeDistance/totalTime );
 }
 
-- (void) drawCirclesWithBegin : (NSDate *) beginTime withEndTime: (NSDate *) endTime andWithTotals: (int[]) totals withYDist: (NSInteger) yDist{
+- (void)rangeSliderValueChanged:(id)sender {
+    
+    [self updateSliderLabels];
+}
+
+- (void)updateSliderLabels {
+    NSDateFormatter* formattedDate = [[NSDateFormatter alloc] init];
+    [formattedDate setDateFormat:@"yyyy-MM-dd HH:mm:ss Z"];
+    [formattedDate setDateStyle: NSDateFormatterShortStyle];
+    [formattedDate setTimeStyle: NSDateFormatterShortStyle];
+    
+    NSDate *leftTime = [self mapDisplayToTime:self.timeSlider.leftValue withBeginTime:_begin];
+    NSDate *rightTime = [self mapDisplayToTime:self.timeSlider.rightValue withBeginTime:_begin];
+    _leftLabel.text = [formattedDate stringFromDate: leftTime ];
+    _rightLabel.text = [formattedDate stringFromDate:rightTime];
+    int totals[[_tableData count] +1];
+    [self drawCirclesWithBegin:leftTime withEndTime:rightTime andWithTotals:totals];
+    [self updateTotals:totals];
+}
+
+- (NSDate *) mapDisplayToTime: (int) sliderPosition withBeginTime : (NSDate *) begin {
+    NSTimeInterval sliderTime = sliderPosition;
+    return [begin dateByAddingTimeInterval:sliderTime];
+}
+
+- (void) drawCirclesWithBegin : (NSDate *) beginTime withEndTime: (NSDate *) endTime andWithTotals: (int[]) totals {
+    
+    for( NSString *view in _dataPoints){
+        [[_dataPoints objectForKey:view ] removeFromSuperview];
+    }
+    [_dataPoints removeAllObjects];
     
     for(NSString* record in _captureRecords){
         if ([[[_captureRecords objectForKey:record] tagData] count] == 0){
@@ -170,7 +229,11 @@
     }
 }
 
-- (void) updateTotals : (int[]) totals atYDistance: (NSInteger) yDist{
+- (void) updateTotals : (int[]) totals{
+    for(UILabel *total in _totals){
+        [total removeFromSuperview];
+    }
+    [_totals removeAllObjects];
     for(int i= 0; i <[_tableData count] + 1; i++){
         UILabel *label = [[UILabel alloc] initWithFrame: CGRectMake(930, (yDist * i), 100, 30 )];
         label.textColor = [UIColor whiteColor];
