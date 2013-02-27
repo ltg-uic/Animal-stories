@@ -205,10 +205,10 @@
                         <gestureRecognizers/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="Fdx-wg-TX1" secondAttribute="trailing" constant="10" id="FO5-85-JUA"/>
-                            <constraint firstAttribute="bottom" secondItem="Fdx-wg-TX1" secondAttribute="bottom" constant="61" id="K6I-OM-0Vz"/>
-                            <constraint firstItem="aqR-q9-siJ" firstAttribute="top" secondItem="16" secondAttribute="top" constant="6" id="LmT-8V-tHl"/>
-                            <constraint firstItem="Fdx-wg-TX1" firstAttribute="top" secondItem="aqR-q9-siJ" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="lPd-WI-6Js"/>
+                            <constraint firstItem="Fdx-wg-TX1" firstAttribute="top" secondItem="16" secondAttribute="top" constant="263" id="Ldz-tx-LFH"/>
                             <constraint firstItem="Fdx-wg-TX1" firstAttribute="leading" secondItem="16" secondAttribute="leading" constant="13" id="pxH-aH-mFX"/>
+                            <constraint firstItem="aqR-q9-siJ" firstAttribute="top" secondItem="16" secondAttribute="top" constant="12" id="qEu-AD-b3i"/>
+                            <constraint firstAttribute="bottom" secondItem="Fdx-wg-TX1" secondAttribute="bottom" constant="61" id="v1f-dW-23o"/>
                             <constraint firstItem="aqR-q9-siJ" firstAttribute="centerX" secondItem="16" secondAttribute="centerX" type="default" id="v8i-Z7-OQm"/>
                         </constraints>
                         <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
@@ -265,38 +265,6 @@
         <image name="second" width="16" height="16"/>
         <image name="trash.png" width="128" height="128"/>
     </resources>
-    <classes>
-        <class className="AnalyzeViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/AnalyzeViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="tapAction:" candidateClass="UITapGestureRecognizer"/>
-                <relationship kind="outlet" name="currentImage" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="tap" candidateClass="UIScrollView"/>
-                <relationship kind="outlet" name="timeLineContainer" candidateClass="UIScrollView"/>
-                <relationship kind="outlet" name="timelineContainer" candidateClass="UIScrollView"/>
-            </relationships>
-        </class>
-        <class className="LabelViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/LabelViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="arrowPressed:" candidateClass="UIButton"/>
-                <relationship kind="action" name="handleDrag:" candidateClass="UIPanGestureRecognizer"/>
-                <relationship kind="action" name="handleSwipeRecognizer:" candidateClass="UISwipeGestureRecognizer"/>
-                <relationship kind="outlet" name="addLabelText" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="currentImage" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="dragGesture" candidateClass="UIPanGestureRecognizer"/>
-                <relationship kind="outlet" name="editModeButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="leftArrowButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="notesBox" candidateClass="UITextView"/>
-                <relationship kind="outlet" name="rightArrowButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="swipeRecognizer" candidateClass="UISwipeGestureRecognizer"/>
-                <relationship kind="outlet" name="swipeRecognizer2" candidateClass="UISwipeGestureRecognizer"/>
-            </relationships>
-        </class>
-        <class className="NSLayoutConstraint" superclassName="NSObject">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar" statusBarStyle="blackTranslucent"/>
         <simulatedOrientationMetrics key="orientation"/>

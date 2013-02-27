@@ -8,12 +8,16 @@
 
 #import "AnalyzeViewController.h"
 #import "CaptureRecord.h"
+#import "REDRangeSlider.h"
 
 @interface AnalyzeViewController ()
 @property (strong, nonatomic) NSMutableDictionary *dataPoints;
 @property (strong, nonatomic) NSMutableArray *labels;
 @property (strong, nonatomic) NSMutableArray *lines;
 @property (strong, nonatomic) NSMutableArray *totals;
+@property (strong, nonatomic) REDRangeSlider *timeSlider;
+@property (strong, nonatomic) UILabel *beginLabel;
+@property (strong, nonatomic) UILabel *endLabel;
 @end
 
 
@@ -29,6 +33,9 @@
 @synthesize totals = _totals;
 @synthesize tap = _tap;
 @synthesize timeLineContainer = _timeLineContainer;
+@synthesize timeSlider = _timeSlider;
+@synthesize beginLabel = _beginLabel;
+@synthesize endLabel = _endLabel;
 
 -(AnalyzeViewController *) init{
     _captureRecords = [[NSMutableDictionary alloc] init];
@@ -40,10 +47,31 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    NSDateFormatter* formattedDate = [[NSDateFormatter alloc] init];
+    [formattedDate setDateFormat:@"yyyy-MM-dd HH:mm:ss Z"];
+    [formattedDate setDateStyle: NSDateFormatterShortStyle];
+    [formattedDate setTimeStyle: NSDateFormatterShortStyle];
+    
     _dataPoints = [[NSMutableDictionary alloc] init];
     _labels = [[NSMutableArray alloc] init];
     _lines = [[NSMutableArray alloc] init];
     _totals = [[NSMutableArray alloc] init];
+    _timeSlider = [[REDRangeSlider alloc] initWithFrame: CGRectMake(105, 650, 814, 20)];
+    [self.view addSubview:_timeSlider];
+    
+    _beginLabel = [[UILabel alloc] initWithFrame:CGRectMake(105, 675, 120, 30)];
+    _beginLabel.textColor = [UIColor whiteColor];
+    _beginLabel.backgroundColor = [UIColor clearColor];
+    _beginLabel.font = [UIFont systemFontOfSize:12];
+    _beginLabel.text = [formattedDate stringFromDate: _begin];
+    [self.view addSubview:_beginLabel];
+    
+    _endLabel = [[UILabel alloc] initWithFrame:CGRectMake(814, 675, 120, 30)];
+    _endLabel.textColor = [UIColor whiteColor];
+    _endLabel.backgroundColor = [UIColor clearColor];
+    _endLabel.font = [UIFont systemFontOfSize:12];
+    _endLabel.text = [formattedDate stringFromDate:_end];
+    [self.view addSubview:_endLabel];
     
 	// Do any additional setup after loading the view, typically from a nib.
 }
@@ -90,40 +118,8 @@
         [self.timeLineContainer addSubview:label];
         [_labels addObject:label];
     }
-    for(NSString* record in _captureRecords){
-        if ([[[_captureRecords objectForKey:record] tagData] count] == 0){
-            totals[[_tableData count]]++;
-            UIImageView *circle =[[UIImageView alloc] initWithImage:[UIImage imageNamed: @"unsorted.png"]];
-            circle.center = CGPointMake([self mapTimeToDisplay: [[_captureRecords objectForKey:record] firstImageTime]  withBeginTime:_begin withEndTime: _end beginX:105 width:814], 15 + (yDist * [_tableData count] + 1));
-            [self.timeLineContainer addSubview: circle];
-            [_dataPoints setValue:circle forKey: record];
-        } else {
-            for( Tag * tag in [[_captureRecords objectForKey:record] tagData]){
-                for (int i = 0; i < [_tableData count]; i++){
-                    UIImageView *circle;
-                    if([[[tag uiTag] text] isEqual: [_tableData objectAtIndex:i]]){
-                        circle = [[UIImageView alloc] initWithImage:[UIImage imageNamed: @"sorted.png"]];
-                        circle.center = CGPointMake([self mapTimeToDisplay: [[_captureRecords objectForKey:record] firstImageTime]  withBeginTime:_begin withEndTime: _end beginX:105 width:814], 15 + (yDist * i));
-                        [self.timeLineContainer addSubview: circle];
-                        [_dataPoints setValue:circle forKey: record];
-                        totals[i]++;
-                        //NSLog(@"%d, %d, %@, %@ \n", i, totals[i], [[tag uiTag] text], [_captureRecords objectForKey:record]);
-                        
-                    }
-                }
-            }
-        }
-        
-    }
-    for(int i= 0; i <[_tableData count] + 1; i++){
-        UILabel *label = [[UILabel alloc] initWithFrame: CGRectMake(930, (yDist * i), 100, 30 )];
-        label.textColor = [UIColor whiteColor];
-        label.backgroundColor = [UIColor clearColor];
-        label.font = [UIFont systemFontOfSize:14];
-        label.text = [[NSString alloc] initWithFormat:@"%d", totals[i]];
-        [self.timeLineContainer addSubview:label];
-        [_totals addObject:label];
-    }
+    [self drawCirclesWithBegin:_begin withEndTime:_end andWithTotals:totals withYDist:yDist];
+    [self updateTotals:totals atYDistance:yDist];
     
 }
 
@@ -146,9 +142,50 @@
     return x + ( w * currentTimeDistance/totalTime );
 }
 
+- (void) drawCirclesWithBegin : (NSDate *) beginTime withEndTime: (NSDate *) endTime andWithTotals: (int[]) totals withYDist: (NSInteger) yDist{
+    
+    for(NSString* record in _captureRecords){
+        if ([[[_captureRecords objectForKey:record] tagData] count] == 0){
+            totals[[_tableData count]]++;
+            UIImageView *circle =[[UIImageView alloc] initWithImage:[UIImage imageNamed: @"unsorted.png"]];
+            circle.center = CGPointMake([self mapTimeToDisplay: [[_captureRecords objectForKey:record] firstImageTime]  withBeginTime:beginTime withEndTime: endTime beginX:105 width:814], 15 + (yDist * [_tableData count] + 1));
+            [self.timeLineContainer addSubview: circle];
+            [_dataPoints setValue:circle forKey: record];
+        } else {
+            for( Tag * tag in [[_captureRecords objectForKey:record] tagData]){
+                for (int i = 0; i < [_tableData count]; i++){
+                    UIImageView *circle;
+                    if([[[tag uiTag] text] isEqual: [_tableData objectAtIndex:i]]){
+                        circle = [[UIImageView alloc] initWithImage:[UIImage imageNamed: @"sorted.png"]];
+                        circle.center = CGPointMake([self mapTimeToDisplay: [[_captureRecords objectForKey:record] firstImageTime]  withBeginTime:beginTime withEndTime: endTime beginX:105 width:814], 15 + (yDist * i));
+                        [self.timeLineContainer addSubview: circle];
+                        [_dataPoints setValue:circle forKey: record];
+                        totals[i]++;
+                        
+                    }
+                }
+            }
+        }
+        
+    }
+}
+
+- (void) updateTotals : (int[]) totals atYDistance: (NSInteger) yDist{
+    for(int i= 0; i <[_tableData count] + 1; i++){
+        UILabel *label = [[UILabel alloc] initWithFrame: CGRectMake(930, (yDist * i), 100, 30 )];
+        label.textColor = [UIColor whiteColor];
+        label.backgroundColor = [UIColor clearColor];
+        label.font = [UIFont systemFontOfSize:14];
+        label.text = [[NSString alloc] initWithFormat:@"%d", totals[i]];
+        [self.timeLineContainer addSubview:label];
+        [_totals addObject:label];
+    }
+    
+}
+
 - (IBAction)tapAction:(UITapGestureRecognizer *)tapInstance {
     CGPoint tapLocation = [tapInstance locationInView:tapInstance.view];
-    NSLog(@"tapView: %@" , tapInstance.view);
+    //NSLog(@"tapView: %@" , tapInstance.view);
     for(NSString *circleRecord in _dataPoints){
         if(CGRectContainsPoint([[_dataPoints objectForKey:circleRecord] frame], tapLocation)){
             
