@@ -195,11 +195,20 @@
                                     <constraint firstAttribute="height" constant="249" id="GsC-xM-Zsc"/>
                                 </constraints>
                             </imageView>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Fdx-wg-TX1">
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="Lcx-r1-opx" appends="YES" id="T4P-Wf-Usy"/>
+                                </connections>
+                            </scrollView>
                         </subviews>
                         <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                         <gestureRecognizers/>
                         <constraints>
+                            <constraint firstAttribute="trailing" secondItem="Fdx-wg-TX1" secondAttribute="trailing" constant="10" id="FO5-85-JUA"/>
+                            <constraint firstAttribute="bottom" secondItem="Fdx-wg-TX1" secondAttribute="bottom" constant="61" id="K6I-OM-0Vz"/>
                             <constraint firstItem="aqR-q9-siJ" firstAttribute="top" secondItem="16" secondAttribute="top" constant="6" id="LmT-8V-tHl"/>
+                            <constraint firstItem="Fdx-wg-TX1" firstAttribute="top" secondItem="aqR-q9-siJ" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="lPd-WI-6Js"/>
+                            <constraint firstItem="Fdx-wg-TX1" firstAttribute="leading" secondItem="16" secondAttribute="leading" constant="13" id="pxH-aH-mFX"/>
                             <constraint firstItem="aqR-q9-siJ" firstAttribute="centerX" secondItem="16" secondAttribute="centerX" type="default" id="v8i-Z7-OQm"/>
                         </constraints>
                         <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
@@ -213,6 +222,9 @@
                     <connections>
                         <outlet property="Tap" destination="Lcx-r1-opx" id="dXk-Ll-ui6"/>
                         <outlet property="currentImage" destination="aqR-q9-siJ" id="gKd-7H-sC8"/>
+                        <outlet property="tap" destination="Fdx-wg-TX1" id="vdM-jY-mU0"/>
+                        <outlet property="timeLineContainer" destination="Fdx-wg-TX1" id="oW2-Lp-7Wj"/>
+                        <outlet property="timelineContainer" destination="Fdx-wg-TX1" id="0Tl-Xw-CQu"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="12" sceneMemberID="firstResponder"/>
@@ -258,8 +270,10 @@
             <source key="sourceIdentifier" type="project" relativePath="./Classes/AnalyzeViewController.h"/>
             <relationships>
                 <relationship kind="action" name="tapAction:" candidateClass="UITapGestureRecognizer"/>
-                <relationship kind="outlet" name="Tap" candidateClass="UITapGestureRecognizer"/>
                 <relationship kind="outlet" name="currentImage" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="tap" candidateClass="UIScrollView"/>
+                <relationship kind="outlet" name="timeLineContainer" candidateClass="UIScrollView"/>
+                <relationship kind="outlet" name="timelineContainer" candidateClass="UIScrollView"/>
             </relationships>
         </class>
         <class className="LabelViewController" superclassName="UIViewController">
