@@ -205,6 +205,7 @@ NSInteger yDist = 50;
         if ([[[_captureRecords objectForKey:record] tagData] count] == 0){
 
             UIImageView *circle =[[UIImageView alloc] initWithImage:[UIImage imageNamed: @"unsorted.png"]];
+            circle.frame = CGRectMake(0, 0, 15, 15);
             circle.center = CGPointMake([self mapTimeToDisplay: [[_captureRecords objectForKey:record] firstImageTime]  withBeginTime:beginTime withEndTime: endTime beginX:105 width:814], 15 + (yDist * [_tableData count]));
             CGRect frame = CGRectMake(105, 0, 814, 395);
             //NSLog(@"%@, %@", NSStringFromCGRect(frame), NSStringFromCGPoint(circle.center));
@@ -219,6 +220,7 @@ NSInteger yDist = 50;
                     UIImageView *circle;
                     if([[[tag uiTag] text] isEqual: [_tableData objectAtIndex:i]]){
                         circle = [[UIImageView alloc] initWithImage:[UIImage imageNamed: @"sorted.png"]];
+                        circle.frame = CGRectMake(0, 0, 15, 15);
                         circle.center = CGPointMake([self mapTimeToDisplay: [[_captureRecords objectForKey:record] firstImageTime]  withBeginTime:beginTime withEndTime: endTime beginX:105 width:814], 15 + (yDist * i));
                         CGRect frame = CGRectMake(105, 0, 814, 395);
                         //NSLog(@"%@, %@", NSStringFromCGRect(frame), NSStringFromCGPoint(circle.center));
@@ -262,8 +264,9 @@ NSInteger yDist = 50;
 
 - (IBAction)tapAction:(UITapGestureRecognizer *)tapInstance {
     CGPoint tapLocation = [tapInstance locationInView:tapInstance.view];
-    //NSLog(@"tapView: %@" , tapInstance.view);
+    NSLog(@"tapLocation: %@, %@" , NSStringFromCGPoint(tapLocation), tapInstance.view);
     for(NSString *circleRecord in _dataPoints){
+        NSLog(@"containsData: %@, %@" , NSStringFromCGRect([[_dataPoints objectForKey:circleRecord] frame]), [[_dataPoints objectForKey:circleRecord] superview]);
         if(CGRectContainsPoint([[_dataPoints objectForKey:circleRecord] frame], tapLocation)){
             
             self.currentImage.animationImages = [[self.captureRecords objectForKey:circleRecord] pathNames];
