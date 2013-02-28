@@ -105,7 +105,6 @@ NSInteger yDist = 50;
 
 
 -(void)viewWillAppear:(BOOL)animated{
-    NSLog(@"%@", _dataPoints);
     //clear last visualization
     for( NSString *view in _dataPoints){
         [[_dataPoints objectForKey:view ] removeFromSuperview];
@@ -204,11 +203,16 @@ NSInteger yDist = 50;
     
     for(NSString* record in _captureRecords){
         if ([[[_captureRecords objectForKey:record] tagData] count] == 0){
-            totals[[_tableData count]]++;
+
             UIImageView *circle =[[UIImageView alloc] initWithImage:[UIImage imageNamed: @"unsorted.png"]];
-            circle.center = CGPointMake([self mapTimeToDisplay: [[_captureRecords objectForKey:record] firstImageTime]  withBeginTime:beginTime withEndTime: endTime beginX:105 width:814], 15 + (yDist * [_tableData count] + 1));
-            [self.timeLineContainer addSubview: circle];
-            [_dataPoints setValue:circle forKey: record];
+            circle.center = CGPointMake([self mapTimeToDisplay: [[_captureRecords objectForKey:record] firstImageTime]  withBeginTime:beginTime withEndTime: endTime beginX:105 width:814], 15 + (yDist * [_tableData count]));
+            CGRect frame = CGRectMake(105, 0, 814, 395);
+            //NSLog(@"%@, %@", NSStringFromCGRect(frame), NSStringFromCGPoint(circle.center));
+            if(CGRectContainsPoint(frame, circle.center)){
+                [self.timeLineContainer addSubview: circle];
+                [_dataPoints setValue:circle forKey: record];
+                totals[[_tableData count]]++;
+            }
         } else {
             for( Tag * tag in [[_captureRecords objectForKey:record] tagData]){
                 for (int i = 0; i < [_tableData count]; i++){
@@ -216,9 +220,13 @@ NSInteger yDist = 50;
                     if([[[tag uiTag] text] isEqual: [_tableData objectAtIndex:i]]){
                         circle = [[UIImageView alloc] initWithImage:[UIImage imageNamed: @"sorted.png"]];
                         circle.center = CGPointMake([self mapTimeToDisplay: [[_captureRecords objectForKey:record] firstImageTime]  withBeginTime:beginTime withEndTime: endTime beginX:105 width:814], 15 + (yDist * i));
-                        [self.timeLineContainer addSubview: circle];
-                        [_dataPoints setValue:circle forKey: record];
-                        totals[i]++;
+                        CGRect frame = CGRectMake(105, 0, 814, 395);
+                        //NSLog(@"%@, %@", NSStringFromCGRect(frame), NSStringFromCGPoint(circle.center));
+                        if(CGRectContainsPoint(frame, circle.center)){
+                            [self.timeLineContainer addSubview: circle];
+                            [_dataPoints setValue:circle forKey: record];
+                            totals[i]++;
+                        }
                         
                     }
                 }
@@ -234,6 +242,13 @@ NSInteger yDist = 50;
     }
     [_totals removeAllObjects];
     for(int i= 0; i <[_tableData count] + 1; i++){
+        totals[i] = 0;
+        for(NSString *dataRecord in _dataPoints){
+            UIImageView *circle = [_dataPoints objectForKey:dataRecord];
+            if(circle.center.y == 15 + (yDist * i )){
+                totals[i]++;
+            }
+        }
         UILabel *label = [[UILabel alloc] initWithFrame: CGRectMake(930, (yDist * i), 100, 30 )];
         label.textColor = [UIColor whiteColor];
         label.backgroundColor = [UIColor clearColor];
