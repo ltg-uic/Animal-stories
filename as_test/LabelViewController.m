@@ -247,23 +247,6 @@ NSMutableString *currentCaptureRecord = @"0 ";
     return [textField resignFirstResponder];
 }
 
-
-//- (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
-//    NSLog(@"Segue preparation beginning");
-//    NSString * segueIdentifier = [segue identifier];
-//    NSLog(@"%@", segueIdentifier);
-//    if([segueIdentifier isEqualToString:@"tabbarGo"]){
-//        
-//        
-//        UITabBarController* tbc = [segue destinationViewController];
-//        self.av = (AnalyzeViewController *)[[tbc customizableViewControllers] objectAtIndex:0];
-//        self.av.captureRecords = self.captureRecords;
-//        self.av.tableData = self.tableData;
-//        NSLog(@"%@", self.av.captureRecords);
-//    }
-//}
-
-
 //handles swipe in both direction
 - (IBAction)handleSwipeRecognizer:(UISwipeGestureRecognizer *)recognizer {
     NSLog(@"swipe recognized");

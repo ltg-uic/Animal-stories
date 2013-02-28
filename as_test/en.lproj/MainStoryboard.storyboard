@@ -292,6 +292,7 @@
         <image name="icon_label_0.png" width="30" height="29"/>
         <image name="trash.png" width="128" height="128"/>
     </resources>
+<<<<<<< HEAD
     <classes>
         <class className="AnalyzeViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/AnalyzeViewController.h"/>
@@ -333,6 +334,8 @@
             <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
         </class>
     </classes>
+=======
+>>>>>>> Fixed repeating circle error
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar" statusBarStyle="blackTranslucent"/>
         <simulatedOrientationMetrics key="orientation"/>

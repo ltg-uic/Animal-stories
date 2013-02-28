@@ -107,7 +107,7 @@ NSInteger yDist = 50;
 -(void)viewWillAppear:(BOOL)animated{
     //clear last visualization
     for( NSString *view in _dataPoints){
-        [[_dataPoints objectForKey:view ] removeFromSuperview];
+            [[_dataPoints objectForKey:view ] removeFromSuperview];
     }
     for(UILabel *label in _labels){
         [label removeFromSuperview];
@@ -195,10 +195,11 @@ NSInteger yDist = 50;
 }
 
 - (void) drawCirclesWithBegin : (NSDate *) beginTime withEndTime: (NSDate *) endTime andWithTotals: (int[]) totals {
-    
+    NSLog(@"%@", _dataPoints);
     for( NSString *view in _dataPoints){
         [[_dataPoints objectForKey:view ] removeFromSuperview];
     }
+    NSLog(@"\n\n");
     [_dataPoints removeAllObjects];
     
     for(NSString* record in _captureRecords){
@@ -211,7 +212,9 @@ NSInteger yDist = 50;
             //NSLog(@"%@, %@", NSStringFromCGRect(frame), NSStringFromCGPoint(circle.center));
             if(CGRectContainsPoint(frame, circle.center)){
                 [self.timeLineContainer addSubview: circle];
-                [_dataPoints setValue:circle forKey: record];
+                NSString *recordNewName = [[NSString alloc] initWithFormat:@"%@%f%f", record, circle.center.x, circle.center.y];
+                [_dataPoints setValue:circle forKey: recordNewName];
+               
                 totals[[_tableData count]]++;
             }
         } else {
@@ -226,7 +229,9 @@ NSInteger yDist = 50;
                         //NSLog(@"%@, %@", NSStringFromCGRect(frame), NSStringFromCGPoint(circle.center));
                         if(CGRectContainsPoint(frame, circle.center)){
                             [self.timeLineContainer addSubview: circle];
-                            [_dataPoints setValue:circle forKey: record];
+                            NSString *recordNewName = [[NSString alloc] initWithFormat:@"%@%@%@", record, [[tag uiTag] text], NSStringFromCGPoint([[tag uiTag] center])];
+                            NSLog(@"%@", recordNewName);
+                            [_dataPoints setValue:circle forKey: recordNewName];
                             totals[i]++;
                         }
                         
