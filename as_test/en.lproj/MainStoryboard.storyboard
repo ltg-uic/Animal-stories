@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="3084" systemVersion="12C60" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES" initialViewController="4">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="3084" systemVersion="11G63" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES" initialViewController="4">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="2083"/>
     </dependencies>
@@ -12,13 +12,24 @@
                         <rect key="frame" x="0.0" y="0.0" width="1024" height="719"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" horizontalCompressionResistancePriority="739" verticalCompressionResistancePriority="1000" showsHorizontalScrollIndicator="NO" text="Notes" translatesAutoresizingMaskIntoConstraints="NO" id="iFi-TQ-KSA">
-                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="AS_back-01.png" translatesAutoresizingMaskIntoConstraints="NO" id="tBM-am-Uhv">
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="145" id="EId-cH-hmP"/>
+                                    <constraint firstAttribute="width" constant="1030" id="jsd-g8-bcW"/>
+                                    <constraint firstAttribute="height" constant="767" id="obZ-cS-vP8"/>
+                                </constraints>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="image_notes.png" translatesAutoresizingMaskIntoConstraints="NO" id="EWf-jz-Dz3">
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="145" id="wvW-oo-mfz"/>
+                                </constraints>
+                            </imageView>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" horizontalCompressionResistancePriority="739" verticalCompressionResistancePriority="1000" showsHorizontalScrollIndicator="NO" text="Notes" translatesAutoresizingMaskIntoConstraints="NO" id="iFi-TQ-KSA">
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="594" id="QjX-IE-yCX"/>
+                                    <constraint firstAttribute="height" constant="112" id="ea4-cg-HMG"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences" keyboardAppearance="alert" enablesReturnKeyAutomatically="YES"/>
                             </textView>
                             <imageView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wgk-I3-EU1">
                                 <gestureRecognizers/>
@@ -31,11 +42,11 @@
                                     <outletCollection property="gestureRecognizers" destination="E1M-uQ-asd" appends="YES" id="5Ee-4n-Nuu"/>
                                 </connections>
                             </imageView>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="ZQP-nc-FHD">
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" maximumZoomScale="2" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="ZQP-nc-FHD">
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="266" id="Bgp-y8-l9r"/>
-                                    <constraint firstAttribute="height" constant="459" id="mc6-uO-iZl"/>
+                                    <constraint firstAttribute="height" constant="480" id="T6q-KF-i4O"/>
                                 </constraints>
                                 <textField key="tableFooterView" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" minimumFontSize="20" id="xmR-wD-Xik">
                                     <rect key="frame" x="0.0" y="66" width="266" height="44"/>
@@ -47,14 +58,29 @@
                                     </connections>
                                 </textField>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell1" id="WRE-pj-1a3">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell1" id="WRE-pj-1a3">
                                         <rect key="frame" x="0.0" y="22" width="266" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="0.0" y="0.0" width="266" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView contentMode="scaleAspectFit" image="label_1.png" highlightedImage="label_2.png" translatesAutoresizingMaskIntoConstraints="NO" id="qAi-JB-M7a">
+                                                    <accessibility key="accessibilityConfiguration">
+                                                        <accessibilityTraits key="traits" none="YES" button="YES" image="YES"/>
+                                                    </accessibility>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="234" id="0oy-Lz-zsd"/>
+                                                    </constraints>
+                                                </imageView>
+                                            </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
+                                        <constraints>
+                                            <constraint firstItem="qAi-JB-M7a" firstAttribute="centerY" secondItem="WRE-pj-1a3" secondAttribute="centerY" type="default" id="2gs-Cb-gFP"/>
+                                            <constraint firstItem="qAi-JB-M7a" firstAttribute="leading" secondItem="WRE-pj-1a3" secondAttribute="leading" type="default" id="7BN-ff-y17"/>
+                                            <constraint firstItem="qAi-JB-M7a" firstAttribute="top" secondItem="WRE-pj-1a3" secondAttribute="top" type="default" id="MX0-CS-f6L"/>
+                                        </constraints>
                                     </tableViewCell>
                                 </prototypes>
                                 <connections>
@@ -62,13 +88,13 @@
                                     <outlet property="delegate" destination="2" id="lSZ-hq-AdD"/>
                                 </connections>
                             </tableView>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Labels" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="B1k-hq-HRS">
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="LABELS" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="B1k-hq-HRS">
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="99" id="UI4-6m-kU5"/>
+                                    <constraint firstAttribute="width" constant="139" id="edh-th-1IQ"/>
                                     <constraint firstAttribute="height" constant="29" id="jtu-cq-MLz"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="33"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="28"/>
+                                <color key="textColor" red="0.019895430783596485" green="0.21231742527173914" blue="0.044931231816787237" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KY2-Pw-5eU">
@@ -115,8 +141,8 @@
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="trash.png" translatesAutoresizingMaskIntoConstraints="NO" id="FPk-H2-cxW">
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="84" id="6Bb-al-NMa"/>
-                                    <constraint firstAttribute="height" constant="96" id="ac8-f8-4GC"/>
+                                    <constraint firstAttribute="height" constant="68" id="C7z-wB-uwN"/>
+                                    <constraint firstAttribute="width" constant="61" id="uhK-BT-IlC"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zm8-Kv-3f0">
@@ -135,31 +161,35 @@
                         <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="qr5-U7-8x3" firstAttribute="top" secondItem="17" secondAttribute="top" constant="264" id="0Ay-Vh-mJL"/>
-                            <constraint firstItem="iFi-TQ-KSA" firstAttribute="top" secondItem="wgk-I3-EU1" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="0NR-Ho-1Jo"/>
+                            <constraint firstItem="EWf-jz-Dz3" firstAttribute="bottom" secondItem="iFi-TQ-KSA" secondAttribute="bottom" type="default" id="0dp-Ea-4Fb"/>
                             <constraint firstItem="wgk-I3-EU1" firstAttribute="leading" secondItem="17" secondAttribute="leading" constant="318" id="0hd-3P-SCK"/>
+                            <constraint firstItem="FPk-H2-cxW" firstAttribute="trailing" secondItem="ZQP-nc-FHD" secondAttribute="trailing" type="default" id="20a-02-hpf"/>
+                            <constraint firstItem="EWf-jz-Dz3" firstAttribute="leading" secondItem="wgk-I3-EU1" secondAttribute="leading" type="default" id="4kt-UG-ryU"/>
                             <constraint firstItem="qr5-U7-8x3" firstAttribute="top" secondItem="t2p-dF-gj0" secondAttribute="top" type="default" id="9mF-gL-zG9"/>
                             <constraint firstItem="ZQP-nc-FHD" firstAttribute="top" secondItem="B1k-hq-HRS" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="Dd8-aG-hVQ"/>
+                            <constraint firstItem="iFi-TQ-KSA" firstAttribute="leading" secondItem="17" secondAttribute="leading" constant="369" id="H8X-Qp-4VU"/>
+                            <constraint firstItem="Zm8-Kv-3f0" firstAttribute="centerX" secondItem="17" secondAttribute="centerX" type="default" id="IoX-Ac-XEr"/>
                             <constraint firstItem="B1k-hq-HRS" firstAttribute="leading" secondItem="17" secondAttribute="leading" constant="31" id="LdR-tm-WyZ"/>
+                            <constraint firstItem="EWf-jz-Dz3" firstAttribute="top" secondItem="wgk-I3-EU1" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="NU4-g4-m2Z"/>
                             <constraint firstItem="qr5-U7-8x3" firstAttribute="leading" secondItem="17" secondAttribute="leading" constant="288" id="Ne3-NE-Yg2"/>
-                            <constraint firstItem="FPk-H2-cxW" firstAttribute="leading" secondItem="17" secondAttribute="leading" constant="190" id="Ord-0m-H2d"/>
-                            <constraint firstItem="iFi-TQ-KSA" firstAttribute="leading" secondItem="wgk-I3-EU1" secondAttribute="leading" type="default" id="PNS-Hm-qmR"/>
                             <constraint firstAttribute="trailing" secondItem="t2p-dF-gj0" secondAttribute="trailing" constant="12" id="SEh-TM-ec1"/>
-                            <constraint firstItem="iFi-TQ-KSA" firstAttribute="trailing" secondItem="wgk-I3-EU1" secondAttribute="trailing" type="default" id="UiV-zp-UE9"/>
+                            <constraint firstItem="EWf-jz-Dz3" firstAttribute="trailing" secondItem="wgk-I3-EU1" secondAttribute="trailing" type="default" id="Sdk-eU-VDw"/>
                             <constraint firstAttribute="bottom" secondItem="Zm8-Kv-3f0" secondAttribute="bottom" constant="20" symbolic="YES" type="default" id="XKq-YF-71b"/>
+                            <constraint firstItem="B1k-hq-HRS" firstAttribute="top" secondItem="17" secondAttribute="top" constant="60" id="cN7-V4-8Vq"/>
+                            <constraint firstItem="tBM-am-Uhv" firstAttribute="top" secondItem="17" secondAttribute="top" type="default" id="d8a-4h-duM"/>
                             <constraint firstItem="ZQP-nc-FHD" firstAttribute="leading" secondItem="17" secondAttribute="leading" constant="16" id="dea-w6-QTP"/>
                             <constraint firstItem="KY2-Pw-5eU" firstAttribute="top" secondItem="17" secondAttribute="top" constant="49" id="eHF-cO-LLC"/>
                             <constraint firstItem="wgk-I3-EU1" firstAttribute="top" secondItem="17" secondAttribute="top" constant="50" id="ieu-gU-dA5"/>
-                            <constraint firstItem="B1k-hq-HRS" firstAttribute="top" secondItem="17" secondAttribute="top" constant="60" id="mF3-v3-XEB"/>
                             <constraint firstItem="KY2-Pw-5eU" firstAttribute="trailing" secondItem="ZQP-nc-FHD" secondAttribute="trailing" type="default" id="nQo-iI-Vc8"/>
-                            <constraint firstItem="Zm8-Kv-3f0" firstAttribute="centerX" secondItem="17" secondAttribute="centerX" type="default" id="noM-N9-Gdy"/>
-                            <constraint firstAttribute="bottom" secondItem="FPk-H2-cxW" secondAttribute="bottom" constant="38" id="yPr-Zw-8ul"/>
+                            <constraint firstAttribute="bottom" secondItem="FPk-H2-cxW" secondAttribute="bottom" constant="64" id="nSl-Pk-P0f"/>
+                            <constraint firstItem="tBM-am-Uhv" firstAttribute="trailing" secondItem="17" secondAttribute="trailing" type="default" id="q8n-o5-XVq"/>
                         </constraints>
                         <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                         <connections>
                             <outletCollection property="gestureRecognizers" destination="Hpx-i2-YQK" appends="YES" id="pq3-qB-kDO"/>
                         </connections>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Label" image="first" id="7"/>
+                    <tabBarItem key="tabBarItem" title="Label" image="icon_label_0.png" id="7"/>
                     <nil key="simulatedStatusBarMetrics"/>
                     <connections>
                         <outlet property="addLabelText" destination="xmR-wD-Xik" id="xZl-fX-Fij"/>
@@ -213,7 +243,7 @@
                         </constraints>
                         <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Anaylze" image="second" id="6"/>
+                    <tabBarItem key="tabBarItem" title="Anaylze" image="icon_analyze_0.png" id="6"/>
                     <navigationItem key="navigationItem" id="ek8-ha-Dey"/>
                     <nil key="simulatedStatusBarMetrics"/>
                     <connections>
@@ -255,11 +285,15 @@
         </scene>
     </scenes>
     <resources>
+        <image name="AS_back-01.png" width="5518" height="4139"/>
         <image name="Default-568h@2x.png" width="640" height="1136"/>
         <image name="arrowLeft.png" width="25" height="24"/>
         <image name="arrowRight.png" width="25" height="24"/>
-        <image name="first" width="16" height="16"/>
-        <image name="second" width="16" height="16"/>
+        <image name="icon_analyze_0.png" width="30" height="29"/>
+        <image name="icon_label_0.png" width="30" height="29"/>
+        <image name="image_notes.png" width="2418" height="944"/>
+        <image name="label_1.png" width="504" height="91"/>
+        <image name="label_2.png" width="504" height="91"/>
         <image name="trash.png" width="128" height="128"/>
     </resources>
 <<<<<<< HEAD
