@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="3084" systemVersion="12C60" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES" initialViewController="4">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="3084" systemVersion="11G63" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES" initialViewController="4">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="2083"/>
     </dependencies>
@@ -159,7 +159,7 @@
                             <outletCollection property="gestureRecognizers" destination="Hpx-i2-YQK" appends="YES" id="pq3-qB-kDO"/>
                         </connections>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Label" image="first" id="7"/>
+                    <tabBarItem key="tabBarItem" title="Label" image="icon_label_0.png" id="7"/>
                     <nil key="simulatedStatusBarMetrics"/>
                     <connections>
                         <outlet property="addLabelText" destination="xmR-wD-Xik" id="xZl-fX-Fij"/>
@@ -213,7 +213,7 @@
                         </constraints>
                         <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Anaylze" image="second" id="6"/>
+                    <tabBarItem key="tabBarItem" title="Anaylze" image="icon_analyze_0.png" id="6"/>
                     <navigationItem key="navigationItem" id="ek8-ha-Dey"/>
                     <nil key="simulatedStatusBarMetrics"/>
                     <connections>
@@ -233,10 +233,40 @@
             </objects>
             <point key="canvasLocation" x="3038" y="616"/>
         </scene>
-        <!--Tab Bar Controller-->
+        <!--Map View Controller - Map-->
+        <scene sceneID="kaV-jN-jXC">
+            <objects>
+                <viewController title="Map" id="CSt-AF-d5X" customClass="MapViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="9yW-lM-2Kp">
+                        <rect key="frame" x="0.0" y="20" width="1024" height="748"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" showsUserLocation="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Xeh-AK-S8c"/>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="Xeh-AK-S8c" firstAttribute="leading" secondItem="9yW-lM-2Kp" secondAttribute="leading" type="default" id="Dq1-2k-hNY"/>
+                            <constraint firstItem="Xeh-AK-S8c" firstAttribute="trailing" secondItem="9yW-lM-2Kp" secondAttribute="trailing" type="default" id="GMF-to-7Ou"/>
+                            <constraint firstItem="Xeh-AK-S8c" firstAttribute="top" secondItem="9yW-lM-2Kp" secondAttribute="top" type="default" id="KIZ-XP-caP"/>
+                            <constraint firstItem="Xeh-AK-S8c" firstAttribute="bottom" secondItem="9yW-lM-2Kp" secondAttribute="bottom" type="default" id="pzD-Tz-ng7"/>
+                        </constraints>
+                        <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Item" id="3Wj-gC-WPj"/>
+                    <navigationItem key="navigationItem" id="PSB-5l-R9O"/>
+                    <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
+                    <connections>
+                        <outlet property="_mapVew" destination="Xeh-AK-S8c" id="Na1-Pp-N00"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="B5r-d7-Px7" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3072" y="1592"/>
+        </scene>
+        <!--Tab Bar Controller - Map-->
         <scene sceneID="15">
             <objects>
-                <tabBarController id="4" sceneMemberID="viewController">
+                <tabBarController title="Map" id="4" sceneMemberID="viewController">
                     <nil key="simulatedBottomBarMetrics"/>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" id="5">
@@ -251,15 +281,15 @@
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="14" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1679" y="258"/>
+            <point key="canvasLocation" x="1589" y="616"/>
         </scene>
     </scenes>
     <resources>
         <image name="Default-568h@2x.png" width="640" height="1136"/>
         <image name="arrowLeft.png" width="25" height="24"/>
         <image name="arrowRight.png" width="25" height="24"/>
-        <image name="first" width="16" height="16"/>
-        <image name="second" width="16" height="16"/>
+        <image name="icon_analyze_0.png" width="30" height="29"/>
+        <image name="icon_label_0.png" width="30" height="29"/>
         <image name="trash.png" width="128" height="128"/>
     </resources>
 <<<<<<< HEAD
@@ -291,6 +321,15 @@
                 <relationship kind="outlet" name="swipeRecognizer2" candidateClass="UISwipeGestureRecognizer"/>
             </relationships>
         </class>
+<<<<<<< HEAD
+=======
+        <class className="MapViewController" superclassName="MKMapView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/MapViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="_mapView" candidateClass="MKMapView"/>
+            </relationships>
+        </class>
+>>>>>>> test
         <class className="NSLayoutConstraint" superclassName="NSObject">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
         </class>
