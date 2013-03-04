@@ -65,7 +65,6 @@
 		12D5BCEB16DE8BB00067936A /* slider-track-background@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 12D5BCE216DE8BB00067936A /* slider-track-background@2x.png */; };
 		12D5BCEC16DE8BB00067936A /* slider-track-fill.png in Resources */ = {isa = PBXBuildFile; fileRef = 12D5BCE316DE8BB00067936A /* slider-track-fill.png */; };
 		12D5BCED16DE8BB00067936A /* slider-track-fill@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 12D5BCE416DE8BB00067936A /* slider-track-fill@2x.png */; };
-		85A268FE16DFED04009B34AD /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 85A268FD16DFED04009B34AD /* MapViewController.m */; };
 		85D7E09E16D4297700E89260 /* bg_Analyze.png in Resources */ = {isa = PBXBuildFile; fileRef = 85D7E09D16D4297700E89260 /* bg_Analyze.png */; };
 /* End PBXBuildFile section */
 
@@ -148,8 +147,6 @@
 		12D5BCE216DE8BB00067936A /* slider-track-background@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "slider-track-background@2x.png"; sourceTree = "<group>"; };
 		12D5BCE316DE8BB00067936A /* slider-track-fill.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "slider-track-fill.png"; sourceTree = "<group>"; };
 		12D5BCE416DE8BB00067936A /* slider-track-fill@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "slider-track-fill@2x.png"; sourceTree = "<group>"; };
-		85A268FC16DFED04009B34AD /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
-		85A268FD16DFED04009B34AD /* MapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapViewController.m; sourceTree = "<group>"; };
 		85D7E09D16D4297700E89260 /* bg_Analyze.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bg_Analyze.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -222,8 +219,6 @@
 				127FEDAB16A73B6000801699 /* AppDelegate.h */,
 				127FEDAC16A73B6000801699 /* AppDelegate.m */,
 				12336A6716B871EB004DCF43 /* MainStoryboard.storyboard */,
-				85A268FC16DFED04009B34AD /* MapViewController.h */,
-				85A268FD16DFED04009B34AD /* MapViewController.m */,
 				123E564F16CAEB48000A910E /* arrowLeft.png */,
 				123E565016CAEB48000A910E /* arrowRight.png */,
 				127FEDB716A73B6000801699 /* LabelViewController.h */,
@@ -474,7 +469,6 @@
 				123E564B16C329DB000A910E /* CaptureRecord.m in Sources */,
 				123E564E16C32F2C000A910E /* Tag.m in Sources */,
 				12D5BCE516DE8BB00067936A /* REDRangeSlider.m in Sources */,
-				85A268FE16DFED04009B34AD /* MapViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
