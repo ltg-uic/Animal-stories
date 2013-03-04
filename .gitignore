@@ -16,8 +16,3 @@ DerivedData
 .idea/
 *.hmap
 as_test/startImage.png
-as_test/MapViewController.h
-
-as_test/MapViewController.m
-
-as_test/MapViewController.m
