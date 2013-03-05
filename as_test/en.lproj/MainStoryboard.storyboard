@@ -40,6 +40,7 @@
                                 <connections>
                                     <outletCollection property="gestureRecognizers" destination="WhJ-4L-Bio" appends="YES" id="aDc-DH-xYz"/>
                                     <outletCollection property="gestureRecognizers" destination="E1M-uQ-asd" appends="YES" id="5Ee-4n-Nuu"/>
+                                    <outletCollection property="gestureRecognizers" destination="Hpx-i2-YQK" appends="YES" id="w3F-UB-79J"/>
                                 </connections>
                             </imageView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" maximumZoomScale="2" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="ZQP-nc-FHD">
@@ -86,6 +87,7 @@
                                 <connections>
                                     <outlet property="dataSource" destination="2" id="mXU-5v-X4t"/>
                                     <outlet property="delegate" destination="2" id="lSZ-hq-AdD"/>
+                                    <outletCollection property="gestureRecognizers" destination="Hpx-i2-YQK" appends="YES" id="HgF-s1-oE5"/>
                                 </connections>
                             </tableView>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="LABELS" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="B1k-hq-HRS">
@@ -189,9 +191,6 @@
                             <constraint firstItem="tBM-am-Uhv" firstAttribute="trailing" secondItem="17" secondAttribute="trailing" type="default" id="q8n-o5-XVq"/>
                         </constraints>
                         <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
-                        <connections>
-                            <outletCollection property="gestureRecognizers" destination="Hpx-i2-YQK" appends="YES" id="pq3-qB-kDO"/>
-                        </connections>
                     </view>
                     <tabBarItem key="tabBarItem" title="Label" image="icon_label_0.png" id="7"/>
                     <nil key="simulatedStatusBarMetrics"/>
@@ -300,37 +299,6 @@
         <image name="label_color.png" width="60" height="60"/>
         <image name="trash.png" width="128" height="128"/>
     </resources>
-    <classes>
-        <class className="AnalyzeViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/AnalyzeViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="tapAction:" candidateClass="UITapGestureRecognizer"/>
-                <relationship kind="outlet" name="currentImage" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="tapRec" candidateClass="UITapGestureRecognizer"/>
-                <relationship kind="outlet" name="timeLineContainer" candidateClass="UIScrollView"/>
-            </relationships>
-        </class>
-        <class className="LabelViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/LabelViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="arrowPressed:" candidateClass="UIButton"/>
-                <relationship kind="action" name="handleDrag:" candidateClass="UIPanGestureRecognizer"/>
-                <relationship kind="action" name="handleSwipeRecognizer:" candidateClass="UISwipeGestureRecognizer"/>
-                <relationship kind="outlet" name="addLabelText" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="currentImage" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="dragGesture" candidateClass="UIPanGestureRecognizer"/>
-                <relationship kind="outlet" name="editModeButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="leftArrowButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="notesBox" candidateClass="UITextView"/>
-                <relationship kind="outlet" name="rightArrowButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="swipeRecognizer" candidateClass="UISwipeGestureRecognizer"/>
-                <relationship kind="outlet" name="swipeRecognizer2" candidateClass="UISwipeGestureRecognizer"/>
-            </relationships>
-        </class>
-        <class className="NSLayoutConstraint" superclassName="NSObject">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar" statusBarStyle="blackTranslucent"/>
         <simulatedOrientationMetrics key="orientation"/>

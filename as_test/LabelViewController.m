@@ -19,6 +19,7 @@
 @property (nonatomic, strong) IBOutlet UISwipeGestureRecognizer *swipeRecognizer;
 @property (strong, nonatomic) IBOutlet UISwipeGestureRecognizer *swipeRecognizer2;
 @property (strong, nonatomic) IBOutlet UIPanGestureRecognizer *dragGesture;
+@property (strong, nonatomic) IBOutlet UIPanGestureRecognizer *dragGesture2;
 @property (strong, nonatomic) NSMutableArray *labelsAddedToImage;
 @property (nonatomic) NSInteger currentLabelIndex;
 @property (strong, nonatomic) NSMutableData *tagListData;
@@ -156,9 +157,12 @@ NSMutableString *currentCaptureRecord;
     _swipeRecognizer2 = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeRecognizer:)];
     _swipeRecognizer2.numberOfTouchesRequired = 2;
     [self.currentImage addGestureRecognizer:_swipeRecognizer2];
-    
     _dragGesture =[[UIPanGestureRecognizer alloc] initWithTarget:self action: @selector(handleDrag:)];
-    [self.view addGestureRecognizer:_dragGesture];
+    _dragGesture2 =[[UIPanGestureRecognizer alloc] initWithTarget:self action: @selector(handleDrag:)];
+    [self.currentImage addGestureRecognizer:_dragGesture2];
+    [self.labelTable addGestureRecognizer:_dragGesture];
+    
+
     for(CaptureRecord* record in _captureRecords){
         UIImageView *circle;
         if([[_captureRecords objectForKey: record ] isUntagged]){
@@ -182,13 +186,14 @@ NSMutableString *currentCaptureRecord;
 
 //handles drags
 - (IBAction)handleDrag: (UIPanGestureRecognizer *) recognizer{
-    NSIndexPath* test = [_labelTable indexPathForSelectedRow];
-    
+
+
     //first case: there is a label selected on the left and we're creating a new label to drag onto the view for the first time.
     //second case: there is an existing label on the image and we're moving it
-    if(test){
+    if(recognizer.view == _labelTable){
+        NSIndexPath* test = [_labelTable indexPathForRowAtPoint: [recognizer locationInView:recognizer.view]];
         if([recognizer state] == UIGestureRecognizerStateBegan){
-            CGPoint gestureBegan = [recognizer locationInView:recognizer.view];
+            CGPoint gestureBegan = [recognizer locationInView:self.view];
             UILabel *duplicate = [[UILabel alloc] initWithFrame:(CGRectMake(gestureBegan.x, gestureBegan.y, 100, 30))];
             duplicate.text = [_tableData objectAtIndex: test.row];
             duplicate.textColor =  [UIColor whiteColor];
@@ -199,13 +204,13 @@ NSMutableString *currentCaptureRecord;
             //[_labelsAddedToImage addObject: duplicate];
             [self.view addSubview: duplicate];
             //NSLog(@"%@ , %@", duplicate, _labelsAddedToImage);
-            [recognizer setTranslation:CGPointZero inView:[duplicate superview]];
+            [recognizer setTranslation:CGPointZero inView:self.view];
         } else if([recognizer state]  == UIGestureRecognizerStateChanged){
             
-            CGPoint translation = [recognizer translationInView:[ _activeTag.uiTag superview]];
+            CGPoint translation = [recognizer translationInView:self.view];
             //NSLog(@"%f, %f", translation.x, translation.y);
             [_activeTag moveTagToPosition:CGPointMake([_activeTag center].x + translation.x, [_activeTag center].y + translation.y)];
-            [recognizer setTranslation:CGPointZero inView:[_activeTag.uiTag superview]];
+            [recognizer setTranslation:CGPointZero inView:self.view];
         }else if([recognizer state] == UIGestureRecognizerStateEnded){
             //label has been dropped onto the image
             [_labelTable deselectRowAtIndexPath:test animated: YES];
@@ -224,7 +229,7 @@ NSMutableString *currentCaptureRecord;
         if([recognizer state]  == UIGestureRecognizerStateBegan){
             //check if any labels have been selected
             for( Tag * tag in [[_captureRecords objectForKey:currentCaptureRecord] tagData]){
-                if( CGRectContainsPoint( [tag.uiTag frame], [recognizer locationInView:recognizer.view] )){
+                if( CGRectContainsPoint( [tag.uiTag frame], [recognizer locationInView:self.view] )){
                     _activeTag = tag;
                 }
             }
