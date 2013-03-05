@@ -200,7 +200,7 @@ NSMutableString *currentCaptureRecord;
             duplicate.backgroundColor = [UIColor clearColor];
             duplicate.shadowColor =[UIColor blackColor];
             _activeTag = [[Tag alloc] initWithUIlabel:duplicate andID: [[_captureRecords objectForKey:currentCaptureRecord] imgSet]];
-            [[_captureRecords objectForKey:currentCaptureRecord] addTag: _activeTag];
+            
             //[_labelsAddedToImage addObject: duplicate];
             [self.view addSubview: duplicate];
             //NSLog(@"%@ , %@", duplicate, _labelsAddedToImage);
@@ -214,11 +214,11 @@ NSMutableString *currentCaptureRecord;
         }else if([recognizer state] == UIGestureRecognizerStateEnded){
             //label has been dropped onto the image
             [_labelTable deselectRowAtIndexPath:test animated: YES];
-            
+            [[_captureRecords objectForKey:currentCaptureRecord] addTag: _activeTag];
             //Confirm that the label is within the image: if not, remove it from the list
             if (!CGRectContainsPoint(self.currentImage.frame, [_activeTag center]) ){
                 [_activeTag.uiTag removeFromSuperview ];
-                [[_captureRecords objectForKey:currentCaptureRecord] removeTag: _activeTag];
+                //[[_captureRecords objectForKey:currentCaptureRecord] removeTag: _activeTag];
 
             }
             _activeTag = nil;

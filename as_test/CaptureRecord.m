@@ -28,7 +28,7 @@ SDWebImageDownloader *downloader;
      downloadImageWithURL:[NSURL URLWithString:pathName]
      options:0
      progress:^(NSUInteger receivedSize, long long expectedSize){
-        // NSLog(@"Img Set: %d %d / %llu", imgSet, receivedSize, expectedSize);
+         // NSLog(@"Img Set: %d %d / %llu", imgSet, receivedSize, expectedSize);
      }
      completed:^(UIImage *image, NSData *data, NSError *error, BOOL finished) {
          //NSLog(@"%@", error);
@@ -36,9 +36,9 @@ SDWebImageDownloader *downloader;
              _pathNames = [[NSMutableArray alloc] initWithObjects: image, nil];
          }
      }];
-  //  UIImage *firstImage = [[UIImage alloc] initWithData: [NSData dataWithContentsOfURL:[NSURL URLWithString:pathName]]];
- //   _pathNames = [[NSMutableArray alloc] initWithObjects: firstImage, nil];
-//    UIImage *firstImage = setImageFromURL
+    //  UIImage *firstImage = [[UIImage alloc] initWithData: [NSData dataWithContentsOfURL:[NSURL URLWithString:pathName]]];
+    //   _pathNames = [[NSMutableArray alloc] initWithObjects: firstImage, nil];
+    //    UIImage *firstImage = setImageFromURL
     _imgSet = imgSet;
     _scientist = [ [NSString alloc] initWithString: scientist];
     _tagData = [[NSMutableArray alloc] init];
@@ -47,6 +47,12 @@ SDWebImageDownloader *downloader;
 }
 
 - (Tag *) addTag: (Tag *) newTag{
+    for(Tag * tag2 in _tagData){
+        if ([[[tag2 uiTag] text] isEqual: @"Untagged"]){
+            [tag2 removeLabelFromView];
+            [_tagData removeObject: tag2];
+        }
+    }
     [_tagData addObject: newTag];
     return newTag;
 }
@@ -62,7 +68,7 @@ SDWebImageDownloader *downloader;
      downloadImageWithURL:[NSURL URLWithString:pathName]
      options:0
      progress:^(NSUInteger receivedSize, long long expectedSize){
-        // NSLog(@"%d", receivedSize);
+         // NSLog(@"%d", receivedSize);
      }
      completed:^(UIImage *image, NSData *data, NSError *error, BOOL finished) {
          if(image) [_pathNames addObject:image];
@@ -74,6 +80,7 @@ SDWebImageDownloader *downloader;
     for(Tag * tag in _tagData){
         [tag addLabelToView:view];
     }
+    
 }
 
 - (void) removeTagsFromView{
