@@ -52,6 +52,7 @@ NSMutableString *currentCaptureRecord;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.circleList = [[NSMutableArray alloc] init];
     currentCaptureRecord = [[NSMutableString alloc] initWithString:@"0 "];
     _scientist = @"TheSquirrelKids";
     server = [NSURL URLWithString: @"http://animal-stories.danceforscience.com/"];
@@ -131,6 +132,8 @@ NSMutableString *currentCaptureRecord;
     self.av.tableData = _tableData;
     self.av.begin = begin;
     self.av.end = end;
+    self.begin = begin;
+    self.end = end;
     self.addLabelText.delegate = self;
     [self.view addSubview:beginningTime];
     [self.view addSubview:endTime];
@@ -162,21 +165,7 @@ NSMutableString *currentCaptureRecord;
     [self.currentImage addGestureRecognizer:_dragGesture2];
     [self.labelTable addGestureRecognizer:_dragGesture];
     
-
-    for(CaptureRecord* record in _captureRecords){
-        UIImageView *circle;
-        if([[_captureRecords objectForKey: record ] isUntagged]){
-            circle = [[UIImageView alloc] initWithImage: [UIImage imageNamed: @"unsorted.png"]];
-        } else {
-            circle = [[UIImageView alloc] initWithImage:[UIImage imageNamed: @"sorted.png"]];
-        }
-                circle.center = CGPointMake([self mapTimeToDisplay: [[_captureRecords objectForKey:record] firstImageTime]  withBeginTime:begin withEndTime:end beginX:105 width:814], 678);
-        [self.view addSubview: circle];
-
-        _labelTable.editing = NO;
-        
-    }
-    
+    [self drawTimeLineCirclesWithHighlight:nil];
 }
 
 - (void) viewWillDisappear:(BOOL)animated{
@@ -289,6 +278,44 @@ NSMutableString *currentCaptureRecord;
 }
 
 
+- (void) drawTimeLineCirclesWithHighlight : (CaptureRecord *) captureKey {
+    NSLog(@"%@", self.circleList);
+    for(UIImageView* circle in self.circleList){
+        NSLog(@"%@", circle);
+        [circle removeFromSuperview];
+    }
+    [self.circleList removeAllObjects];
+    
+    UIImageView *highlight;
+    for(CaptureRecord* record in _captureRecords){
+        UIImageView *circle;
+        if([[_captureRecords objectForKey: record ] isUntagged]){
+            circle = [[UIImageView alloc] initWithImage: [UIImage imageNamed: @"unsorted.png"]];
+        } else {
+            circle = [[UIImageView alloc] initWithImage:[UIImage imageNamed: @"sorted.png"]];
+        }
+        circle.center = CGPointMake([self mapTimeToDisplay: [[_captureRecords objectForKey:record] firstImageTime]  withBeginTime:self.begin withEndTime:self.end beginX:105 width:814], 678);
+        
+        if([_captureRecords objectForKey:record] == captureKey){
+            NSLog(@"%@%@", [_captureRecords objectForKey:record], captureKey);
+
+            highlight = [[UIImageView alloc] initWithImage:[UIImage imageNamed: @"highlight.png"]];
+            highlight.center = circle.center;
+            NSLog(@"%@", highlight);
+            [self.view addSubview: highlight];
+            [self.circleList addObject:highlight];
+
+        }
+
+
+        [self.view addSubview: circle];
+        [self.circleList addObject:circle];
+
+        _labelTable.editing = NO;
+        
+    }
+}
+
 //Begin button processing
 
 - (IBAction)editPressed {
@@ -320,6 +347,7 @@ NSMutableString *currentCaptureRecord;
     self.currentImage.animationDuration = 6;
     [self.currentImage startAnimating];
     [[_captureRecords objectForKey:currentCaptureRecord] addTagsToView: self.view];
+    [self drawTimeLineCirclesWithHighlight:[_captureRecords objectForKey:currentCaptureRecord]];
     self.av.captureRecords = self.captureRecords;
     //NSLog(@"%@, %@", self.currentImage.isAnimating? @"YES" : @"NO", self.currentImage.animationImages);
 }

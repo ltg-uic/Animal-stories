@@ -35,6 +35,7 @@
 		123E565C16CC45B3000A910E /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 123E565B16CC45B3000A910E /* ImageIO.framework */; };
 		123F7D3316D404D100474EDF /* startImage.png in Resources */ = {isa = PBXBuildFile; fileRef = 123F7D3216D404D100474EDF /* startImage.png */; };
 		123F7D3516D4089800474EDF /* trash.png in Resources */ = {isa = PBXBuildFile; fileRef = 123F7D3416D4089800474EDF /* trash.png */; };
+		1263B36816E69BF6008680C8 /* highlight.png in Resources */ = {isa = PBXBuildFile; fileRef = 1263B36716E69BF6008680C8 /* highlight.png */; };
 		127FED9D16A73B6000801699 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 127FED9C16A73B6000801699 /* UIKit.framework */; };
 		127FED9F16A73B6000801699 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 127FED9E16A73B6000801699 /* Foundation.framework */; };
 		127FEDA116A73B6000801699 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 127FEDA016A73B6000801699 /* CoreGraphics.framework */; settings = {ATTRIBUTES = (Required, ); }; };
@@ -111,6 +112,7 @@
 		123E565B16CC45B3000A910E /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		123F7D3216D404D100474EDF /* startImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = startImage.png; sourceTree = SOURCE_ROOT; };
 		123F7D3416D4089800474EDF /* trash.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = trash.png; sourceTree = "<group>"; };
+		1263B36716E69BF6008680C8 /* highlight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = highlight.png; sourceTree = "<group>"; };
 		127FED9816A73B6000801699 /* as_test.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = as_test.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		127FED9C16A73B6000801699 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		127FED9E16A73B6000801699 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -222,6 +224,7 @@
 				123E565016CAEB48000A910E /* arrowRight.png */,
 				127FEDB716A73B6000801699 /* LabelViewController.h */,
 				12336A6A16B871F8004DCF43 /* LabelViewController.m */,
+				1263B36716E69BF6008680C8 /* highlight.png */,
 				123E564916C329DB000A910E /* CaptureRecord.h */,
 				123E564A16C329DB000A910E /* CaptureRecord.m */,
 				127FEDBA16A73B6000801699 /* first.png */,
@@ -418,6 +421,7 @@
 				855BE7F016E1477200F04347 /* label_0.png in Resources */,
 				855BE7F216E147B100F04347 /* tag_gray.png in Resources */,
 				855BE7F416E16A8C00F04347 /* label_color.png in Resources */,
+				1263B36816E69BF6008680C8 /* highlight.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

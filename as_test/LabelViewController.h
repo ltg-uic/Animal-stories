@@ -28,5 +28,7 @@
 @property (strong, nonatomic) NSMutableDictionary* captureRecords;
 @property (strong, nonatomic) IBOutlet UIButton *rightArrowButton;
 @property (strong, nonatomic) IBOutlet UIButton *leftArrowButton;
+@property (strong, nonatomic) NSDate *begin;
+@property (strong, nonatomic) NSDate *end;
 
 @end
