@@ -13,9 +13,8 @@
     NSMutableArray* tableData;
     NSMutableDictionary* captureRecords;
     IBOutlet UIImageView *currentImage;
-    IBOutlet UIScrollView *timelineContainer;
-    IBOutlet UIScrollView *tap;
     
+    IBOutlet UITapGestureRecognizer *tapRec;
 }
 
 @property (strong, nonatomic) NSMutableArray* tableData;
@@ -24,6 +23,6 @@
 @property (strong, nonatomic)IBOutlet UIImageView *currentImage;
 @property (strong, nonatomic) NSDate * begin;
 @property (strong, nonatomic) NSDate * end;
-@property (strong, nonatomic) IBOutlet UIScrollView *tap;
 @property (strong, nonatomic) IBOutlet UIScrollView *timeLineContainer;
+@property (strong, nonatomic) IBOutlet UITapGestureRecognizer *tapRec;
 @end

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="3084" systemVersion="11G63" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES" initialViewController="4">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="3084" systemVersion="12C60" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES" initialViewController="4">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="2083"/>
     </dependencies>
@@ -229,20 +229,21 @@
                                     <constraint firstAttribute="height" constant="249" id="GsC-xM-Zsc"/>
                                 </constraints>
                             </imageView>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Fdx-wg-TX1">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5Jn-Rw-PdW">
+                                <gestureRecognizers/>
                                 <connections>
-                                    <outletCollection property="gestureRecognizers" destination="Lcx-r1-opx" appends="YES" id="T4P-Wf-Usy"/>
+                                    <outletCollection property="gestureRecognizers" destination="u6X-IJ-mXR" appends="YES" id="R0y-l5-bqP"/>
                                 </connections>
                             </scrollView>
                         </subviews>
                         <color key="backgroundColor" red="0.1960784495" green="0.71764707569999997" blue="0.3058823645" alpha="1" colorSpace="deviceRGB"/>
                         <gestureRecognizers/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="Fdx-wg-TX1" secondAttribute="trailing" constant="10" id="FO5-85-JUA"/>
-                            <constraint firstItem="Fdx-wg-TX1" firstAttribute="top" secondItem="16" secondAttribute="top" constant="263" id="Ldz-tx-LFH"/>
-                            <constraint firstItem="Fdx-wg-TX1" firstAttribute="leading" secondItem="16" secondAttribute="leading" constant="13" id="pxH-aH-mFX"/>
+                            <constraint firstAttribute="bottom" secondItem="5Jn-Rw-PdW" secondAttribute="bottom" constant="87" id="F18-9C-W0k"/>
+                            <constraint firstItem="5Jn-Rw-PdW" firstAttribute="top" secondItem="16" secondAttribute="top" constant="280" id="Mrb-iR-cQK"/>
+                            <constraint firstAttribute="trailing" secondItem="5Jn-Rw-PdW" secondAttribute="trailing" constant="5" id="QAz-an-kU5"/>
+                            <constraint firstItem="5Jn-Rw-PdW" firstAttribute="leading" secondItem="16" secondAttribute="leading" constant="10" id="cQl-H5-ioI"/>
                             <constraint firstItem="aqR-q9-siJ" firstAttribute="top" secondItem="16" secondAttribute="top" constant="12" id="qEu-AD-b3i"/>
-                            <constraint firstAttribute="bottom" secondItem="Fdx-wg-TX1" secondAttribute="bottom" constant="61" id="v1f-dW-23o"/>
                             <constraint firstItem="aqR-q9-siJ" firstAttribute="centerX" secondItem="16" secondAttribute="centerX" type="default" id="v8i-Z7-OQm"/>
                         </constraints>
                         <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
@@ -251,21 +252,19 @@
                     <navigationItem key="navigationItem" id="ek8-ha-Dey"/>
                     <nil key="simulatedStatusBarMetrics"/>
                     <connections>
-                        <outlet property="Tap" destination="Lcx-r1-opx" id="dXk-Ll-ui6"/>
                         <outlet property="currentImage" destination="aqR-q9-siJ" id="gKd-7H-sC8"/>
-                        <outlet property="tap" destination="Fdx-wg-TX1" id="vdM-jY-mU0"/>
-                        <outlet property="timeLineContainer" destination="Fdx-wg-TX1" id="oW2-Lp-7Wj"/>
-                        <outlet property="timelineContainer" destination="Fdx-wg-TX1" id="0Tl-Xw-CQu"/>
+                        <outlet property="tapRec" destination="u6X-IJ-mXR" id="Acf-WM-PS7"/>
+                        <outlet property="timeLineContainer" destination="5Jn-Rw-PdW" id="0yw-Ok-nxX"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="12" sceneMemberID="firstResponder"/>
-                <tapGestureRecognizer id="Lcx-r1-opx">
+                <tapGestureRecognizer id="u6X-IJ-mXR">
                     <connections>
-                        <action selector="tapAction:" destination="3" id="TpB-MK-idk"/>
+                        <action selector="tapAction:" destination="3" id="7jY-f3-xgS"/>
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="3038" y="616"/>
+            <point key="canvasLocation" x="3032" y="618"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="15">
@@ -307,9 +306,8 @@
             <relationships>
                 <relationship kind="action" name="tapAction:" candidateClass="UITapGestureRecognizer"/>
                 <relationship kind="outlet" name="currentImage" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="tap" candidateClass="UIScrollView"/>
+                <relationship kind="outlet" name="tapRec" candidateClass="UITapGestureRecognizer"/>
                 <relationship kind="outlet" name="timeLineContainer" candidateClass="UIScrollView"/>
-                <relationship kind="outlet" name="timelineContainer" candidateClass="UIScrollView"/>
             </relationships>
         </class>
         <class className="LabelViewController" superclassName="UIViewController">

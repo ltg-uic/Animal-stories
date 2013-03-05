@@ -33,13 +33,13 @@
 @synthesize labels = _labels;
 @synthesize lines = _lines;
 @synthesize totals = _totals;
-@synthesize tap = _tap;
 @synthesize timeLineContainer = _timeLineContainer;
 @synthesize timeSlider = _timeSlider;
 @synthesize beginLabel = _beginLabel;
 @synthesize endLabel = _endLabel;
 @synthesize rightLabel = _rightLabel;
 @synthesize leftLabel = _leftLabel;
+@synthesize tapRec = _tapRec;
 
 NSInteger yDist = 50;
 
@@ -105,6 +105,7 @@ NSInteger yDist = 50;
 
 
 -(void)viewWillAppear:(BOOL)animated{
+
     //clear last visualization
     for( NSString *view in _dataPoints){
             [[_dataPoints objectForKey:view ] removeFromSuperview];
@@ -267,14 +268,16 @@ NSInteger yDist = 50;
     
 }
 
-- (IBAction)tapAction:(UITapGestureRecognizer *)tapInstance {
+- (IBAction)tapAction:(UITapGestureRecognizer *) tapInstance {
     CGPoint tapLocation = [tapInstance locationInView:tapInstance.view];
-    NSLog(@"tapLocation: %@, %@" , NSStringFromCGPoint(tapLocation), tapInstance.view);
+    //NSLog(@"tapLocation: %@" , NSStringFromCGPoint(tapLocation));
     for(NSString *circleRecord in _dataPoints){
-        NSLog(@"containsData: %@, %@" , NSStringFromCGRect([[_dataPoints objectForKey:circleRecord] frame]), [[_dataPoints objectForKey:circleRecord] superview]);
+        //NSLog(@"containsData: %@" , NSStringFromCGRect([[_dataPoints objectForKey:circleRecord] frame]));
         if(CGRectContainsPoint([[_dataPoints objectForKey:circleRecord] frame], tapLocation)){
-            
-            self.currentImage.animationImages = [[self.captureRecords objectForKey:circleRecord] pathNames];
+            NSString *circleRecordModified;
+            NSRange range = [circleRecord rangeOfString:@" "];
+            circleRecordModified = [circleRecord substringToIndex:range.location + 1];
+            self.currentImage.animationImages = [[self.captureRecords objectForKey:circleRecordModified] pathNames];
             self.currentImage.animationDuration = 6;
             [self.currentImage startAnimating];
             

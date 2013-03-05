@@ -47,10 +47,11 @@
 @synthesize av = _av;
 
 NSURL *server;
-NSMutableString *currentCaptureRecord = @"0 ";
+NSMutableString *currentCaptureRecord;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    currentCaptureRecord = [[NSMutableString alloc] initWithString:@"0 "];
     _scientist = @"TheSquirrelKids";
     server = [NSURL URLWithString: @"http://animal-stories.danceforscience.com/"];
     NSString* GMTOffset = @"-0600";
@@ -174,6 +175,9 @@ NSMutableString *currentCaptureRecord = @"0 ";
     
 }
 
+- (void) viewWillDisappear:(BOOL)animated{
+    self.av.captureRecords = _captureRecords;
+}
 //Gesture Processing
 
 //handles drags
