@@ -55,6 +55,7 @@ NSMutableString *currentCaptureRecord;
     self.circleList = [[NSMutableArray alloc] init];
     currentCaptureRecord = [[NSMutableString alloc] initWithString:@"0 "];
     //_scientist = @"TheSquirrelKids";
+    NSLog(@"%@", self.scientist);
     server = [NSURL URLWithString: @"http://animal-stories.danceforscience.com/"];
     NSString* GMTOffset = @"-0600";
     //instantiates the labelTable
@@ -279,9 +280,9 @@ NSMutableString *currentCaptureRecord;
 
 
 - (void) drawTimeLineCirclesWithHighlight : (CaptureRecord *) captureKey {
-    NSLog(@"%@", self.circleList);
+    //NSLog(@"%@", self.circleList);
     for(UIImageView* circle in self.circleList){
-        NSLog(@"%@", circle);
+        //NSLog(@"%@", circle);
         [circle removeFromSuperview];
     }
     [self.circleList removeAllObjects];
@@ -297,11 +298,11 @@ NSMutableString *currentCaptureRecord;
         circle.center = CGPointMake([self mapTimeToDisplay: [[_captureRecords objectForKey:record] firstImageTime]  withBeginTime:self.begin withEndTime:self.end beginX:105 width:814], 678);
         
         if([_captureRecords objectForKey:record] == captureKey){
-            NSLog(@"%@%@", [_captureRecords objectForKey:record], captureKey);
+            //NSLog(@"%@%@", [_captureRecords objectForKey:record], captureKey);
 
             highlight = [[UIImageView alloc] initWithImage:[UIImage imageNamed: @"highlight.png"]];
             highlight.center = circle.center;
-            NSLog(@"%@", highlight);
+            //NSLog(@"%@", highlight);
             [self.view addSubview: highlight];
             [self.circleList addObject:highlight];
 
@@ -358,7 +359,7 @@ NSMutableString *currentCaptureRecord;
 }
 
 - (IBAction)addNewLabel {
-    NSLog(@"%@", _addLabelText.text);
+    //NSLog(@"%@", _addLabelText.text);
     NSString *stringText = [NSString stringWithFormat: @"insertTag.php?scientist=%@&tag=%@", _scientist, _addLabelText.text];
     //NSLog(@"%@", stringText);
     [_tableData addObject: _addLabelText.text];

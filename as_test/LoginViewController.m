@@ -7,7 +7,7 @@
 //
 
 #import "LoginViewController.h"
-#import "LabelViewController.h"
+#import "TabController.h"
 
 @interface LoginViewController ()
 
@@ -45,16 +45,14 @@
     NSData *returnData = [ NSURLConnection sendSynchronousRequest: request returningResponse:&response error:&err];
     NSString *content = [NSString stringWithUTF8String:[returnData bytes]];
     NSLog(@"responseData: %@", content);
-    if ([content isEqual: @"no such user"]){
+    if ([content isEqual: @"no such user"] || !content){
         [self alertStatus:@"Login Failed. Please try again" :@"Login Failed"];
         _passwordField.text = @"";
     } else {
-        LabelViewController *lv = [self.storyboard instantiateViewControllerWithIdentifier:@"LabelViewController"];
-        lv.scientist = content;
-        [self presentViewController:lv animated:YES completion:nil];
-        
-        
-        
+        TabController *tc = [self.storyboard instantiateViewControllerWithIdentifier:@"TabController"];
+        NSRange range = [content rangeOfString:@"\n"];
+        tc.scientist = [content substringToIndex:range.location];
+        [self presentViewController:tc animated:YES completion:nil];
     }
 }
 
