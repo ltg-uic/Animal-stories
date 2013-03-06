@@ -325,6 +325,9 @@
                                 <state key="highlighted">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="beginLogin" destination="pAI-ml-SVB" eventType="touchUpInside" id="ZwR-Sa-DN9"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" red="0.19090334448120516" green="0.68240489130434789" blue="0.11138319789173085" alpha="1" colorSpace="calibratedRGB"/>
@@ -355,6 +358,9 @@
                     </view>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     <connections>
+                        <outlet property="loginButton" destination="HYg-21-1Ho" id="6ru-DF-ERG"/>
+                        <outlet property="loginField" destination="DQv-I8-k6r" id="I71-uq-Jwe"/>
+                        <outlet property="passwordField" destination="fjl-Cu-bcJ" id="oIG-Sq-F3I"/>
                         <segue destination="4" kind="push" id="mSA-5b-kZb"/>
                     </connections>
                 </viewController>
@@ -423,6 +429,14 @@
                 <relationship kind="outlet" name="rightArrowButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="swipeRecognizer" candidateClass="UISwipeGestureRecognizer"/>
                 <relationship kind="outlet" name="swipeRecognizer2" candidateClass="UISwipeGestureRecognizer"/>
+            </relationships>
+        </class>
+        <class className="LoginViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/LoginViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="loginButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="loginField" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="passwordField" candidateClass="UITextField"/>
             </relationships>
         </class>
         <class className="NSLayoutConstraint" superclassName="NSObject">

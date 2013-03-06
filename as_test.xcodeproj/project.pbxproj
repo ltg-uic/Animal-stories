@@ -36,6 +36,7 @@
 		123F7D3316D404D100474EDF /* startImage.png in Resources */ = {isa = PBXBuildFile; fileRef = 123F7D3216D404D100474EDF /* startImage.png */; };
 		123F7D3516D4089800474EDF /* trash.png in Resources */ = {isa = PBXBuildFile; fileRef = 123F7D3416D4089800474EDF /* trash.png */; };
 		1263B36816E69BF6008680C8 /* highlight.png in Resources */ = {isa = PBXBuildFile; fileRef = 1263B36716E69BF6008680C8 /* highlight.png */; };
+		1263B36B16E7AF91008680C8 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1263B36A16E7AF91008680C8 /* LoginViewController.m */; };
 		127FED9D16A73B6000801699 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 127FED9C16A73B6000801699 /* UIKit.framework */; };
 		127FED9F16A73B6000801699 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 127FED9E16A73B6000801699 /* Foundation.framework */; };
 		127FEDA116A73B6000801699 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 127FEDA016A73B6000801699 /* CoreGraphics.framework */; settings = {ATTRIBUTES = (Required, ); }; };
@@ -113,6 +114,8 @@
 		123F7D3216D404D100474EDF /* startImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = startImage.png; sourceTree = SOURCE_ROOT; };
 		123F7D3416D4089800474EDF /* trash.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = trash.png; sourceTree = "<group>"; };
 		1263B36716E69BF6008680C8 /* highlight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = highlight.png; sourceTree = "<group>"; };
+		1263B36916E7AF91008680C8 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
+		1263B36A16E7AF91008680C8 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		127FED9816A73B6000801699 /* as_test.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = as_test.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		127FED9C16A73B6000801699 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		127FED9E16A73B6000801699 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -220,6 +223,8 @@
 				127FEDAB16A73B6000801699 /* AppDelegate.h */,
 				127FEDAC16A73B6000801699 /* AppDelegate.m */,
 				12336A6716B871EB004DCF43 /* MainStoryboard.storyboard */,
+				1263B36916E7AF91008680C8 /* LoginViewController.h */,
+				1263B36A16E7AF91008680C8 /* LoginViewController.m */,
 				123E564F16CAEB48000A910E /* arrowLeft.png */,
 				123E565016CAEB48000A910E /* arrowRight.png */,
 				127FEDB716A73B6000801699 /* LabelViewController.h */,
@@ -462,6 +467,7 @@
 				123E564B16C329DB000A910E /* CaptureRecord.m in Sources */,
 				123E564E16C32F2C000A910E /* Tag.m in Sources */,
 				12D5BCE516DE8BB00067936A /* REDRangeSlider.m in Sources */,
+				1263B36B16E7AF91008680C8 /* LoginViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
