@@ -7,6 +7,7 @@
 //
 
 #import "LoginViewController.h"
+#import "LabelViewController.h"
 
 @interface LoginViewController ()
 
@@ -47,6 +48,13 @@
     if ([content isEqual: @"no such user"]){
         [self alertStatus:@"Login Failed. Please try again" :@"Login Failed"];
         _passwordField.text = @"";
+    } else {
+        LabelViewController *lv = [self.storyboard instantiateViewControllerWithIdentifier:@"LabelViewController"];
+        lv.scientist = content;
+        [self presentViewController:lv animated:YES completion:nil];
+        
+        
+        
     }
 }
 

@@ -25,7 +25,7 @@
 @property (strong, nonatomic) NSMutableData *tagListData;
 @property (strong, nonatomic) Tag *activeTag;
 @property (strong, nonatomic) NSMutableArray *circleList;
-@property (strong, nonatomic) NSString *scientist;
+
 
 @end
 
@@ -54,7 +54,7 @@ NSMutableString *currentCaptureRecord;
     [super viewDidLoad];
     self.circleList = [[NSMutableArray alloc] init];
     currentCaptureRecord = [[NSMutableString alloc] initWithString:@"0 "];
-    _scientist = @"TheSquirrelKids";
+    //_scientist = @"TheSquirrelKids";
     server = [NSURL URLWithString: @"http://animal-stories.danceforscience.com/"];
     NSString* GMTOffset = @"-0600";
     //instantiates the labelTable
