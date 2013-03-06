@@ -60,8 +60,8 @@ NSMutableString *currentCaptureRecord;
     NSString* GMTOffset = @"-0600";
     //instantiates the labelTable
     _labelTable = [[UITableView alloc] initWithFrame:CGRectMake(10, 59, 320, 460) style: UITableViewStylePlain];
-    
-    NSString *captureData = [NSString stringWithContentsOfURL:[NSURL URLWithString: @"filelistplusdata.php" relativeToURL:server] encoding:NSUTF8StringEncoding error: nil];
+    NSString *fileListURL = [[NSString alloc] initWithFormat:@"filelistplusdata.php?scientist=%@", _scientist ];
+    NSString *captureData = [NSString stringWithContentsOfURL:[NSURL URLWithString: fileListURL relativeToURL:server] encoding:NSUTF8StringEncoding error: nil];
     captureData = [captureData stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]];
     NSArray *captureDataArray = [captureData componentsSeparatedByString: @"\n"];
     _captureRecords = [[NSMutableDictionary alloc] init];
@@ -100,12 +100,14 @@ NSMutableString *currentCaptureRecord;
     endTime.font = [UIFont systemFontOfSize:12];
     endTime.text = [formattedDate stringFromDate: end];
     //instantiates tableData from the web: later need to make this user specific.
-    NSString *tagList = [NSString stringWithContentsOfURL: [NSURL URLWithString: @"taglist.php" relativeToURL:server] encoding:NSUTF8StringEncoding error:nil];
+    NSString *tagListURL = [[NSString alloc] initWithFormat:@"taglist.php?scientist=%@", self.scientist];
+    NSString *tagList = [NSString stringWithContentsOfURL: [NSURL URLWithString: tagListURL relativeToURL:server] encoding:NSUTF8StringEncoding error:nil];
     tagList = [tagList stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     _tableData = [[ tagList componentsSeparatedByString:@"\n"] mutableCopy];
     
     //instantiates labels
     _labelsAddedToImage = [[NSMutableArray alloc] init];
+    
     NSString *tagPositions = [NSString stringWithContentsOfURL: [NSURL URLWithString: @"getalltags.php" relativeToURL: server] encoding:NSUTF8StringEncoding error:nil];
     //NSLog(@"%@", tagPositions);
     tagPositions = [tagPositions stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
