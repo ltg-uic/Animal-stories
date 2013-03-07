@@ -20,6 +20,10 @@
 @property (strong, nonatomic) UILabel *endLabel;
 @property (strong, nonatomic) UILabel *leftLabel;
 @property (strong, nonatomic) UILabel *rightLabel;
+@property UIBezierPath *leftLine;
+@property UIBezierPath *rightLine;
+@property UIColor *brushPattern;
+@property UIBezierPath *path;
 @end
 
 
@@ -40,13 +44,16 @@
 @synthesize rightLabel = _rightLabel;
 @synthesize leftLabel = _leftLabel;
 @synthesize tapRec = _tapRec;
+@synthesize rightLine = _rightLine;
+@synthesize leftLine = _leftLine;
+@synthesize canvasForLines = _canvasForLines;
+@synthesize lineView = _lineView;
 
 NSInteger yDist = 50;
 
 -(AnalyzeViewController *) init{
     _captureRecords = [[NSMutableDictionary alloc] init];
     _tableData = [[NSMutableArray alloc] init];
-    
     return self;
 }
 
@@ -64,7 +71,6 @@ NSInteger yDist = 50;
     _totals = [[NSMutableArray alloc] init];
     
     _timeSlider = [[REDRangeSlider alloc] initWithFrame: CGRectMake(105, 650, 814, 20)];
-    [self.view addSubview:_timeSlider];
     [_timeSlider addTarget:self action:@selector(rangeSliderValueChanged:) forControlEvents:UIControlEventValueChanged];
     _timeSlider.maxValue = [_end timeIntervalSinceDate:_begin ];
     _timeSlider.minValue = 0;
@@ -98,6 +104,17 @@ NSInteger yDist = 50;
     _rightLabel.text = [formattedDate stringFromDate:_end];
     [self.view addSubview:_rightLabel];
     
+    _lineView = [[LineDrawingView alloc] initWithFrame:CGRectMake(0,0, 1024, 768)];
+    
+    _lineView.backgroundColor = [UIColor clearColor];
+    NSLog(@"%@", [self.view subviews]);
+    [self.view addSubview:_timeSlider];
+    [self.view insertSubview:_lineView belowSubview:_timeSlider];
+ 
+    [self.timeLineContainer setScrollEnabled:YES];
+    self.timeLineContainer.showsVerticalScrollIndicator = YES;
+    
+    
 	// Do any additional setup after loading the view, typically from a nib.
 }
 
@@ -126,7 +143,7 @@ NSInteger yDist = 50;
     
     
     //NSInteger yDist = (CGRectGetHeight([self.view frame]) - 300)/([_tableData count] + 1);
-
+    self.timeLineContainer.contentSize = CGSizeMake(900, yDist* ([_tableData count] + 4));
     int totals[[_tableData count] +1];
     for (int i = 0; i < [_tableData count] + 1 ; i++){
         totals[i] = 0;
@@ -146,8 +163,10 @@ NSInteger yDist = 50;
         [_labels addObject:label];
     }
     [self drawCirclesWithBegin:_begin withEndTime:_end andWithTotals:totals];
+    NSLog(@"%@", NSStringFromCGSize(self.timeLineContainer.contentSize));
 
-    
+
+    NSLog(@"%@", self.timeLineContainer.gestureRecognizers);
 }
 
 - (void)printData {
@@ -174,6 +193,7 @@ NSInteger yDist = 50;
 - (void)rangeSliderValueChanged:(id)sender {
     
     [self updateSliderLabels];
+    [self updateLines];
 }
 
 - (void)updateSliderLabels {
@@ -196,11 +216,11 @@ NSInteger yDist = 50;
 }
 
 - (void) drawCirclesWithBegin : (NSDate *) beginTime withEndTime: (NSDate *) endTime andWithTotals: (int[]) totals {
-    NSLog(@"%@", _dataPoints);
+    //NSLog(@"%@", _dataPoints);
     for( NSString *view in _dataPoints){
         [[_dataPoints objectForKey:view ] removeFromSuperview];
     }
-    NSLog(@"\n\n");
+    //NSLog(@"\n\n");
     [_dataPoints removeAllObjects];
     
     for(NSString* record in _captureRecords){
@@ -231,7 +251,7 @@ NSInteger yDist = 50;
                         if(CGRectContainsPoint(frame, circle.center)){
                             [self.timeLineContainer addSubview: circle];
                             NSString *recordNewName = [[NSString alloc] initWithFormat:@"%@%@%@", record, [[tag uiTag] text], NSStringFromCGPoint([[tag uiTag] center])];
-                            NSLog(@"%@", recordNewName);
+                            //NSLog(@"%@", recordNewName);
                             [_dataPoints setValue:circle forKey: recordNewName];
                             totals[i]++;
                         }
@@ -284,6 +304,19 @@ NSInteger yDist = 50;
         }
     }
     
+}
+
+- (void) updateLines{
+    int multiplier = 5;
+    if(self.tableData.count < 6) multiplier = self.tableData.count;
+    NSDate *leftTime = [[NSDate alloc] initWithTimeInterval:self.timeSlider.leftValue sinceDate:self.begin];
+    int left = [self mapTimeToDisplay: leftTime withBeginTime:self.begin withEndTime:self.end beginX:105 width:814];
+    NSDate *rightTime = [[NSDate alloc] initWithTimeInterval:self.timeSlider.rightValue sinceDate:self.begin];
+    int right = [self mapTimeToDisplay: rightTime withBeginTime:self.begin withEndTime:self.end beginX:105 width:814];
+    [self.lineView clearScreen];
+    self.leftLine =[self.lineView drawLeftLineFromPoint:CGPointMake(left+5, 650) toPoint:CGPointMake(105, multiplier * yDist+300) ];
+    self.rightLine =[self.lineView drawRightLineFromPoint:CGPointMake(right-5, 650) toPoint:CGPointMake(920, multiplier * yDist+300)];
+    //self.leftLine = [self.lineView drawBothLinesFromPoint:CGPointMake(left, 650) toPoint:CGPointMake(105, self.tableData.count * yDist + 300) andPoint2:CGPointMake(right, 650) toPoint:CGPointMake(919, self.tableData.count *yDist + 300)];
 }
 
 @end

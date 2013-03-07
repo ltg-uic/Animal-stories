@@ -38,6 +38,7 @@
 		1263B36816E69BF6008680C8 /* highlight.png in Resources */ = {isa = PBXBuildFile; fileRef = 1263B36716E69BF6008680C8 /* highlight.png */; };
 		1263B36B16E7AF91008680C8 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1263B36A16E7AF91008680C8 /* LoginViewController.m */; };
 		1263B36E16E7C6E4008680C8 /* TabController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1263B36D16E7C6E4008680C8 /* TabController.m */; };
+		1263B3A216E816D0008680C8 /* LineDrawingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1263B3A116E816D0008680C8 /* LineDrawingView.m */; };
 		127FED9D16A73B6000801699 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 127FED9C16A73B6000801699 /* UIKit.framework */; };
 		127FED9F16A73B6000801699 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 127FED9E16A73B6000801699 /* Foundation.framework */; };
 		127FEDA116A73B6000801699 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 127FEDA016A73B6000801699 /* CoreGraphics.framework */; settings = {ATTRIBUTES = (Required, ); }; };
@@ -119,6 +120,8 @@
 		1263B36A16E7AF91008680C8 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		1263B36C16E7C6E4008680C8 /* TabController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TabController.h; sourceTree = "<group>"; };
 		1263B36D16E7C6E4008680C8 /* TabController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TabController.m; sourceTree = "<group>"; };
+		1263B3A016E816CF008680C8 /* LineDrawingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LineDrawingView.h; sourceTree = "<group>"; };
+		1263B3A116E816D0008680C8 /* LineDrawingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LineDrawingView.m; sourceTree = "<group>"; };
 		127FED9816A73B6000801699 /* as_test.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = as_test.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		127FED9C16A73B6000801699 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		127FED9E16A73B6000801699 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -226,6 +229,8 @@
 				127FEDAB16A73B6000801699 /* AppDelegate.h */,
 				127FEDAC16A73B6000801699 /* AppDelegate.m */,
 				12336A6716B871EB004DCF43 /* MainStoryboard.storyboard */,
+				1263B3A016E816CF008680C8 /* LineDrawingView.h */,
+				1263B3A116E816D0008680C8 /* LineDrawingView.m */,
 				1263B36916E7AF91008680C8 /* LoginViewController.h */,
 				1263B36A16E7AF91008680C8 /* LoginViewController.m */,
 				1263B36C16E7C6E4008680C8 /* TabController.h */,
@@ -474,6 +479,7 @@
 				12D5BCE516DE8BB00067936A /* REDRangeSlider.m in Sources */,
 				1263B36B16E7AF91008680C8 /* LoginViewController.m in Sources */,
 				1263B36E16E7C6E4008680C8 /* TabController.m in Sources */,
+				1263B3A216E816D0008680C8 /* LineDrawingView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
