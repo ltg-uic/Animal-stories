@@ -56,7 +56,7 @@ NSMutableString *currentCaptureRecord;
     currentCaptureRecord = [[NSMutableString alloc] initWithString:@"0 "];
     //_scientist = @"TheSquirrelKids";
     NSLog(@"%@", self.scientist);
-    server = [NSURL URLWithString: @"http://animal-stories.danceforscience.com/"];
+    server = [NSURL URLWithString: @"131.193.79.113/~evl/"];
     NSString* GMTOffset = @"-0600";
     //instantiates the labelTable
     _labelTable = [[UITableView alloc] initWithFrame:CGRectMake(10, 59, 320, 460) style: UITableViewStylePlain];
