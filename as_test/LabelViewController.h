@@ -20,6 +20,7 @@
     IBOutlet UIButton *leftArrowButton;
 }
 
+@property (strong, nonatomic) IBOutlet UILabel *totalNumberOfRecords;
 @property (strong, nonatomic) AnalyzeViewController *av;
 @property (strong, nonatomic) IBOutlet UIButton *editModeButton;
 @property (strong, nonatomic) UITableView* labelTable;
