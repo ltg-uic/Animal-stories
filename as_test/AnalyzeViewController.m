@@ -298,7 +298,7 @@ NSInteger yDist = 50;
             NSRange range = [circleRecord rangeOfString:@" "];
             circleRecordModified = [circleRecord substringToIndex:range.location + 1];
             self.currentImage.animationImages = [[self.captureRecords objectForKey:circleRecordModified] pathNames];
-            self.currentImage.animationDuration = 6;
+            self.currentImage.animationDuration = 1;
             [self.currentImage startAnimating];
             
         }
