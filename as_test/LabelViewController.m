@@ -57,12 +57,13 @@ NSIndexPath *path;
     currentCaptureRecord = [[NSMutableString alloc] initWithString:@"0 "];
     //_scientist = @"TheSquirrelKids";
     NSLog(@"%@", self.scientist);
-    server = [NSURL URLWithString: @"131.193.79.113/~evl/"];
+    server = [NSURL URLWithString: @"http://131.193.79.113/~evl/"];
     NSString* GMTOffset = @"-0600";
     //instantiates the labelTable
     _labelTable = [[UITableView alloc] initWithFrame:CGRectMake(10, 59, 320, 460) style: UITableViewStylePlain];
     NSString *fileListURL = [[NSString alloc] initWithFormat:@"filelistplusdata.php?scientist=%@", _scientist ];
     NSString *captureData = [NSString stringWithContentsOfURL:[NSURL URLWithString: fileListURL relativeToURL:server] encoding:NSUTF8StringEncoding error: nil];
+    //NSLog(@"%@", captureData);
     captureData = [captureData stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]];
     NSArray *captureDataArray = [captureData componentsSeparatedByString: @"\n"];
     _captureRecords = [[NSMutableDictionary alloc] init];
@@ -72,6 +73,7 @@ NSIndexPath *path;
     [formattedDate setDateFormat:@"yyyy-MM-dd HH:mm:ss Z"];
     NSDate *begin = [NSDate distantFuture];
     NSDate *end = [NSDate distantPast];
+    self.totalNumberOfRecords.text = [[NSString alloc] initWithFormat: @"%d records", captureDataArray.count];
     for( int i = 0; i < captureDataArray.count; i++){
         NSString *recordText = [ [captureDataArray objectAtIndex:i ] stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]];
         NSArray *record = [recordText componentsSeparatedByString: @"\t"];
@@ -152,6 +154,7 @@ NSIndexPath *path;
     //NSLog(@"Key: %@, %@", currentCaptureRecord,[_captureRecords objectForKey:currentCaptureRecord]);
     //NSLog(@"%@", self.currentImage.image);
     
+    _totalNumberOfRecords.text = [[NSString alloc] initWithFormat: @"%d", [_captureRecords count]];
     _addLabelText.borderStyle = UITextBorderStyleRoundedRect;
     _addLabelText.alpha = 0.0;
     
@@ -190,8 +193,9 @@ NSIndexPath *path;
             UILabel *duplicate = [[UILabel alloc] initWithFrame:(CGRectMake(gestureBegan.x, gestureBegan.y, 100, 30))];
             duplicate.text = [_tableData objectAtIndex: test.row];
             duplicate.textColor =  [UIColor whiteColor];
-            duplicate.backgroundColor = [UIColor clearColor];
-            duplicate.shadowColor =[UIColor blackColor];
+            duplicate.textAlignment = NSTextAlignmentCenter;
+            duplicate.backgroundColor = [[UIColor alloc] initWithWhite:0.3 alpha:0.5];
+            //duplicate.shadowColor =[UIColor blackColor];
             _activeTag = [[Tag alloc] initWithUIlabel:duplicate andID: [[_captureRecords objectForKey:currentCaptureRecord] imgSet]];
             
             //[_labelsAddedToImage addObject: duplicate];
@@ -423,13 +427,14 @@ NSIndexPath *path;
     // the user clicked one of the OK/Cancel buttons
     if (buttonIndex == actionSheet.firstOtherButtonIndex)
     {
-        NSString *tag = [_tableData objectAtIndex:path.row];
-        NSString *stringText = [NSString stringWithFormat:@"deleteTag.php?scientist=%@&tag=%@", _scientist, tag];
+        NSString *tagName = [_tableData objectAtIndex:path.row];
+        NSLog(@"%@", tagName);
+        NSString *stringText = [NSString stringWithFormat:@"deleteTag.php?scientist=%@&tag=%@", _scientist, tagName];
         NSString *addLabelData = [NSString stringWithContentsOfURL:[NSURL URLWithString: stringText relativeToURL:server] encoding:NSUTF8StringEncoding error:nil];
         NSLog(@"%@", addLabelData);
         //removes the tags from all records
         for(CaptureRecord * record in _captureRecords){
-            [record removeTags: tag];
+            [record removeTags: tagName];
         }
         [_tableData removeObjectAtIndex:path.row];
         [_labelTable deleteRowsAtIndexPaths:[NSArray arrayWithObject:path] withRowAnimation:UITableViewRowAnimationFade];

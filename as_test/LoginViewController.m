@@ -36,16 +36,19 @@
     NSLog(@"%@, %@", _loginField.text, _passwordField.text);
     NSString *myRequestString = [[NSString alloc] initWithFormat:@"userid=%@&password=%@", _loginField.text, _passwordField.text ];
     NSData *myRequestData = [ NSData dataWithBytes: [ myRequestString UTF8String ] length: [ myRequestString length ] ];
-    NSMutableURLRequest *request = [ [ NSMutableURLRequest alloc ] initWithURL: [ NSURL URLWithString: @"131.193.79.113/~evl/validate2.php" ] ];
+    NSMutableURLRequest *request = [ [ NSMutableURLRequest alloc ] initWithURL: [ NSURL URLWithString: @"http://131.193.79.113/~evl/validate2.php" ] ];
     [ request setHTTPMethod: @"POST" ];
     [ request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"content-type"];
     [ request setHTTPBody: myRequestData ];
+    NSLog(@"%@", request);
     NSURLResponse *response;
     NSError *err;
     NSData *returnData = [ NSURLConnection sendSynchronousRequest: request returningResponse:&response error:&err];
-    NSString *content = [NSString stringWithUTF8String:[returnData bytes]];
+    NSLog(@"error: %@", err);
+    NSString *content;
+    if( [returnData bytes]) content = [NSString stringWithUTF8String:[returnData bytes]];
     NSLog(@"responseData: %@", content);
-    if ([content isEqual: @"no such user"] || !content){
+    if ([content isEqual: @"no such user"] || !content || [content hasPrefix:@"Access denied"]){
         [self alertStatus:@"Login Failed. Please try again" :@"Login Failed"];
         _passwordField.text = @"";
     } else {

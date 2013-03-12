@@ -64,7 +64,6 @@ SDWebImageDownloader *downloader;
 - (void) removeTags: (NSString *) tagName{
     for (Tag * tag in _tagData){
         if ([tag.uiTag.text isEqualToString:tagName]){
-            [tag removeLabelFromView];
             [_tagData removeObject: tag];
         }
     }

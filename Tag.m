@@ -24,7 +24,8 @@
     _uiTag = [[UILabel alloc] initWithFrame:_labelFrame];
     _uiTag.text = _labelText;
     _uiTag.textColor = [UIColor whiteColor];
-    _uiTag.backgroundColor = [UIColor clearColor];
+    _uiTag.backgroundColor = [[UIColor alloc] initWithWhite:0.3 alpha:0.5];
+    _uiTag.textAlignment = NSTextAlignmentCenter;
     [_uiTag setAlpha:1.0];
     _uiTag.shadowColor =[UIColor blackColor];
     
