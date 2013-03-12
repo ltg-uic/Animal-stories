@@ -129,6 +129,13 @@
                                 <nil key="highlightedColor"/>
                                 <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="9iW-oa-tvU">
+                                <rect key="frame" x="942" y="21" width="42" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                         <gestureRecognizers/>
@@ -147,6 +154,7 @@
                         <outlet property="rightArrowButton" destination="t2p-dF-gj0" id="MEo-w9-jdW"/>
                         <outlet property="swipeRecognizer" destination="WhJ-4L-Bio" id="Dl8-fy-2b9"/>
                         <outlet property="swipeRecognizer2" destination="E1M-uQ-asd" id="Iz7-zy-TNN"/>
+                        <outlet property="totalNumberOfRecords" destination="9iW-oa-tvU" id="p7L-nS-4YC"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="10" sceneMemberID="firstResponder"/>
@@ -327,6 +335,52 @@
         <image name="label_color.png" width="60" height="60"/>
         <image name="trash.png" width="128" height="128"/>
     </resources>
+    <classes>
+        <class className="AnalyzeViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/AnalyzeViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="tapAction:" candidateClass="UITapGestureRecognizer"/>
+                <relationship kind="outlet" name="canvasForLines" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="currentImage" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="lineView" candidateClass="LineDrawingView"/>
+                <relationship kind="outlet" name="tapRec" candidateClass="UITapGestureRecognizer"/>
+                <relationship kind="outlet" name="timeLineContainer" candidateClass="UIScrollView"/>
+            </relationships>
+        </class>
+        <class className="LabelViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/LabelViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="arrowPressed:" candidateClass="UIButton"/>
+                <relationship kind="action" name="handleDrag:" candidateClass="UIPanGestureRecognizer"/>
+                <relationship kind="action" name="handleSwipeRecognizer:" candidateClass="UISwipeGestureRecognizer"/>
+                <relationship kind="outlet" name="addLabelText" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="currentImage" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="dragGesture" candidateClass="UIPanGestureRecognizer"/>
+                <relationship kind="outlet" name="dragGesture2" candidateClass="UIPanGestureRecognizer"/>
+                <relationship kind="outlet" name="editModeButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="leftArrowButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="notesBox" candidateClass="UITextView"/>
+                <relationship kind="outlet" name="rightArrowButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="swipeRecognizer" candidateClass="UISwipeGestureRecognizer"/>
+                <relationship kind="outlet" name="swipeRecognizer2" candidateClass="UISwipeGestureRecognizer"/>
+                <relationship kind="outlet" name="totalNumberOfRecords" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="LineDrawingView" superclassName="UIView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/LineDrawingView.h"/>
+        </class>
+        <class className="LoginViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/LoginViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="loginButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="loginField" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="passwordField" candidateClass="UITextField"/>
+            </relationships>
+        </class>
+        <class className="TabController" superclassName="UITabBarController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/TabController.h"/>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar" statusBarStyle="blackTranslucent"/>
         <simulatedOrientationMetrics key="orientation"/>
