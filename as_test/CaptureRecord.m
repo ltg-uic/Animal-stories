@@ -61,6 +61,15 @@ SDWebImageDownloader *downloader;
     [_tagData removeObject: deletedTag];
 }
 
+- (void) removeTags: (NSString *) tagName{
+    for (Tag * tag in _tagData){
+        if ([tag.uiTag.text isEqualToString:tagName]){
+            [tag removeLabelFromView];
+            [_tagData removeObject: tag];
+        }
+    }
+}
+
 - (void) addPathName: (NSString *) pathName{
     pathName = [pathName stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]];
     //    UIImage *nextImage = [[UIImage alloc] initWithData: [NSData dataWithContentsOfURL:[NSURL URLWithString:pathName]]];

@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "AnalyzeViewController.h"
 
-@interface LabelViewController : UIViewController <UITextFieldDelegate>
+@interface LabelViewController : UIViewController <UITextFieldDelegate, UIAlertViewDelegate>
 {
     UITableView* labelTable;
     NSMutableArray* tableData;

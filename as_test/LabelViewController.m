@@ -49,6 +49,7 @@
 
 NSURL *server;
 NSMutableString *currentCaptureRecord;
+NSIndexPath *path;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -401,15 +402,43 @@ NSMutableString *currentCaptureRecord;
     // If row is deleted, remove it from the list.
     if (_labelTable.editing){
         if (editingStyle == UITableViewCellEditingStyleDelete) {
-            NSString *tag = [_tableData objectAtIndex:indexPath.row];
-            NSString *stringText = [NSString stringWithFormat:@"deleteTag.php?scientist=%@&tag=%@", _scientist, tag];
-            NSString *addLabelData = [NSString stringWithContentsOfURL:[NSURL URLWithString: stringText relativeToURL:server] encoding:NSUTF8StringEncoding error:nil];
-            NSLog(@"%@", addLabelData);
-
-            [_tableData removeObjectAtIndex:indexPath.row];
-            [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+            path = indexPath;
+            [self alertStatus: @"Are you sure you want to delete this tag? Doing so will remove this tag from all the images that have this tag." : @"Delete a tag"];
         }
     } 
+}
+
+- (void) alertStatus:(NSString *)msg :(NSString *)title
+{
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title
+                                                        message:msg
+                                                       delegate:self
+                                              cancelButtonTitle:@"Cancel"
+                                              otherButtonTitles:@"OK", nil];
+    
+    [alertView show];
+}
+
+- (void)alertView:(UIAlertView *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    // the user clicked one of the OK/Cancel buttons
+    if (buttonIndex == actionSheet.firstOtherButtonIndex)
+    {
+        NSString *tag = [_tableData objectAtIndex:path.row];
+        NSString *stringText = [NSString stringWithFormat:@"deleteTag.php?scientist=%@&tag=%@", _scientist, tag];
+        NSString *addLabelData = [NSString stringWithContentsOfURL:[NSURL URLWithString: stringText relativeToURL:server] encoding:NSUTF8StringEncoding error:nil];
+        NSLog(@"%@", addLabelData);
+        //removes the tags from all records
+        for(CaptureRecord * record in _captureRecords){
+            [record removeTags: tag];
+        }
+        [_tableData removeObjectAtIndex:path.row];
+        [_labelTable deleteRowsAtIndexPaths:[NSArray arrayWithObject:path] withRowAnimation:UITableViewRowAnimationFade];
+    }
+    else
+    {
+        //Does not actually remove the tag
+        NSLog(@"cancel");
+    }
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
