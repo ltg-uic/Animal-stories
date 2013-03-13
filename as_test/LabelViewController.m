@@ -25,7 +25,8 @@
 @property (strong, nonatomic) NSMutableData *tagListData;
 @property (strong, nonatomic) Tag *activeTag;
 @property (strong, nonatomic) NSMutableArray *circleList;
-
+@property UIAlertView *delete;
+@property UIAlertView *edit;
 
 @end
 
@@ -57,7 +58,7 @@ NSIndexPath *path;
     currentCaptureRecord = [[NSMutableString alloc] initWithString:@"0 "];
     //_scientist = @"TheSquirrelKids";
     NSLog(@"%@", self.scientist);
-    server = [NSURL URLWithString: @"http://131.193.79.113/~evl/"];
+    server = [NSURL URLWithString: @"http://131.193.79.113/~evl/as/"];
     NSString* GMTOffset = @"-0600";
     //instantiates the labelTable
     _labelTable = [[UITableView alloc] initWithFrame:CGRectMake(10, 59, 320, 460) style: UITableViewStylePlain];
@@ -340,16 +341,20 @@ NSIndexPath *path;
 
 - (IBAction)arrowPressed:(UIButton *)sender {
     NSInteger currentRecordNum = [currentCaptureRecord intValue];
-    if(sender == _rightArrowButton){
-        currentRecordNum++;
-        if(currentRecordNum == _captureRecords.count) currentRecordNum = 1;
-    } else if(sender == _leftArrowButton){
-        currentRecordNum--;
-        if(currentRecordNum < 1) currentRecordNum = _captureRecords.count-1;
-    }
+
     [[_captureRecords objectForKey:currentCaptureRecord] removeTagsFromView];
     [[_captureRecords objectForKey:currentCaptureRecord] updateDB:server];
-    currentCaptureRecord = [NSString stringWithFormat:@"%d ", currentRecordNum];
+    
+    do {
+        if(sender == _rightArrowButton){
+            currentRecordNum++;
+            if(currentRecordNum == _captureRecords.count) currentRecordNum = 1;
+        } else if(sender == _leftArrowButton){
+            currentRecordNum--;
+            if(currentRecordNum < 1) currentRecordNum = _captureRecords.count-1;
+        }
+        currentCaptureRecord = [NSString stringWithFormat:@"%d ", currentRecordNum];
+    } while (![_captureRecords objectForKey: currentCaptureRecord]);
     //NSLog(@"%@", currentCaptureRecord);
     self.currentImage.animationImages = [[_captureRecords objectForKey: currentCaptureRecord] pathNames];
     self.currentImage.animationDuration = 1;
@@ -407,42 +412,79 @@ NSIndexPath *path;
     if (_labelTable.editing){
         if (editingStyle == UITableViewCellEditingStyleDelete) {
             path = indexPath;
-            [self alertStatus: @"Are you sure you want to delete this tag? Doing so will remove this tag from all the images that have this tag." : @"Delete a tag"];
+            [self alertStatusDelete: @"Are you sure you want to delete this tag? Doing so will remove this tag from all the images that have this tag." : @"Delete a tag"];
         }
     } 
 }
 
-- (void) alertStatus:(NSString *)msg :(NSString *)title
+- (void) tableView: (UITableView *) tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    NSLog(@"selected row");
+    if(!_labelTable.editing){
+        path = indexPath;
+        [self alertStatusEdit:@"Change the name of your label" : @"Edit Label"];
+    }
+    
+}
+
+
+- (void) alertStatusDelete:(NSString *)msg :(NSString *)title
 {
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title
+    self.delete = [[UIAlertView alloc] initWithTitle:title
                                                         message:msg
                                                        delegate:self
                                               cancelButtonTitle:@"Cancel"
                                               otherButtonTitles:@"OK", nil];
     
-    [alertView show];
+    [self.delete show];
+}
+
+- (void) alertStatusEdit:(NSString *)msg :(NSString *)title
+{
+    self.edit = [[UIAlertView alloc] initWithTitle: title message:msg delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK", nil];
+   self.edit.alertViewStyle = UIAlertViewStylePlainTextInput;
+    UITextField * alertTextField = [self.edit textFieldAtIndex:0];
+    alertTextField.keyboardType = UIKeyboardTypeNumberPad;
+    alertTextField.placeholder = [_tableData objectAtIndex:path.row];
+    [self.edit show];
 }
 
 - (void)alertView:(UIAlertView *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
     // the user clicked one of the OK/Cancel buttons
-    if (buttonIndex == actionSheet.firstOtherButtonIndex)
-    {
-        NSString *tagName = [_tableData objectAtIndex:path.row];
-        NSLog(@"%@", tagName);
-        NSString *stringText = [NSString stringWithFormat:@"deleteTag.php?scientist=%@&tag=%@", _scientist, tagName];
-        NSString *addLabelData = [NSString stringWithContentsOfURL:[NSURL URLWithString: stringText relativeToURL:server] encoding:NSUTF8StringEncoding error:nil];
-        NSLog(@"%@", addLabelData);
-        //removes the tags from all records
-        for(CaptureRecord * record in _captureRecords){
-            [record removeTags: tagName];
+    if (actionSheet == self.delete){
+        if (buttonIndex == actionSheet.firstOtherButtonIndex)
+        {
+            NSString *tagName = [_tableData objectAtIndex:path.row];
+            NSLog(@"%@", tagName);
+            NSString *stringText = [NSString stringWithFormat:@"deleteTag.php?scientist=%@&tag=%@", _scientist, tagName];
+            NSString *addLabelData = [NSString stringWithContentsOfURL:[NSURL URLWithString: stringText relativeToURL:server] encoding:NSUTF8StringEncoding error:nil];
+            NSLog(@"%@", addLabelData);
+            //removes the tags from all records
+            for(CaptureRecord * record in _captureRecords){
+                [record removeTags: tagName];
+            }
+            [_tableData removeObjectAtIndex:path.row];
+            [_labelTable deleteRowsAtIndexPaths:[NSArray arrayWithObject:path] withRowAnimation:UITableViewRowAnimationFade];
         }
-        [_tableData removeObjectAtIndex:path.row];
-        [_labelTable deleteRowsAtIndexPaths:[NSArray arrayWithObject:path] withRowAnimation:UITableViewRowAnimationFade];
-    }
-    else
-    {
-        //Does not actually remove the tag
-        NSLog(@"cancel");
+        else
+        {
+            //Does not actually remove the tag
+            NSLog(@"cancel");
+        }
+    } else {
+        
+        if (buttonIndex == actionSheet.firstOtherButtonIndex){
+            NSString *oldTagName = [_tableData objectAtIndex:path.row];
+            NSString *newTagName = [[self.edit textFieldAtIndex:0] text];
+            NSLog(@"%@, %@", oldTagName, newTagName);
+            for(CaptureRecord *record in _captureRecords){
+                [[_captureRecords objectForKey:record] renameTag:oldTagName withTag: newTagName];
+            }
+            [_tableData replaceObjectAtIndex:path.row withObject: newTagName];
+            [_labelTable reloadData];
+            
+        } else {
+            NSLog(@"cancel");
+        }
     }
 }
 

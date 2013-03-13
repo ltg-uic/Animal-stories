@@ -57,6 +57,14 @@ SDWebImageDownloader *downloader;
     return newTag;
 }
 
+- (void) renameTag: (NSString *) oldTagName withTag: (NSString *) newTagName{
+    for (Tag * tag in _tagData){
+        if ([tag.uiTag.text isEqualToString:oldTagName]){
+            tag.uiTag.text = newTagName;
+        }
+    }
+}
+
 -(void) removeTag: (Tag *) deletedTag{
     [_tagData removeObject: deletedTag];
 }
