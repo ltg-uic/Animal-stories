@@ -179,18 +179,13 @@
                             <view contentMode="scaleToFill" id="G7h-Al-oBz" customClass="LineDrawingView">
                                 <rect key="frame" x="0.0" y="0.0" width="1024" height="719"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <subviews>
-                                    <scrollView autoresizesSubviews="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" showsHorizontalScrollIndicator="NO" bouncesZoom="NO" id="5Jn-Rw-PdW">
-                                        <rect key="frame" x="13" y="280" width="999" height="297"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                        <gestureRecognizers/>
-                                        <connections>
-                                            <outletCollection property="gestureRecognizers" destination="u6X-IJ-mXR" appends="YES" id="R0y-l5-bqP"/>
-                                        </connections>
-                                    </scrollView>
-                                </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
+                            <scrollView autoresizesSubviews="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" showsHorizontalScrollIndicator="NO" bouncesZoom="NO" id="5Jn-Rw-PdW">
+                                <rect key="frame" x="12" y="290" width="999" height="297"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <gestureRecognizers/>
+                            </scrollView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="Default-568h@2x.png" id="aqR-q9-siJ">
                                 <rect key="frame" x="341" y="12" width="342" height="249"/>
                             </imageView>
@@ -206,18 +201,19 @@
                         <outlet property="canvasForLines" destination="XCh-ok-T7e" id="Eiz-kQ-5SD"/>
                         <outlet property="currentImage" destination="aqR-q9-siJ" id="gKd-7H-sC8"/>
                         <outlet property="lineView" destination="G7h-Al-oBz" id="kVG-Kt-u1i"/>
-                        <outlet property="tapRec" destination="u6X-IJ-mXR" id="Acf-WM-PS7"/>
-                        <outlet property="timeLineContainer" destination="5Jn-Rw-PdW" id="0yw-Ok-nxX"/>
+                        <outlet property="tap" destination="St2-py-CZI" id="zLv-zv-yFA"/>
+                        <outlet property="timeLineContainer" destination="5Jn-Rw-PdW" id="FBQ-1j-YKx"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="12" sceneMemberID="firstResponder"/>
-                <tapGestureRecognizer id="u6X-IJ-mXR">
+                <tapGestureRecognizer id="St2-py-CZI">
                     <connections>
-                        <action selector="tapAction:" destination="3" id="7jY-f3-xgS"/>
+                        <action selector="tapAction:" destination="3" id="G3N-WY-Hgw"/>
+                        <outlet property="delegate" destination="5Jn-Rw-PdW" id="e2J-Xt-7Kv"/>
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="3032" y="618"/>
+            <point key="canvasLocation" x="3040" y="582"/>
         </scene>
         <!--Login View Controller-->
         <scene sceneID="odN-4u-GV4">
@@ -335,52 +331,6 @@
         <image name="label_color.png" width="60" height="60"/>
         <image name="trash.png" width="128" height="128"/>
     </resources>
-    <classes>
-        <class className="AnalyzeViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/AnalyzeViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="tapAction:" candidateClass="UITapGestureRecognizer"/>
-                <relationship kind="outlet" name="canvasForLines" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="currentImage" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="lineView" candidateClass="LineDrawingView"/>
-                <relationship kind="outlet" name="tapRec" candidateClass="UITapGestureRecognizer"/>
-                <relationship kind="outlet" name="timeLineContainer" candidateClass="UIScrollView"/>
-            </relationships>
-        </class>
-        <class className="LabelViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/LabelViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="arrowPressed:" candidateClass="UIButton"/>
-                <relationship kind="action" name="handleDrag:" candidateClass="UIPanGestureRecognizer"/>
-                <relationship kind="action" name="handleSwipeRecognizer:" candidateClass="UISwipeGestureRecognizer"/>
-                <relationship kind="outlet" name="addLabelText" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="currentImage" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="dragGesture" candidateClass="UIPanGestureRecognizer"/>
-                <relationship kind="outlet" name="dragGesture2" candidateClass="UIPanGestureRecognizer"/>
-                <relationship kind="outlet" name="editModeButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="leftArrowButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="notesBox" candidateClass="UITextView"/>
-                <relationship kind="outlet" name="rightArrowButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="swipeRecognizer" candidateClass="UISwipeGestureRecognizer"/>
-                <relationship kind="outlet" name="swipeRecognizer2" candidateClass="UISwipeGestureRecognizer"/>
-                <relationship kind="outlet" name="totalNumberOfRecords" candidateClass="UILabel"/>
-            </relationships>
-        </class>
-        <class className="LineDrawingView" superclassName="UIView">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/LineDrawingView.h"/>
-        </class>
-        <class className="LoginViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/LoginViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="loginButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="loginField" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="passwordField" candidateClass="UITextField"/>
-            </relationships>
-        </class>
-        <class className="TabController" superclassName="UITabBarController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/TabController.h"/>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar" statusBarStyle="blackTranslucent"/>
         <simulatedOrientationMetrics key="orientation"/>

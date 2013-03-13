@@ -30,7 +30,7 @@
 
 - (UIBezierPath *)drawLeftLineFromPoint:(CGPoint)fromPoint toPoint:(CGPoint)toPoint
 {
-    NSLog(@"%@, %@", NSStringFromCGPoint(fromPoint), NSStringFromCGPoint(toPoint));
+    //NSLog(@"%@, %@", NSStringFromCGPoint(fromPoint), NSStringFromCGPoint(toPoint));
     [self.path moveToPoint:fromPoint];
     [self.path addLineToPoint:toPoint];
     [self setNeedsDisplay];
@@ -40,7 +40,7 @@
 }
 - (UIBezierPath *)drawRightLineFromPoint:(CGPoint)fromPoint toPoint:(CGPoint)toPoint
 {
-    NSLog(@"%@, %@", NSStringFromCGPoint(fromPoint), NSStringFromCGPoint(toPoint));
+    //NSLog(@"%@, %@", NSStringFromCGPoint(fromPoint), NSStringFromCGPoint(toPoint));
     [self.path2 moveToPoint:fromPoint];
     [self.path2 addLineToPoint:toPoint];
     [self setNeedsDisplay];

@@ -112,7 +112,8 @@ NSIndexPath *path;
     //instantiates labels
     _labelsAddedToImage = [[NSMutableArray alloc] init];
     
-    NSString *tagPositions = [NSString stringWithContentsOfURL: [NSURL URLWithString: @"getalltags.php" relativeToURL: server] encoding:NSUTF8StringEncoding error:nil];
+    NSString *tagPosURL = [[NSString alloc] initWithFormat:@"getalltags.php?scientist=%@", self.scientist];
+    NSString *tagPositions = [NSString stringWithContentsOfURL: [NSURL URLWithString: tagPosURL relativeToURL: server] encoding:NSUTF8StringEncoding error:nil];
     //NSLog(@"%@", tagPositions);
     tagPositions = [tagPositions stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     NSArray *tagPos = [tagPositions componentsSeparatedByString:@"\n"];
@@ -155,6 +156,7 @@ NSIndexPath *path;
     //NSLog(@"Key: %@, %@", currentCaptureRecord,[_captureRecords objectForKey:currentCaptureRecord]);
     //NSLog(@"%@", self.currentImage.image);
     
+    self.labelTable.allowsSelectionDuringEditing = YES;
     _totalNumberOfRecords.text = [[NSString alloc] initWithFormat: @"%d", [_captureRecords count]];
     _addLabelText.borderStyle = UITextBorderStyleRoundedRect;
     _addLabelText.alpha = 0.0;
@@ -419,7 +421,7 @@ NSIndexPath *path;
 
 - (void) tableView: (UITableView *) tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     NSLog(@"selected row");
-    if(!_labelTable.editing){
+    if(_labelTable.editing){
         path = indexPath;
         [self alertStatusEdit:@"Change the name of your label" : @"Edit Label"];
     }
@@ -460,7 +462,7 @@ NSIndexPath *path;
             NSLog(@"%@", addLabelData);
             //removes the tags from all records
             for(CaptureRecord * record in _captureRecords){
-                [record removeTags: tagName];
+                [[_captureRecords objectForKey:record] removeTags: tagName];
             }
             [_tableData removeObjectAtIndex:path.row];
             [_labelTable deleteRowsAtIndexPaths:[NSArray arrayWithObject:path] withRowAnimation:UITableViewRowAnimationFade];

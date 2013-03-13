@@ -43,13 +43,13 @@
 @synthesize endLabel = _endLabel;
 @synthesize rightLabel = _rightLabel;
 @synthesize leftLabel = _leftLabel;
-@synthesize tapRec = _tapRec;
 @synthesize rightLine = _rightLine;
 @synthesize leftLine = _leftLine;
 @synthesize canvasForLines = _canvasForLines;
 @synthesize lineView = _lineView;
+@synthesize tap;
 
-NSInteger yDist = 50;
+NSInteger yDist = 30;
 
 -(AnalyzeViewController *) init{
     _captureRecords = [[NSMutableDictionary alloc] init];
@@ -107,14 +107,16 @@ NSInteger yDist = 50;
     _lineView = [[LineDrawingView alloc] initWithFrame:CGRectMake(0,0, 1024, 768)];
     
     _lineView.backgroundColor = [UIColor clearColor];
-    NSLog(@"%@", [self.view subviews]);
     [self.view addSubview:_timeSlider];
     [self.view insertSubview:_lineView belowSubview:_timeSlider];
  
     [self.timeLineContainer setScrollEnabled:YES];
     self.timeLineContainer.showsVerticalScrollIndicator = YES;
-    
-    
+    self.tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapAction:)];
+    [self.view addGestureRecognizer:self.tap];
+    self.tap.delegate = self;
+    NSLog(@"%@", self.timeLineContainer.gestureRecognizers);
+
 	// Do any additional setup after loading the view, typically from a nib.
 }
 
@@ -163,14 +165,14 @@ NSInteger yDist = 50;
         [_labels addObject:label];
     }
     [self drawCirclesWithBegin:_begin withEndTime:_end andWithTotals:totals];
-    NSLog(@"%@", NSStringFromCGSize(self.timeLineContainer.contentSize));
+    //NSLog(@"%@", NSStringFromCGSize(self.timeLineContainer.contentSize));
 
 
-    NSLog(@"%@", self.timeLineContainer.gestureRecognizers);
+
 }
 
 - (void)printData {
-    NSLog(@"%@", self.captureRecords);
+   // NSLog(@"%@", self.captureRecords);
     for (CaptureRecord *record in self.captureRecords){
         [[self.captureRecords objectForKey: record] print];
     }
@@ -289,10 +291,10 @@ NSInteger yDist = 50;
 }
 
 - (IBAction)tapAction:(UITapGestureRecognizer *) tapInstance {
-    CGPoint tapLocation = [tapInstance locationInView:tapInstance.view];
-    //NSLog(@"tapLocation: %@" , NSStringFromCGPoint(tapLocation));
+    CGPoint tapLocation = [tapInstance locationInView:self.timeLineContainer];
+    NSLog(@"tapLocation: %@" , NSStringFromCGPoint(tapLocation));
     for(NSString *circleRecord in _dataPoints){
-        //NSLog(@"containsData: %@" , NSStringFromCGRect([[_dataPoints objectForKey:circleRecord] frame]));
+        NSLog(@"containsData: %@" , NSStringFromCGRect([[_dataPoints objectForKey:circleRecord] frame]));
         if(CGRectContainsPoint([[_dataPoints objectForKey:circleRecord] frame], tapLocation)){
             NSString *circleRecordModified;
             NSRange range = [circleRecord rangeOfString:@" "];
@@ -314,8 +316,8 @@ NSInteger yDist = 50;
     NSDate *rightTime = [[NSDate alloc] initWithTimeInterval:self.timeSlider.rightValue sinceDate:self.begin];
     int right = [self mapTimeToDisplay: rightTime withBeginTime:self.begin withEndTime:self.end beginX:105 width:814];
     [self.lineView clearScreen];
-    self.leftLine =[self.lineView drawLeftLineFromPoint:CGPointMake(left+5, 650) toPoint:CGPointMake(105, multiplier * yDist+300) ];
-    self.rightLine =[self.lineView drawRightLineFromPoint:CGPointMake(right-5, 650) toPoint:CGPointMake(920, multiplier * yDist+300)];
+    self.leftLine =[self.lineView drawLeftLineFromPoint:CGPointMake(left+5, 650) toPoint:CGPointMake(105, multiplier * yDist+295) ];
+    self.rightLine =[self.lineView drawRightLineFromPoint:CGPointMake(right-5, 650) toPoint:CGPointMake(920, multiplier * yDist+295)];
     //self.leftLine = [self.lineView drawBothLinesFromPoint:CGPointMake(left, 650) toPoint:CGPointMake(105, self.tableData.count * yDist + 300) andPoint2:CGPointMake(right, 650) toPoint:CGPointMake(919, self.tableData.count *yDist + 300)];
 }
 
