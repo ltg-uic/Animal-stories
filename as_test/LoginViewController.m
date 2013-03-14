@@ -54,6 +54,7 @@
     } else {
         TabController *tc = [self.storyboard instantiateViewControllerWithIdentifier:@"TabController"];
         NSRange range = [content rangeOfString:@"\n"];
+        tc.user = _loginField.text;
         tc.scientist = [content substringToIndex:range.location];
         [self presentViewController:tc animated:YES completion:nil];
     }

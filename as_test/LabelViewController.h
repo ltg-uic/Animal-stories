@@ -32,5 +32,6 @@
 @property (strong, nonatomic) NSDate *begin;
 @property (strong, nonatomic) NSDate *end;
 @property (strong, nonatomic) NSString *scientist;
+@property (strong, nonatomic) NSString *user;
 
 @end

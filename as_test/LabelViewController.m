@@ -27,6 +27,7 @@
 @property (strong, nonatomic) NSMutableArray *circleList;
 @property UIAlertView *delete;
 @property UIAlertView *edit;
+@property NSFileHandle *file;
 
 @end
 
@@ -46,7 +47,9 @@
 @synthesize leftArrowButton = _leftArrowButton;
 @synthesize activeTag = _activeTag;
 @synthesize scientist = _scientist;
+@synthesize user = _user;
 @synthesize av = _av;
+@synthesize file = _file;
 
 NSURL *server;
 NSMutableString *currentCaptureRecord;
@@ -177,6 +180,24 @@ NSIndexPath *path;
     [self.labelTable addGestureRecognizer:_dragGesture];
     
     [self drawTimeLineCirclesWithHighlight:nil];
+    NSDate *date = [NSDate date];
+    [formattedDate setTimeStyle: nil];
+    [formattedDate setDateFormat: @"yy-MM-dd"];
+    
+    NSString *fileNameEnding = [NSString stringWithFormat:@"%@%@%@.txt", _user, _scientist, [formattedDate stringFromDate: date]];
+    NSLog(@"%@", fileNameEnding);
+    NSString *documentsDirectory = [NSSearchPathForDirectoriesInDomains (NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    NSString *fileName = [documentsDirectory stringByAppendingPathComponent:fileNameEnding];
+    
+    //create file if it doesn't exist
+    if(![[NSFileManager defaultManager] fileExistsAtPath:fileName])
+        [[NSFileManager defaultManager] createFileAtPath:fileName contents:nil attributes:nil];
+    
+    //append text to file (you'll probably want to add a newline every write)
+    NSFileHandle *file = [NSFileHandle fileHandleForUpdatingAtPath:fileName];
+    [file seekToEndOfFile];
+    [file writeData:[fileNameEnding dataUsingEncoding:NSUTF8StringEncoding]];
+    [file closeFile];
 }
 
 - (void) viewWillDisappear:(BOOL)animated{

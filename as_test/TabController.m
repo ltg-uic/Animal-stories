@@ -16,6 +16,7 @@
 @implementation TabController
 
 @synthesize scientist = _scientist;
+@synthesize user = _user;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -31,6 +32,7 @@
     [super viewDidLoad];
     LabelViewController *vc = [self.viewControllers objectAtIndex:0];
     vc.scientist = self.scientist;
+    vc.user = self.user;
 
 	// Do any additional setup after loading the view.
 }

@@ -12,4 +12,5 @@
     
 }
     @property NSString* scientist;
+    @property NSString* user;
 @end
