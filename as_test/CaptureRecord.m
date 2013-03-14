@@ -24,8 +24,9 @@ SDWebImageDownloader *downloader;
 
 -(CaptureRecord*)  initWithPathName: (NSString *) pathName identifier:(int) imgSet author:(NSString *) scientist atTime: (NSDate *) dateTime{
     pathName = [pathName stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    NSLog(@"%@", pathName);
     [SDWebImageDownloader.sharedDownloader
-     downloadImageWithURL:[NSURL URLWithString:pathName]
+     downloadImageWithURL:[NSURL URLWithString: pathName]
      options:0
      progress:^(NSUInteger receivedSize, long long expectedSize){
          // NSLog(@"Img Set: %d %d / %llu", imgSet, receivedSize, expectedSize);

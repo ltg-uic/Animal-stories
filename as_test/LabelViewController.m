@@ -82,10 +82,11 @@ NSIndexPath *path;
             //processes dateTime data
             NSString* dateTime = [[NSString alloc] initWithFormat: @"%@ %@ %@", [record objectAtIndex:5], [record objectAtIndex:6], GMTOffset] ;
             //NSLog(@"%@, %@", dateTime, [formattedDate dateFromString:dateTime ]);
+            NSString* pathName = [@"images/" stringByAppendingString:[record objectAtIndex:2]];
             NSDate* fileDate = [formattedDate dateFromString:dateTime];
             if ( [begin earlierDate: fileDate] == fileDate) begin = fileDate;
             if ( [end laterDate: fileDate] == fileDate) end = fileDate;
-            CaptureRecord *newRecord = [[ CaptureRecord alloc] initWithPathName:[[server absoluteString] stringByAppendingString:[record objectAtIndex:2] ] identifier: [[record objectAtIndex: 1] intValue]  author:[record objectAtIndex: 3] atTime: [formattedDate dateFromString:dateTime]];
+            CaptureRecord *newRecord = [[ CaptureRecord alloc] initWithPathName:[[server absoluteString] stringByAppendingString: pathName ] identifier: [[record objectAtIndex: 1] intValue]  author:[record objectAtIndex: 3] atTime: [formattedDate dateFromString:dateTime]];
             [_captureRecords setObject:newRecord forKey:[record objectAtIndex:1]];
         }else {
             [[_captureRecords objectForKey: [record objectAtIndex:1] ] addPathName: [[server absoluteString] stringByAppendingString:[record objectAtIndex:2]]];
