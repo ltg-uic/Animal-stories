@@ -22,6 +22,9 @@
                                 <rect key="frame" x="369" y="551" width="594" height="112"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences" keyboardAppearance="alert" enablesReturnKeyAutomatically="YES"/>
+                                <connections>
+                                    <outlet property="delegate" destination="2" id="IPu-Wt-KzU"/>
+                                </connections>
                             </textView>
                             <imageView contentMode="scaleToFill" id="wgk-I3-EU1">
                                 <rect key="frame" x="318" y="50" width="666" height="460"/>
@@ -236,7 +239,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" enabled="NO" adjustsFontSizeToFit="NO" id="aHb-16-HIJ">
-                                <rect key="frame" x="327" y="270" width="371" height="208"/>
+                                <rect key="frame" x="327" y="222" width="371" height="208"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.74242102581521741" green="0.74016801951736322" blue="0.3217999721184252" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -248,33 +251,33 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </imageView>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Login" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="qdj-pV-ORg">
-                                <rect key="frame" x="352" y="306" width="88" height="21"/>
+                                <rect key="frame" x="352" y="258" width="88" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Password" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="OEE-mE-inR">
-                                <rect key="frame" x="352" y="376" width="88" height="21"/>
+                                <rect key="frame" x="352" y="328" width="88" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" id="DQv-I8-k6r">
-                                <rect key="frame" x="469" y="304" width="204" height="30"/>
+                                <rect key="frame" x="469" y="256" width="204" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" id="fjl-Cu-bcJ">
-                                <rect key="frame" x="469" y="372" width="204" height="30"/>
+                                <rect key="frame" x="469" y="324" width="204" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="HYg-21-1Ho">
-                                <rect key="frame" x="608" y="423" width="65" height="44"/>
+                                <rect key="frame" x="608" y="375" width="65" height="44"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal" title="Login">
@@ -339,6 +342,54 @@
         <image name="label_color.png" width="60" height="60"/>
         <image name="trash.png" width="128" height="128"/>
     </resources>
+    <classes>
+        <class className="AnalyzeViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/AnalyzeViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="tapAction:" candidateClass="UITapGestureRecognizer"/>
+                <relationship kind="outlet" name="canvasForLines" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="currentImage" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="lineView" candidateClass="LineDrawingView"/>
+                <relationship kind="outlet" name="tap" candidateClass="UITapGestureRecognizer"/>
+                <relationship kind="outlet" name="timeLineContainer" candidateClass="UIScrollView"/>
+            </relationships>
+        </class>
+        <class className="LabelViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/LabelViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="arrowPressed:" candidateClass="UIButton"/>
+                <relationship kind="action" name="handleDrag:" candidateClass="UIPanGestureRecognizer"/>
+                <relationship kind="action" name="handleSwipeRecognizer:" candidateClass="UISwipeGestureRecognizer"/>
+                <relationship kind="outlet" name="addLabelText" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="currentImage" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="currentRecordNumber" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="dragGesture" candidateClass="UIPanGestureRecognizer"/>
+                <relationship kind="outlet" name="dragGesture2" candidateClass="UIPanGestureRecognizer"/>
+                <relationship kind="outlet" name="editModeButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="leftArrowButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="notesBox" candidateClass="UITextView"/>
+                <relationship kind="outlet" name="notesField" candidateClass="UITextView"/>
+                <relationship kind="outlet" name="rightArrowButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="swipeRecognizer" candidateClass="UISwipeGestureRecognizer"/>
+                <relationship kind="outlet" name="swipeRecognizer2" candidateClass="UISwipeGestureRecognizer"/>
+                <relationship kind="outlet" name="totalNumberOfRecords" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="LineDrawingView" superclassName="UIView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/LineDrawingView.h"/>
+        </class>
+        <class className="LoginViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/LoginViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="loginButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="loginField" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="passwordField" candidateClass="UITextField"/>
+            </relationships>
+        </class>
+        <class className="TabController" superclassName="UITabBarController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/TabController.h"/>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar" statusBarStyle="blackTranslucent"/>
         <simulatedOrientationMetrics key="orientation"/>

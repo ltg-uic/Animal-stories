@@ -93,7 +93,7 @@ NSDateFormatter* formattedDate;
             NSDate* fileDate = [formattedDate dateFromString:dateTime];
             if ( [begin earlierDate: fileDate] == fileDate) begin = fileDate;
             if ( [end laterDate: fileDate] == fileDate) end = fileDate;
-            CaptureRecord *newRecord = [[ CaptureRecord alloc] initWithPathName:[[server absoluteString] stringByAppendingString: pathName ] identifier: [[record objectAtIndex: 1] intValue]  author:[record objectAtIndex: 3] atTime: [formattedDate dateFromString:dateTime] withRecord: recordNumber];
+            CaptureRecord *newRecord = [[ CaptureRecord alloc] initWithPathName:[[server absoluteString] stringByAppendingString: pathName ] identifier: [[record objectAtIndex: 1] intValue]  author:[record objectAtIndex: 3] atTime: [formattedDate dateFromString:dateTime] withRecord: recordNumber notes: [record objectAtIndex: 7]];
             [_captureRecords setObject:newRecord forKey:[record objectAtIndex:1]];
             recordNumber++;
         }else {
@@ -300,6 +300,31 @@ NSDateFormatter* formattedDate;
 //hides keyboard when enter is clicked
 - (BOOL) textFieldShouldReturn: (UITextField *) textField{
     return [textField resignFirstResponder];
+}
+
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range
+ replacementText:(NSString *)text
+{
+    NSLog(@"text: %@", text);
+    // Any new character added is passed in as the "text" parameter
+    if ([text isEqualToString:@"\n"]) {
+        // Be sure to test for equality using the "isEqualToString" message
+        [textView resignFirstResponder];
+        CaptureRecord *record = [_captureRecords objectForKey:currentCaptureRecord];
+        record.notes = [self.notesBox.text mutableCopy];
+        // Return FALSE so that the final '\n' character doesn't get added
+        NSLog(@"Enter key ended editing");
+        return FALSE;
+    }
+    // For any other character return TRUE so that the text gets added to the view
+    return TRUE;
+}
+
+- (BOOL) textViewShouldEndEditing:(UITextView *)textView{
+    CaptureRecord *record = [_captureRecords objectForKey:currentCaptureRecord];
+    record.notes = [self.notesBox.text mutableCopy];
+    return [textView resignFirstResponder];
+    NSLog(@"textViewShouldEndEditing");
 }
 
 //handles swipe in both direction

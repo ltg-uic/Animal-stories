@@ -17,12 +17,13 @@
 @property NSString *scientist;
 @property NSMutableArray *tagData;
 @property NSDate *firstImageTime;
+@property NSMutableString *notes;
 @property int recordNumber;
 
 
 //  Creates a new record, using the imgSet as the identifier. After a new record is created, all following records with the same imgSet# are just additional pathNames, and so we use the "addPathName" method.
 
--(CaptureRecord*)  initWithPathName: (NSString *) pathName identifier:(int) imgSet author:(NSString *) scientist atTime: (NSDate *) dateTime withRecord: (int) recordNum;
+-(CaptureRecord*)  initWithPathName: (NSString *) pathName identifier:(int) imgSet author:(NSString *) scientist atTime: (NSDate *) dateTime withRecord: (int) recordNum notes: (NSString *) notes;
 
 - (void) addPathName: (NSString *) pathName;
 

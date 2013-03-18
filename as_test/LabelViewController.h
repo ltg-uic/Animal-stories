@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "AnalyzeViewController.h"
 
-@interface LabelViewController : UIViewController <UITextFieldDelegate, UIAlertViewDelegate>
+@interface LabelViewController : UIViewController <UITextFieldDelegate, UIAlertViewDelegate, UITextViewDelegate>
 {
     UITableView* labelTable;
     NSMutableArray* tableData;
@@ -18,6 +18,7 @@
     IBOutlet UITextField *addLabelText;
     IBOutlet UIButton *rightArrowButton;
     IBOutlet UIButton *leftArrowButton;
+    IBOutlet UITextView *notesField;
 }
 
 @property (strong, nonatomic) IBOutlet UILabel *totalNumberOfRecords;

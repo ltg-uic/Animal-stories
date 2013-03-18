@@ -19,11 +19,12 @@
 @synthesize scientist = _scientist;
 @synthesize tagData = _tagData;
 @synthesize firstImageTime = _firstImageTime;
+@synthesize notes = _notes;
 @synthesize recordNumber = _recordNumber;
 
 SDWebImageDownloader *downloader;
 
--(CaptureRecord*)  initWithPathName: (NSString *) pathName identifier:(int) imgSet author:(NSString *) scientist atTime: (NSDate *) dateTime withRecord: (int) recordNum{
+-(CaptureRecord*)  initWithPathName: (NSString *) pathName identifier:(int) imgSet author:(NSString *) scientist atTime: (NSDate *) dateTime withRecord: (int) recordNum notes: (NSString *) notes{
     pathName = [pathName stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]];
     _recordNumber = recordNum;
     [SDWebImageDownloader.sharedDownloader
@@ -45,6 +46,7 @@ SDWebImageDownloader *downloader;
     _scientist = [ [NSString alloc] initWithString: scientist];
     _tagData = [[NSMutableArray alloc] init];
     _firstImageTime = dateTime;
+    _notes = [notes mutableCopy];
     return self;
 }
 
@@ -120,12 +122,12 @@ SDWebImageDownloader *downloader;
 
 - (void) updateDB : (NSURL *) server{
     NSString *stringText = [NSString stringWithFormat:@"deleteTagData.php?imgSetID=%d", _imgSet];
-    NSString *addLabelData = [NSString stringWithContentsOfURL:[NSURL URLWithString: stringText relativeToURL:server] encoding:NSUTF8StringEncoding error:nil];
-    NSLog(@"%@", addLabelData);
+    [NSString stringWithContentsOfURL:[NSURL URLWithString: stringText relativeToURL:server] encoding:NSUTF8StringEncoding error:nil];
+    //NSLog(@"%@", addLabelData);
     for( Tag* tag in _tagData){
         NSString *stringText = [NSString stringWithFormat:@"insertTagData.php?imgSetID=%d&tag=%@&x=%f&y=%f", _imgSet, tag.uiTag.text, tag.uiTag.center.x, tag.uiTag.center.y];
-        NSString *addLabelData = [NSString stringWithContentsOfURL:[NSURL URLWithString: stringText relativeToURL:server] encoding:NSUTF8StringEncoding error:nil];
-        NSLog(@"%@ \n, %@", stringText, addLabelData);
+        [NSString stringWithContentsOfURL:[NSURL URLWithString: stringText relativeToURL:server] encoding:NSUTF8StringEncoding error:nil];
+        //NSLog(@"%@ \n, %@", stringText, addLabelData);
     }
     
 }
