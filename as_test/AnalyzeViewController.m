@@ -230,7 +230,6 @@ NSInteger yDist = 30;
 }
 
 - (void) drawCirclesWithBegin : (NSDate *) beginTime withEndTime: (NSDate *) endTime andWithTotals: (int[]) totals {
-    //NSLog(@"%@", _dataPoints);
     for( NSString *view in _dataPoints){
         [[_dataPoints objectForKey:view ] removeFromSuperview];
     }
@@ -304,7 +303,6 @@ NSInteger yDist = 30;
 
 - (IBAction)tapAction:(UITapGestureRecognizer *) tapInstance {
     CGPoint tapLocation = [tapInstance locationInView:self.timeLineContainer];
-    NSLog(@"tapLocation: %@" , NSStringFromCGPoint(tapLocation));
     for(NSString *circleRecord in _dataPoints){
         NSLog(@"containsData: %@" , NSStringFromCGRect([[_dataPoints objectForKey:circleRecord] frame]));
         if(CGRectContainsPoint([[_dataPoints objectForKey:circleRecord] frame], tapLocation)){
@@ -326,14 +324,14 @@ NSInteger yDist = 30;
 }
 
 - (void) updateLines{
-    int multiplier = self.tableData.count;
+    int multiplier = self.tableData.count + 2;
     NSDate *leftTime = [[NSDate alloc] initWithTimeInterval:self.timeSlider.leftValue sinceDate:self.begin];
     int left = [self mapTimeToDisplay: leftTime withBeginTime:self.begin withEndTime:self.end beginX:105 width:814];
     NSDate *rightTime = [[NSDate alloc] initWithTimeInterval:self.timeSlider.rightValue sinceDate:self.begin];
     int right = [self mapTimeToDisplay: rightTime withBeginTime:self.begin withEndTime:self.end beginX:105 width:814];
     [self.lineView clearScreen];
-    self.leftLine =[self.lineView drawLeftLineFromPoint:CGPointMake(left+5, 650) toPoint:CGPointMake(105, multiplier * yDist+295) ];
-    self.rightLine =[self.lineView drawRightLineFromPoint:CGPointMake(right-5, 650) toPoint:CGPointMake(920, multiplier * yDist+295)];
+    self.leftLine =[self.lineView drawLeftLineFromPoint:CGPointMake(left+5, 650) toPoint:CGPointMake(105, multiplier * yDist+305) ];
+    self.rightLine =[self.lineView drawRightLineFromPoint:CGPointMake(right-5, 650) toPoint:CGPointMake(920, multiplier * yDist+305)];
     //self.leftLine = [self.lineView drawBothLinesFromPoint:CGPointMake(left, 650) toPoint:CGPointMake(105, self.tableData.count * yDist + 300) andPoint2:CGPointMake(right, 650) toPoint:CGPointMake(919, self.tableData.count *yDist + 300)];
 }
 
