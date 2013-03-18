@@ -79,9 +79,12 @@ NSDateFormatter* formattedDate;
     NSDate *begin = [NSDate distantFuture];
     NSDate *end = [NSDate distantPast];
     self.totalNumberOfRecords.text = [[NSString alloc] initWithFormat: @"%d records", captureDataArray.count];
+    NSString *firstImgSetNumber = @"";
+    int recordNumber = 0;
     for( int i = 0; i < captureDataArray.count; i++){
         NSString *recordText = [ [captureDataArray objectAtIndex:i ] stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]];
         NSArray *record = [recordText componentsSeparatedByString: @"\t"];
+        if( i == 0) firstImgSetNumber = [record objectAtIndex: 1];
         if(![_captureRecords objectForKey: [record objectAtIndex:1]]){
             //processes dateTime data
             NSString* dateTime = [[NSString alloc] initWithFormat: @"%@ %@ %@", [record objectAtIndex:5], [record objectAtIndex:6], GMTOffset] ;
@@ -90,8 +93,9 @@ NSDateFormatter* formattedDate;
             NSDate* fileDate = [formattedDate dateFromString:dateTime];
             if ( [begin earlierDate: fileDate] == fileDate) begin = fileDate;
             if ( [end laterDate: fileDate] == fileDate) end = fileDate;
-            CaptureRecord *newRecord = [[ CaptureRecord alloc] initWithPathName:[[server absoluteString] stringByAppendingString: pathName ] identifier: [[record objectAtIndex: 1] intValue]  author:[record objectAtIndex: 3] atTime: [formattedDate dateFromString:dateTime]];
+            CaptureRecord *newRecord = [[ CaptureRecord alloc] initWithPathName:[[server absoluteString] stringByAppendingString: pathName ] identifier: [[record objectAtIndex: 1] intValue]  author:[record objectAtIndex: 3] atTime: [formattedDate dateFromString:dateTime] withRecord: recordNumber];
             [_captureRecords setObject:newRecord forKey:[record objectAtIndex:1]];
+            recordNumber++;
         }else {
             [[_captureRecords objectForKey: [record objectAtIndex:1] ] addPathName: [[server absoluteString] stringByAppendingString:[record objectAtIndex:2]]];
         }
@@ -150,9 +154,10 @@ NSDateFormatter* formattedDate;
     self.addLabelText.delegate = self;
     [self.view addSubview:beginningTime];
     [self.view addSubview:endTime];
+    currentCaptureRecord = [firstImgSetNumber mutableCopy];
     if (![[_captureRecords objectForKey:currentCaptureRecord] pathNames]){
         self.currentImage.image = [UIImage imageNamed:@"startImage.png"];
-        [NSString stringWithFormat:@"%d ", -1];
+        currentCaptureRecord = [NSString stringWithFormat:@"%d ", -1];
     } else {
     self.currentImage.animationImages = [[_captureRecords objectForKey:currentCaptureRecord] pathNames];
     }
@@ -405,6 +410,7 @@ NSDateFormatter* formattedDate;
     [[_captureRecords objectForKey:currentCaptureRecord] addTagsToView: self.view];
     [self drawTimeLineCirclesWithHighlight:[_captureRecords objectForKey:currentCaptureRecord]];
     self.av.captureRecords = self.captureRecords;
+    self.currentRecordNumber.text = [NSString stringWithFormat:@"%d /", [[_captureRecords objectForKey: currentCaptureRecord] recordNumber] + 1 ];
     //NSLog(@"%@, %@", self.currentImage.isAnimating? @"YES" : @"NO", self.currentImage.animationImages);
 }
 

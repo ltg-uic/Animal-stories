@@ -136,6 +136,13 @@
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="DgO-cq-dxs">
+                                <rect key="frame" x="905" y="21" width="42" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                         <gestureRecognizers/>
@@ -146,6 +153,7 @@
                     <connections>
                         <outlet property="addLabelText" destination="xmR-wD-Xik" id="xZl-fX-Fij"/>
                         <outlet property="currentImage" destination="wgk-I3-EU1" id="OUr-Vp-vRY"/>
+                        <outlet property="currentRecordNumber" destination="DgO-cq-dxs" id="d1x-AL-YEH"/>
                         <outlet property="dragGesture" destination="Hpx-i2-YQK" id="NAn-7s-tow"/>
                         <outlet property="editModeButton" destination="KY2-Pw-5eU" id="TAZ-Db-q6b"/>
                         <outlet property="labelTable" destination="ZQP-nc-FHD" id="hDg-T1-zA3"/>
