@@ -161,7 +161,9 @@
                         <outlet property="editModeButton" destination="KY2-Pw-5eU" id="TAZ-Db-q6b"/>
                         <outlet property="labelTable" destination="ZQP-nc-FHD" id="hDg-T1-zA3"/>
                         <outlet property="leftArrowButton" destination="qr5-U7-8x3" id="Yeg-et-Lzf"/>
+                        <outlet property="notesBG" destination="EWf-jz-Dz3" id="Lso-in-UeS"/>
                         <outlet property="notesBox" destination="iFi-TQ-KSA" id="hn1-Gs-BYp"/>
+                        <outlet property="notesField" destination="iFi-TQ-KSA" id="wuY-Iz-DWK"/>
                         <outlet property="rightArrowButton" destination="t2p-dF-gj0" id="MEo-w9-jdW"/>
                         <outlet property="swipeRecognizer" destination="WhJ-4L-Bio" id="Dl8-fy-2b9"/>
                         <outlet property="swipeRecognizer2" destination="E1M-uQ-asd" id="Iz7-zy-TNN"/>
@@ -342,54 +344,6 @@
         <image name="label_color.png" width="60" height="60"/>
         <image name="trash.png" width="128" height="128"/>
     </resources>
-    <classes>
-        <class className="AnalyzeViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/AnalyzeViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="tapAction:" candidateClass="UITapGestureRecognizer"/>
-                <relationship kind="outlet" name="canvasForLines" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="currentImage" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="lineView" candidateClass="LineDrawingView"/>
-                <relationship kind="outlet" name="tap" candidateClass="UITapGestureRecognizer"/>
-                <relationship kind="outlet" name="timeLineContainer" candidateClass="UIScrollView"/>
-            </relationships>
-        </class>
-        <class className="LabelViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/LabelViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="arrowPressed:" candidateClass="UIButton"/>
-                <relationship kind="action" name="handleDrag:" candidateClass="UIPanGestureRecognizer"/>
-                <relationship kind="action" name="handleSwipeRecognizer:" candidateClass="UISwipeGestureRecognizer"/>
-                <relationship kind="outlet" name="addLabelText" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="currentImage" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="currentRecordNumber" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="dragGesture" candidateClass="UIPanGestureRecognizer"/>
-                <relationship kind="outlet" name="dragGesture2" candidateClass="UIPanGestureRecognizer"/>
-                <relationship kind="outlet" name="editModeButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="leftArrowButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="notesBox" candidateClass="UITextView"/>
-                <relationship kind="outlet" name="notesField" candidateClass="UITextView"/>
-                <relationship kind="outlet" name="rightArrowButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="swipeRecognizer" candidateClass="UISwipeGestureRecognizer"/>
-                <relationship kind="outlet" name="swipeRecognizer2" candidateClass="UISwipeGestureRecognizer"/>
-                <relationship kind="outlet" name="totalNumberOfRecords" candidateClass="UILabel"/>
-            </relationships>
-        </class>
-        <class className="LineDrawingView" superclassName="UIView">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/LineDrawingView.h"/>
-        </class>
-        <class className="LoginViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/LoginViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="loginButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="loginField" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="passwordField" candidateClass="UITextField"/>
-            </relationships>
-        </class>
-        <class className="TabController" superclassName="UITabBarController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/TabController.h"/>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar" statusBarStyle="blackTranslucent"/>
         <simulatedOrientationMetrics key="orientation"/>

@@ -18,8 +18,10 @@
     IBOutlet UITextField *addLabelText;
     IBOutlet UIButton *rightArrowButton;
     IBOutlet UIButton *leftArrowButton;
+    IBOutlet UIImageView *notesBG;
     IBOutlet UITextView *notesField;
 }
+
 
 @property (strong, nonatomic) IBOutlet UILabel *totalNumberOfRecords;
 @property (strong, nonatomic) IBOutlet UILabel *currentRecordNumber;

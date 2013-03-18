@@ -203,6 +203,10 @@ NSDateFormatter* formattedDate;
     self.file = [NSFileHandle fileHandleForUpdatingAtPath:fileName];
     [self.file seekToEndOfFile];
     [self.file writeData:[fileNameEnding dataUsingEncoding:NSUTF8StringEncoding]];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector (keyboardDidHide:)
+                                                 name: UIKeyboardDidHideNotification object:nil];
 
 }
 
@@ -305,13 +309,10 @@ NSDateFormatter* formattedDate;
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range
  replacementText:(NSString *)text
 {
-    NSLog(@"text: %@", text);
     // Any new character added is passed in as the "text" parameter
     if ([text isEqualToString:@"\n"]) {
         // Be sure to test for equality using the "isEqualToString" message
         [textView resignFirstResponder];
-        CaptureRecord *record = [_captureRecords objectForKey:currentCaptureRecord];
-        record.notes = [self.notesBox.text mutableCopy];
         // Return FALSE so that the final '\n' character doesn't get added
         NSLog(@"Enter key ended editing");
         return FALSE;
@@ -320,11 +321,44 @@ NSDateFormatter* formattedDate;
     return TRUE;
 }
 
-- (BOOL) textViewShouldEndEditing:(UITextView *)textView{
+-(void) keyboardDidHide: (NSNotification *)notif
+{
+    NSLog(@"Keyboard did hide");
+    [self.notesBox resignFirstResponder];
     CaptureRecord *record = [_captureRecords objectForKey:currentCaptureRecord];
     record.notes = [self.notesBox.text mutableCopy];
-    return [textView resignFirstResponder];
-    NSLog(@"textViewShouldEndEditing");
+    CGRect frame = self.notesBox.frame;
+    CGRect bgFrame = notesBG.frame;
+    frame.origin.y += 250;
+    bgFrame.origin.y += 250;
+    self.notesBox.frame = frame;
+    notesBG.frame = bgFrame;
+    [self addNoteToDB: record.notes];
+
+}
+
+- (void) addNoteToDB: (NSString *) note{
+    NSString *logData = [NSString stringWithFormat:@"\n%@ : added note: %@ to imgSetID %@", [formattedDate stringFromDate:[NSDate date]], note, currentCaptureRecord];
+    [self.file seekToEndOfFile];
+    [self.file writeData:[logData dataUsingEncoding:NSUTF8StringEncoding]];
+    NSString *notesForDB=[note stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    
+    NSString *notesURL = [[NSString alloc] initWithFormat:@"notes.php?imgSetID=%d&notes=%@", [currentCaptureRecord intValue], notesForDB];
+    [NSString stringWithContentsOfURL: [NSURL URLWithString: notesURL relativeToURL: server] encoding:NSUTF8StringEncoding error:nil];
+}
+
+-(void)textViewDidBeginEditing:(UITextView *)textView{
+    
+    CGRect frame = self.notesBox.frame;
+    CGRect bgFrame = notesBG.frame;
+    frame.origin.y -= 250;
+    bgFrame.origin.y -= 250;
+    self.notesBox.frame = frame;
+    notesBG.frame = bgFrame;
+    
+    [self.view bringSubviewToFront:notesBG];
+    [self.view bringSubviewToFront:self.notesBox];
+    
 }
 
 //handles swipe in both direction
