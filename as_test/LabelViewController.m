@@ -55,9 +55,15 @@ NSURL *server;
 NSMutableString *currentCaptureRecord;
 NSIndexPath *path;
 NSDateFormatter* formattedDate;
+NSArray *captureDataArray;
+NSMutableArray *recordNumToImgSet;
+int windowSize = 25;
+int minRecordNum = 0;
+int maxRecordNum = 0;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    recordNumToImgSet = [[NSMutableArray alloc] init];
     self.circleList = [[NSMutableArray alloc] init];
     currentCaptureRecord = [[NSMutableString alloc] initWithString:@"0 "];
     //_scientist = @"TheSquirrelKids";
@@ -70,7 +76,7 @@ NSDateFormatter* formattedDate;
     NSString *captureData = [NSString stringWithContentsOfURL:[NSURL URLWithString: fileListURL relativeToURL:server] encoding:NSUTF8StringEncoding error: nil];
     //NSLog(@"%@", captureData);
     captureData = [captureData stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]];
-    NSArray *captureDataArray = [captureData componentsSeparatedByString: @"\n"];
+    captureDataArray = [captureData componentsSeparatedByString: @"\n"];
     _captureRecords = [[NSMutableDictionary alloc] init];
     
     //for each entry line, which represents an image, checks to see if there is an existing record for that imageSet. If not, it creates a new record, and adds to the dictionary. Else, adds the new image to the existing record.
@@ -81,6 +87,7 @@ NSDateFormatter* formattedDate;
     self.totalNumberOfRecords.text = [[NSString alloc] initWithFormat: @"%d records", captureDataArray.count];
     NSString *firstImgSetNumber = @"";
     int recordNumber = 0;
+    if( windowSize > captureDataArray.count) windowSize = captureDataArray.count;
     for( int i = 0; i < captureDataArray.count; i++){
         NSString *recordText = [ [captureDataArray objectAtIndex:i ] stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]];
         NSArray *record = [recordText componentsSeparatedByString: @"\t"];
@@ -95,10 +102,17 @@ NSDateFormatter* formattedDate;
             if ( [end laterDate: fileDate] == fileDate) end = fileDate;
             CaptureRecord *newRecord = [[ CaptureRecord alloc] initWithPathName:[[server absoluteString] stringByAppendingString: pathName ] identifier: [[record objectAtIndex: 1] intValue]  author:[record objectAtIndex: 3] atTime: [formattedDate dateFromString:dateTime] withRecord: recordNumber notes: [record objectAtIndex: 7]];
             [_captureRecords setObject:newRecord forKey:[record objectAtIndex:1]];
+            [recordNumToImgSet insertObject: [record objectAtIndex:1] atIndex: recordNumber];
             recordNumber++;
         }else {
             [[_captureRecords objectForKey: [record objectAtIndex:1] ] addPathName: [[server absoluteString] stringByAppendingString:[record objectAtIndex:2]]];
         }
+    }
+    
+    for( int i = 0; i < windowSize; i++){
+        NSString *record = [NSString stringWithFormat:@"%d ", i];
+        [[_captureRecords objectForKey: record] loadImages];
+        maxRecordNum = i;
     }
     [formattedDate setDateStyle: NSDateFormatterShortStyle];
     [formattedDate setTimeStyle: NSDateFormatterShortStyle];
@@ -155,7 +169,7 @@ NSDateFormatter* formattedDate;
     [self.view addSubview:beginningTime];
     [self.view addSubview:endTime];
     currentCaptureRecord = [firstImgSetNumber mutableCopy];
-    if (![[_captureRecords objectForKey:currentCaptureRecord] pathNames]){
+    if ([[[_captureRecords objectForKey:currentCaptureRecord] pathNames] count] == 0){
         self.currentImage.image = [UIImage imageNamed:@"startImage.png"];
         currentCaptureRecord = [NSString stringWithFormat:@"%d ", -1];
     } else {
@@ -210,8 +224,19 @@ NSDateFormatter* formattedDate;
 
 }
 
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    for (CaptureRecord *record in _captureRecords){
+        if([[_captureRecords objectForKey:record] imgSet]!= [currentCaptureRecord intValue]){
+            [[_captureRecords objectForKey:record] removeImages];
+        }
+    }
+}
+
 - (void) viewWillDisappear:(BOOL)animated{
     self.av.captureRecords = _captureRecords;
+    self.av.tableData = _tableData;
     self.av.file = _file;
 }
 
@@ -323,6 +348,8 @@ NSDateFormatter* formattedDate;
 
 -(void) keyboardDidHide: (NSNotification *)notif
 {
+    //need to address the fact that this might steal from
+    //label adding too, and double check that.
     NSLog(@"Keyboard did hide");
     [self.notesBox resignFirstResponder];
     CaptureRecord *record = [_captureRecords objectForKey:currentCaptureRecord];
@@ -461,8 +488,46 @@ NSDateFormatter* formattedDate;
             if(currentRecordNum < 1) currentRecordNum = _captureRecords.count-1;
         }
         currentCaptureRecord = [NSString stringWithFormat:@"%d ", currentRecordNum];
-    } while (![_captureRecords objectForKey: currentCaptureRecord]);
-    //NSLog(@"%@", currentCaptureRecord);
+    } while (![_captureRecords objectForKey: currentCaptureRecord] || [[[_captureRecords objectForKey:currentCaptureRecord] pathNames] count] == 0);
+    NSLog(@"maxRecordNum: %d,  current capture record: %@", maxRecordNum, currentCaptureRecord);
+    if (maxRecordNum - currentRecordNum < 10 && sender == _rightArrowButton){
+        currentRecordNum = maxRecordNum;
+        for (int i = 0 ; i < 10; i++){
+            NSString *key;
+
+            do{
+                currentRecordNum++;
+                if(currentRecordNum == _captureRecords.count) currentRecordNum = 1;
+                key = [NSString stringWithFormat:@"%d ", currentRecordNum];
+            } while (![_captureRecords objectForKey: key]);
+            [[_captureRecords objectForKey:key] loadImages];
+        }
+        for ( int i = minRecordNum; i < minRecordNum + 10; i++){
+            NSString *key = [NSString stringWithFormat:@"%d ", i];
+            [[_captureRecords objectForKey: key] removeImages];
+        }
+        maxRecordNum = currentRecordNum;
+        minRecordNum += 10;
+    }
+    if (currentRecordNum - minRecordNum < 10 && sender ==_leftArrowButton){
+        currentRecordNum = minRecordNum;
+        for (int i = 0 ; i < 10; i++){
+            NSString *key;
+            
+            do{
+                currentRecordNum--;
+                if(currentRecordNum == _captureRecords.count) currentRecordNum = _captureRecords.count-1;
+                key = [NSString stringWithFormat:@"%d ", currentRecordNum];
+            } while (![_captureRecords objectForKey: key]);
+            [[_captureRecords objectForKey:key] loadImages];
+        }
+        for ( int i = maxRecordNum; i > maxRecordNum - 10; i--){
+            NSString *key = [NSString stringWithFormat:@"%d ", i];
+            [[_captureRecords objectForKey: key] removeImages];
+        }
+        minRecordNum = currentRecordNum;
+        maxRecordNum -= 10;
+    }
     self.currentImage.animationImages = [[_captureRecords objectForKey: currentCaptureRecord] pathNames];
     self.currentImage.animationDuration = 1;
     [self.currentImage startAnimating];
@@ -470,6 +535,7 @@ NSDateFormatter* formattedDate;
     [self drawTimeLineCirclesWithHighlight:[_captureRecords objectForKey:currentCaptureRecord]];
     self.av.captureRecords = self.captureRecords;
     self.currentRecordNumber.text = [NSString stringWithFormat:@"%d /", [[_captureRecords objectForKey: currentCaptureRecord] recordNumber] + 1 ];
+    self.notesBox.text =[[_captureRecords objectForKey:currentCaptureRecord] notes];
     //NSLog(@"%@, %@", self.currentImage.isAnimating? @"YES" : @"NO", self.currentImage.animationImages);
 }
 
@@ -502,8 +568,6 @@ NSDateFormatter* formattedDate;
     return [_tableData count];
 }
 
-// Row display. Implementers should *always* try to reuse cells by setting each cell's reuseIdentifier and querying for available reusable cells with dequeueReusableCellWithIdentifier:
-// Cell gets various attributes set automatically based on table (separators) and data source (accessory views, editing controls)
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell1"];

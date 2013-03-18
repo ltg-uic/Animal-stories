@@ -21,24 +21,26 @@
 @synthesize firstImageTime = _firstImageTime;
 @synthesize notes = _notes;
 @synthesize recordNumber = _recordNumber;
+@synthesize urlArray = _urlArray;
 
 SDWebImageDownloader *downloader;
 
 -(CaptureRecord*)  initWithPathName: (NSString *) pathName identifier:(int) imgSet author:(NSString *) scientist atTime: (NSDate *) dateTime withRecord: (int) recordNum notes: (NSString *) notes{
     pathName = [pathName stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    self.urlArray = [[NSMutableArray alloc] initWithObjects: pathName, nil];
     _recordNumber = recordNum;
-    [SDWebImageDownloader.sharedDownloader
-     downloadImageWithURL:[NSURL URLWithString: pathName]
-     options:0
-     progress:^(NSUInteger receivedSize, long long expectedSize){
-         // NSLog(@"Img Set: %d %d / %llu", imgSet, receivedSize, expectedSize);
-     }
-     completed:^(UIImage *image, NSData *data, NSError *error, BOOL finished) {
-         //NSLog(@"%@", error);
-         if(image){
-             _pathNames = [[NSMutableArray alloc] initWithObjects: image, nil];
-         }
-     }];
+//    [SDWebImageDownloader.sharedDownloader
+//     downloadImageWithURL:[NSURL URLWithString: pathName]
+//     options:0
+//     progress:^(NSUInteger receivedSize, long long expectedSize){
+//         // NSLog(@"Img Set: %d %d / %llu", imgSet, receivedSize, expectedSize);
+//     }
+//     completed:^(UIImage *image, NSData *data, NSError *error, BOOL finished) {
+//         //NSLog(@"%@", error);
+//         if(image){
+//             _pathNames = [[NSMutableArray alloc] initWithObjects: image, nil];
+//         }
+//     }];
     //  UIImage *firstImage = [[UIImage alloc] initWithData: [NSData dataWithContentsOfURL:[NSURL URLWithString:pathName]]];
     //   _pathNames = [[NSMutableArray alloc] initWithObjects: firstImage, nil];
     //    UIImage *firstImage = setImageFromURL
@@ -84,16 +86,32 @@ SDWebImageDownloader *downloader;
 - (void) addPathName: (NSString *) pathName{
     pathName = [pathName stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]];
     //    UIImage *nextImage = [[UIImage alloc] initWithData: [NSData dataWithContentsOfURL:[NSURL URLWithString:pathName]]];
-    [SDWebImageDownloader.sharedDownloader
-     downloadImageWithURL:[NSURL URLWithString:pathName]
-     options:0
-     progress:^(NSUInteger receivedSize, long long expectedSize){
-         // NSLog(@"%d", receivedSize);
-     }
-     completed:^(UIImage *image, NSData *data, NSError *error, BOOL finished) {
-         if(image) [_pathNames addObject:image];
-     }];
+
+    [self.urlArray addObject:pathName];
+}
+
+- (void) loadImages {
+    _pathNames = [[NSMutableArray alloc] init];
+    NSLog(@"Loading images for imgset: %d", self.imgSet);
+    for (NSString *pathName in self.urlArray){
+        [SDWebImageDownloader.sharedDownloader
+         downloadImageWithURL:[NSURL URLWithString:pathName]
+         options:0
+         progress:^(NSUInteger receivedSize, long long expectedSize){
+             // NSLog(@"%d", receivedSize);
+         }
+         completed:^(UIImage *image, NSData *data, NSError *error, BOOL finished) {
+             if(image) {
+             [_pathNames addObject:image];
+             }
+         }];
+    }
     
+}
+
+- (void) removeImages {
+    NSLog(@"Removing images for imgset: %d", self.imgSet);
+    [self.urlArray removeAllObjects];
 }
 
 - (void) addTagsToView: (UIView *) view{

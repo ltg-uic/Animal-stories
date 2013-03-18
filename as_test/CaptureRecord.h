@@ -13,6 +13,7 @@
 
 }
 @property NSMutableArray *pathNames;
+@property NSMutableArray *urlArray;
 @property int imgSet;
 @property NSString *scientist;
 @property NSMutableArray *tagData;
@@ -26,6 +27,10 @@
 -(CaptureRecord*)  initWithPathName: (NSString *) pathName identifier:(int) imgSet author:(NSString *) scientist atTime: (NSDate *) dateTime withRecord: (int) recordNum notes: (NSString *) notes;
 
 - (void) addPathName: (NSString *) pathName;
+
+//These two images in conjunction help deal with memory warnings
+- (void) loadImages;
+- (void) removeImages;
 
 //partnered methods that deal with the tags when the image switches
 - (void) addTagsToView: (UIView *) view;
