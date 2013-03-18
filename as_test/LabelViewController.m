@@ -54,6 +54,7 @@
 NSURL *server;
 NSMutableString *currentCaptureRecord;
 NSIndexPath *path;
+NSDateFormatter* formattedDate;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -61,7 +62,7 @@ NSIndexPath *path;
     currentCaptureRecord = [[NSMutableString alloc] initWithString:@"0 "];
     //_scientist = @"TheSquirrelKids";
     NSLog(@"%@", self.scientist);
-    server = [NSURL URLWithString: @"http://10.0.1.100/~evl/as/"];
+    server = [NSURL URLWithString: @"http://131.193.79.113/~evl/as/"];
     NSString* GMTOffset = @"-0600";
     //instantiates the labelTable
     _labelTable = [[UITableView alloc] initWithFrame:CGRectMake(10, 59, 320, 460) style: UITableViewStylePlain];
@@ -73,7 +74,7 @@ NSIndexPath *path;
     _captureRecords = [[NSMutableDictionary alloc] init];
     
     //for each entry line, which represents an image, checks to see if there is an existing record for that imageSet. If not, it creates a new record, and adds to the dictionary. Else, adds the new image to the existing record.
-    NSDateFormatter* formattedDate = [[NSDateFormatter alloc] init];
+    formattedDate = [[NSDateFormatter alloc] init];
     [formattedDate setDateFormat:@"yyyy-MM-dd HH:mm:ss Z"];
     NSDate *begin = [NSDate distantFuture];
     NSDate *end = [NSDate distantPast];
@@ -188,20 +189,27 @@ NSIndexPath *path;
     NSLog(@"%@", fileNameEnding);
     NSString *documentsDirectory = [NSSearchPathForDirectoriesInDomains (NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
     NSString *fileName = [documentsDirectory stringByAppendingPathComponent:fileNameEnding];
-    
+    [formattedDate setDateFormat:@"dd:MM:YYYY HH:mm:ss"];
     //create file if it doesn't exist
     if(![[NSFileManager defaultManager] fileExistsAtPath:fileName])
         [[NSFileManager defaultManager] createFileAtPath:fileName contents:nil attributes:nil];
-    
+    NSLog (@"%@", fileName);
     //append text to file (you'll probably want to add a newline every write)
-    NSFileHandle *file = [NSFileHandle fileHandleForUpdatingAtPath:fileName];
-    [file seekToEndOfFile];
-    [file writeData:[fileNameEnding dataUsingEncoding:NSUTF8StringEncoding]];
-    [file closeFile];
+    self.file = [NSFileHandle fileHandleForUpdatingAtPath:fileName];
+    [self.file seekToEndOfFile];
+    [self.file writeData:[fileNameEnding dataUsingEncoding:NSUTF8StringEncoding]];
+
 }
 
 - (void) viewWillDisappear:(BOOL)animated{
     self.av.captureRecords = _captureRecords;
+    self.av.file = _file;
+}
+
+- (void) viewWillAppear:(BOOL)animated{
+    NSString *logData = [NSString stringWithFormat:@"\n%@ : Switched to the Label View", [formattedDate stringFromDate:[NSDate date]]];
+    [self.file seekToEndOfFile];
+    [self.file writeData: [logData dataUsingEncoding:NSUTF8StringEncoding]];
 }
 //Gesture Processing
 
@@ -237,11 +245,16 @@ NSIndexPath *path;
             //label has been dropped onto the image
             [_labelTable deselectRowAtIndexPath:test animated: YES];
             [[_captureRecords objectForKey:currentCaptureRecord] addTag: _activeTag];
+
             //Confirm that the label is within the image: if not, remove it from the list
             if (!CGRectContainsPoint(self.currentImage.frame, [_activeTag center]) ){
                 [_activeTag.uiTag removeFromSuperview ];
                 //[[_captureRecords objectForKey:currentCaptureRecord] removeTag: _activeTag];
 
+            } else {
+                NSString *logData = [NSString stringWithFormat:@"\n%@ : added tag: %@ to %f, %f on CaptureRecord: %@", [formattedDate stringFromDate:[NSDate date]],[[_activeTag uiTag] text] ,[_activeTag center].x, [_activeTag center].y, currentCaptureRecord];
+                [self.file seekToEndOfFile];
+                [self.file writeData:[logData dataUsingEncoding:NSUTF8StringEncoding]];
             }
             _activeTag = nil;
         }
@@ -262,10 +275,16 @@ NSIndexPath *path;
             [recognizer setTranslation:CGPointZero inView:[_activeTag.uiTag superview]];
         } else if ([recognizer state] == UIGestureRecognizerStateEnded && _activeTag != nil){
             //NSLog(@"%@, %@", NSStringFromCGPoint([[_labelsAddedToImage objectAtIndex: _currentLabelIndex] center]), NSStringFromCGRect(self.currentImage.frame));
+            NSString *logData;
             if (!CGRectContainsPoint(self.currentImage.frame, [_activeTag center]) ){
                 [_activeTag.uiTag removeFromSuperview ];
                 [[_captureRecords objectForKey:currentCaptureRecord] removeTag: _activeTag];
+                logData = [NSString stringWithFormat:@"\n%@ : removed tag: %@ on CaptureRecord: %@", [formattedDate stringFromDate:[NSDate date]],[[_activeTag uiTag] text] , currentCaptureRecord];
+            } else {
+            logData = [NSString stringWithFormat:@"\n%@ : moved tag: %@ to %f, %f on CaptureRecord: %@", [formattedDate stringFromDate:[NSDate date]],[[_activeTag uiTag] text] ,[_activeTag center].x, [_activeTag center].y, currentCaptureRecord];
             }
+            [self.file seekToEndOfFile];
+            [self.file writeData:[logData dataUsingEncoding:NSUTF8StringEncoding]];
             _activeTag = nil;
         }
     }
@@ -488,6 +507,9 @@ NSIndexPath *path;
             }
             [_tableData removeObjectAtIndex:path.row];
             [_labelTable deleteRowsAtIndexPaths:[NSArray arrayWithObject:path] withRowAnimation:UITableViewRowAnimationFade];
+            NSString *logData = [NSString stringWithFormat:@"\n%@ : deleted label: %@", [formattedDate stringFromDate:[NSDate date]], tagName];
+            [self.file seekToEndOfFile];
+            [self.file writeData:[logData dataUsingEncoding:NSUTF8StringEncoding]];
         }
         else
         {
@@ -505,6 +527,9 @@ NSIndexPath *path;
             }
             [_tableData replaceObjectAtIndex:path.row withObject: newTagName];
             [_labelTable reloadData];
+            NSString *logData = [NSString stringWithFormat:@"\n%@ : changed label: %@ to %@", [formattedDate stringFromDate:[NSDate date]], oldTagName, newTagName];
+            [self.file seekToEndOfFile];
+            [self.file writeData:[logData dataUsingEncoding:NSUTF8StringEncoding]];
             
         } else {
             NSLog(@"cancel");

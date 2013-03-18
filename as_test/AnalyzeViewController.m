@@ -51,6 +51,7 @@
 
 NSInteger yDist = 30;
 
+
 -(AnalyzeViewController *) init{
     _captureRecords = [[NSMutableDictionary alloc] init];
     _tableData = [[NSMutableArray alloc] init];
@@ -124,6 +125,11 @@ NSInteger yDist = 30;
 
 
 -(void)viewWillAppear:(BOOL)animated{
+    NSDateFormatter* formattedDate = [[NSDateFormatter alloc] init];
+    [formattedDate setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    NSString *logData = [NSString stringWithFormat:@"\n%@ : Switched to the Analyze View", [formattedDate stringFromDate:[NSDate date]]];
+    [self.file seekToEndOfFile];
+    [self.file writeData: [logData dataUsingEncoding:NSUTF8StringEncoding]];
 
     //clear last visualization
     for( NSString *view in _dataPoints){
@@ -142,11 +148,14 @@ NSInteger yDist = 30;
     [_labels removeAllObjects];
     [_lines removeAllObjects];
     [_totals removeAllObjects];
+    [_tableData insertObject:@"Untagged" atIndex: 0];
+    _leftLabel.center = CGPointMake(105, 315 + yDist * ([_tableData count] + 1));
+    _rightLabel.center = CGPointMake(914, 315 + yDist * ( [_tableData count]+ 1));
     
     
     //NSInteger yDist = (CGRectGetHeight([self.view frame]) - 300)/([_tableData count] + 1);
     self.timeLineContainer.contentSize = CGSizeMake(900, yDist* ([_tableData count] + 4));
-    int totals[[_tableData count] +1];
+    int totals[[_tableData count] + 2];
     for (int i = 0; i < [_tableData count] + 1 ; i++){
         totals[i] = 0;
         UILabel *blackLine = [[UILabel alloc] initWithFrame:CGRectMake(105, 15 + (yDist * i), 814, 3)];
@@ -206,6 +215,9 @@ NSInteger yDist = 30;
     
     NSDate *leftTime = [self mapDisplayToTime:self.timeSlider.leftValue withBeginTime:_begin];
     NSDate *rightTime = [self mapDisplayToTime:self.timeSlider.rightValue withBeginTime:_begin];
+    NSString *logData = [NSString stringWithFormat:@"\n%@ : changed slider handle positions to left: %@ right: %@", [formattedDate stringFromDate:[NSDate date]], [formattedDate stringFromDate:leftTime], [formattedDate stringFromDate: rightTime]];
+    [self.file seekToEndOfFile];
+    [self.file writeData: [logData dataUsingEncoding:NSUTF8StringEncoding]];
     _leftLabel.text = [formattedDate stringFromDate: leftTime ];
     _rightLabel.text = [formattedDate stringFromDate:rightTime];
     int totals[[_tableData count] +1];
@@ -302,6 +314,11 @@ NSInteger yDist = 30;
             self.currentImage.animationImages = [[self.captureRecords objectForKey:circleRecordModified] pathNames];
             self.currentImage.animationDuration = 1;
             [self.currentImage startAnimating];
+            NSDateFormatter* formattedDate = [[NSDateFormatter alloc] init];
+            [formattedDate setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+            NSString *logData = [NSString stringWithFormat:@"\n%@ : Activated the image(s) for CaptureRecord: %@", [formattedDate stringFromDate:[NSDate date]], circleRecordModified];
+            [self.file seekToEndOfFile];
+            [self.file writeData: [logData dataUsingEncoding:NSUTF8StringEncoding]];
             
         }
     }
@@ -309,8 +326,7 @@ NSInteger yDist = 30;
 }
 
 - (void) updateLines{
-    int multiplier = 5;
-    if(self.tableData.count < 6) multiplier = self.tableData.count;
+    int multiplier = self.tableData.count;
     NSDate *leftTime = [[NSDate alloc] initWithTimeInterval:self.timeSlider.leftValue sinceDate:self.begin];
     int left = [self mapTimeToDisplay: leftTime withBeginTime:self.begin withEndTime:self.end beginX:105 width:814];
     NSDate *rightTime = [[NSDate alloc] initWithTimeInterval:self.timeSlider.rightValue sinceDate:self.begin];
