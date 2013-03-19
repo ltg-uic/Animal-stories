@@ -261,7 +261,6 @@ int lowestRecord = 100000;
     //first case: there is a label selected on the left and we're creating a new label to drag onto the view for the first time.
     //second case: there is an existing label on the image and we're moving it
     if(recognizer.view == _labelTable){
-        NSLog(@"test");
         NSIndexPath* test = [_labelTable indexPathForRowAtPoint: [recognizer locationInView:recognizer.view]];
         if([recognizer state] == UIGestureRecognizerStateBegan){
             CGPoint gestureBegan = [recognizer locationInView:self.view];
@@ -364,12 +363,14 @@ int lowestRecord = 100000;
     record.notes = [self.notesBox.text mutableCopy];
     CGRect frame = self.notesBox.frame;
     CGRect bgFrame = notesBG.frame;
+    if(frame.origin.y < 551){
     frame.origin.y += 250;
     bgFrame.origin.y += 250;
     self.notesBox.frame = frame;
     notesBG.frame = bgFrame;
+    
     [self addNoteToDB: record.notes];
-
+    }
 }
 
 - (void) addNoteToDB: (NSString *) note{
