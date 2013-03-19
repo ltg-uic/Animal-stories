@@ -109,7 +109,8 @@ int lowestRecord = 100000;
             [recordNumToImgSet insertObject: [record objectAtIndex:1] atIndex: recordNumber];
             recordNumber++;
         }else {
-            [[_captureRecords objectForKey: [record objectAtIndex:1] ] addPathName: [[server absoluteString] stringByAppendingString:[record objectAtIndex:2]]];
+            NSString* pathName = [@"images/" stringByAppendingString:[record objectAtIndex:2]];
+            [[_captureRecords objectForKey: [record objectAtIndex:1] ] addPathName: [[server absoluteString] stringByAppendingString: pathName]];
         }
     }
 

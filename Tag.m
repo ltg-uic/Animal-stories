@@ -20,7 +20,7 @@
     _imgSet = imgSet;
     _center = center;
     _labelText = [[NSString alloc] initWithString: labelText];
-    _labelFrame = CGRectMake(center.x, center.y, 100, 60);
+    _labelFrame = CGRectMake(center.x, center.y, 100, 30);
     _uiTag = [[UILabel alloc] initWithFrame:_labelFrame];
     _uiTag.text = _labelText;
     _uiTag.textColor = [UIColor whiteColor];

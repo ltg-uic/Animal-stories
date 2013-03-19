@@ -92,7 +92,7 @@ SDWebImageDownloader *downloader;
 
 - (void) loadImages {
     _pathNames = [[NSMutableArray alloc] init];
-    NSLog(@"Loading images for imgset: %d", self.imgSet);
+    NSLog(@"Loading images for imgset: %d, %@", self.imgSet, self.urlArray);
     for (NSString *pathName in self.urlArray){
         [SDWebImageDownloader.sharedDownloader
          downloadImageWithURL:[NSURL URLWithString:pathName]
@@ -110,7 +110,7 @@ SDWebImageDownloader *downloader;
 }
 
 - (void) removeImages {
-    NSLog(@"Removing images for imgset: %d", self.imgSet);
+    //NSLog(@"Removing images for imgset: %d", self.imgSet);
     [self.pathNames removeAllObjects];
 }
 
