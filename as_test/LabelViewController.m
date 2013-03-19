@@ -364,7 +364,7 @@ int lowestRecord = 100000;
     record.notes = [self.notesBox.text mutableCopy];
     CGRect frame = self.notesBox.frame;
     CGRect bgFrame = notesBG.frame;
-    if(frame.origin.y < 551){
+    if(self.notesBox.frame.origin.y < 518){
     frame.origin.y += 250;
     bgFrame.origin.y += 250;
     self.notesBox.frame = frame;
