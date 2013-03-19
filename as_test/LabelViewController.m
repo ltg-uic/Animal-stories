@@ -60,6 +60,8 @@ NSMutableArray *recordNumToImgSet;
 int windowSize = 25;
 int minRecordNum = 0;
 int maxRecordNum = 0;
+int highestRecord = 0;
+int lowestRecord = 100000;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -100,6 +102,8 @@ int maxRecordNum = 0;
             NSDate* fileDate = [formattedDate dateFromString:dateTime];
             if ( [begin earlierDate: fileDate] == fileDate) begin = fileDate;
             if ( [end laterDate: fileDate] == fileDate) end = fileDate;
+            if( lowestRecord >  [[record objectAtIndex: 1] intValue]) lowestRecord = [[record objectAtIndex:1] intValue];
+            if (highestRecord < [[record objectAtIndex:1] intValue]) highestRecord = [[record objectAtIndex:1] intValue];
             CaptureRecord *newRecord = [[ CaptureRecord alloc] initWithPathName:[[server absoluteString] stringByAppendingString: pathName ] identifier: [[record objectAtIndex: 1] intValue]  author:[record objectAtIndex: 3] atTime: [formattedDate dateFromString:dateTime] withRecord: recordNumber notes: [record objectAtIndex: 7]];
             [_captureRecords setObject:newRecord forKey:[record objectAtIndex:1]];
             [recordNumToImgSet insertObject: [record objectAtIndex:1] atIndex: recordNumber];
@@ -108,11 +112,15 @@ int maxRecordNum = 0;
             [[_captureRecords objectForKey: [record objectAtIndex:1] ] addPathName: [[server absoluteString] stringByAppendingString:[record objectAtIndex:2]]];
         }
     }
-    
+    int currentRecordNum = 0;
+    NSString *currentCapture = [NSString stringWithFormat:@"%d ", currentRecordNum];
     for( int i = 0; i < windowSize; i++){
-        NSString *record = [NSString stringWithFormat:@"%d ", i];
-        [[_captureRecords objectForKey: record] loadImages];
-        maxRecordNum = i;
+        do {
+            currentRecordNum++;
+            currentCapture = [NSString stringWithFormat:@"%d ", currentRecordNum];
+        } while (![_captureRecords objectForKey: currentCapture]);
+        [[_captureRecords objectForKey: currentCapture] loadImages];
+        maxRecordNum = currentRecordNum;
     }
     [formattedDate setDateStyle: NSDateFormatterShortStyle];
     [formattedDate setTimeStyle: NSDateFormatterShortStyle];
@@ -482,10 +490,10 @@ int maxRecordNum = 0;
     do {
         if(sender == _rightArrowButton){
             currentRecordNum++;
-            if(currentRecordNum == _captureRecords.count) currentRecordNum = 1;
+            if(currentRecordNum == highestRecord + 1) currentRecordNum = lowestRecord;
         } else if(sender == _leftArrowButton){
             currentRecordNum--;
-            if(currentRecordNum < 1) currentRecordNum = _captureRecords.count-1;
+            if(currentRecordNum == lowestRecord - 1 ) currentRecordNum = highestRecord;
         }
         currentCaptureRecord = [NSString stringWithFormat:@"%d ", currentRecordNum];
     } while (![_captureRecords objectForKey: currentCaptureRecord] || [[[_captureRecords objectForKey:currentCaptureRecord] pathNames] count] == 0);
@@ -497,7 +505,7 @@ int maxRecordNum = 0;
 
             do{
                 currentRecordNum++;
-                if(currentRecordNum == _captureRecords.count) currentRecordNum = 1;
+                if(currentRecordNum == highestRecord + 1) currentRecordNum = lowestRecord;
                 key = [NSString stringWithFormat:@"%d ", currentRecordNum];
             } while (![_captureRecords objectForKey: key]);
             [[_captureRecords objectForKey:key] loadImages];
@@ -516,7 +524,7 @@ int maxRecordNum = 0;
             
             do{
                 currentRecordNum--;
-                if(currentRecordNum == _captureRecords.count) currentRecordNum = _captureRecords.count-1;
+                if(currentRecordNum == lowestRecord - 1) currentRecordNum = highestRecord;
                 key = [NSString stringWithFormat:@"%d ", currentRecordNum];
             } while (![_captureRecords objectForKey: key]);
             [[_captureRecords objectForKey:key] loadImages];
