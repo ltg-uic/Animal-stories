@@ -72,6 +72,14 @@
                                     <outletCollection property="gestureRecognizers" destination="Hpx-i2-YQK" appends="YES" id="HgF-s1-oE5"/>
                                 </connections>
                             </tableView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" image="bg_labels.png" id="pFz-zi-LRI">
+                                <rect key="frame" x="6" y="47" width="162" height="42"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" image="bg_labels.png" id="2Nl-Po-5zV">
+                                <rect key="frame" x="835" y="0.0" width="162" height="42"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="LABELS" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="B1k-hq-HRS">
                                 <rect key="frame" x="31" y="60" width="139" height="29"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="28"/>
@@ -133,14 +141,14 @@
                                 <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="9iW-oa-tvU">
-                                <rect key="frame" x="942" y="21" width="42" height="21"/>
+                                <rect key="frame" x="942" y="11" width="42" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="DgO-cq-dxs">
-                                <rect key="frame" x="905" y="21" width="42" height="21"/>
+                                <rect key="frame" x="905" y="11" width="42" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -335,6 +343,7 @@
         <image name="Default-568h@2x.png" width="640" height="1136"/>
         <image name="arrowRight.png" width="30" height="480"/>
         <image name="arrow_left.png" width="30" height="480"/>
+        <image name="bg_labels.png" width="145" height="45"/>
         <image name="icon_AS_app_2x.png" width="144" height="144"/>
         <image name="icon_analyze_0.png" width="30" height="29"/>
         <image name="icon_label_0.png" width="30" height="29"/>
