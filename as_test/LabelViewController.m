@@ -498,43 +498,46 @@ int lowestRecord = 100000;
         currentCaptureRecord = [NSString stringWithFormat:@"%d ", currentRecordNum];
     } while (![_captureRecords objectForKey: currentCaptureRecord] || [[[_captureRecords objectForKey:currentCaptureRecord] pathNames] count] == 0);
     NSLog(@"maxRecordNum: %d,  current capture record: %@", maxRecordNum, currentCaptureRecord);
-    if (maxRecordNum - currentRecordNum < 10 && sender == _rightArrowButton){
-        currentRecordNum = maxRecordNum;
-        for (int i = 0 ; i < 10; i++){
-            NSString *key;
-
-            do{
-                currentRecordNum++;
-                if(currentRecordNum == highestRecord + 1) currentRecordNum = lowestRecord;
-                key = [NSString stringWithFormat:@"%d ", currentRecordNum];
-            } while (![_captureRecords objectForKey: key]);
-            [[_captureRecords objectForKey:key] loadImages];
+    if( maxRecordNum > minRecordNum) {
+        if (maxRecordNum - currentRecordNum < 10 && sender == _rightArrowButton){
+            currentRecordNum = maxRecordNum;
+            for (int i = 0 ; i < windowSize - 10; i++){
+                NSString *key;
+                
+                do{
+                    currentRecordNum++;
+                    if(currentRecordNum == highestRecord + 1) currentRecordNum = lowestRecord;
+                    key = [NSString stringWithFormat:@"%d ", currentRecordNum];
+                } while (![_captureRecords objectForKey: key]);
+                [[_captureRecords objectForKey:key] loadImages];
+            }
+            for ( int i = minRecordNum; i < minRecordNum + 10; i++){
+                NSString *key = [NSString stringWithFormat:@"%d ", i];
+                [[_captureRecords objectForKey: key] removeImages];
+            }
+            maxRecordNum = currentRecordNum;
+            minRecordNum += 10;
         }
-        for ( int i = minRecordNum; i < minRecordNum + 10; i++){
-            NSString *key = [NSString stringWithFormat:@"%d ", i];
-            [[_captureRecords objectForKey: key] removeImages];
+        
+        if (currentRecordNum - minRecordNum < 10 && sender ==_leftArrowButton){
+            currentRecordNum = minRecordNum;
+            for (int i = 0 ; i < windowSize - 10; i++){
+                NSString *key;
+                
+                do{
+                    currentRecordNum--;
+                    if(currentRecordNum == lowestRecord - 1) currentRecordNum = highestRecord;
+                    key = [NSString stringWithFormat:@"%d ", currentRecordNum];
+                } while (![_captureRecords objectForKey: key]);
+                [[_captureRecords objectForKey:key] loadImages];
+            }
+            for ( int i = maxRecordNum; i > maxRecordNum - 10; i--){
+                NSString *key = [NSString stringWithFormat:@"%d ", i];
+                [[_captureRecords objectForKey: key] removeImages];
+            }
+            minRecordNum = currentRecordNum;
+            maxRecordNum -= 10;
         }
-        maxRecordNum = currentRecordNum;
-        minRecordNum += 10;
-    }
-    if (currentRecordNum - minRecordNum < 10 && sender ==_leftArrowButton){
-        currentRecordNum = minRecordNum;
-        for (int i = 0 ; i < 10; i++){
-            NSString *key;
-            
-            do{
-                currentRecordNum--;
-                if(currentRecordNum == lowestRecord - 1) currentRecordNum = highestRecord;
-                key = [NSString stringWithFormat:@"%d ", currentRecordNum];
-            } while (![_captureRecords objectForKey: key]);
-            [[_captureRecords objectForKey:key] loadImages];
-        }
-        for ( int i = maxRecordNum; i > maxRecordNum - 10; i--){
-            NSString *key = [NSString stringWithFormat:@"%d ", i];
-            [[_captureRecords objectForKey: key] removeImages];
-        }
-        minRecordNum = currentRecordNum;
-        maxRecordNum -= 10;
     }
     self.currentImage.animationImages = [[_captureRecords objectForKey: currentCaptureRecord] pathNames];
     self.currentImage.animationDuration = 1;
