@@ -33,14 +33,14 @@
 }
 
 - (IBAction)beginLogin {
-    NSLog(@"%@, %@", _loginField.text, _passwordField.text);
+    //NSLog(@"%@, %@", _loginField.text, _passwordField.text);
     NSString *myRequestString = [[NSString alloc] initWithFormat:@"userid=%@&password=%@", _loginField.text, _passwordField.text ];
     NSData *myRequestData = [ NSData dataWithBytes: [ myRequestString UTF8String ] length: [ myRequestString length ] ];
     NSMutableURLRequest *request = [ [ NSMutableURLRequest alloc ] initWithURL: [ NSURL URLWithString: @"http://131.193.79.113/~evl/as/validate2.php" ] ];
     [ request setHTTPMethod: @"POST" ];
     [ request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"content-type"];
     [ request setHTTPBody: myRequestData ];
-    NSLog(@"%@", request);
+    //NSLog(@"%@", request);
     NSURLResponse *response;
     NSError *err;
     NSData *returnData = [ NSURLConnection sendSynchronousRequest: request returningResponse:&response error:&err];

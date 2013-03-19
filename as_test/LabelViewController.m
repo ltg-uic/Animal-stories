@@ -69,7 +69,7 @@ int lowestRecord = 100000;
     self.circleList = [[NSMutableArray alloc] init];
     currentCaptureRecord = [[NSMutableString alloc] initWithString:@"0 "];
     //_scientist = @"TheSquirrelKids";
-    NSLog(@"%@", self.scientist);
+    //NSLog(@"%@", self.scientist);
     server = [NSURL URLWithString: @"http://131.193.79.113/~evl/as/"];
     NSString* GMTOffset = @"-0600";
     //instantiates the labelTable
@@ -112,16 +112,7 @@ int lowestRecord = 100000;
             [[_captureRecords objectForKey: [record objectAtIndex:1] ] addPathName: [[server absoluteString] stringByAppendingString:[record objectAtIndex:2]]];
         }
     }
-    int currentRecordNum = 0;
-    NSString *currentCapture = [NSString stringWithFormat:@"%d ", currentRecordNum];
-    for( int i = 0; i < windowSize; i++){
-        do {
-            currentRecordNum++;
-            currentCapture = [NSString stringWithFormat:@"%d ", currentRecordNum];
-        } while (![_captureRecords objectForKey: currentCapture]);
-        [[_captureRecords objectForKey: currentCapture] loadImages];
-        maxRecordNum = currentRecordNum;
-    }
+
     [formattedDate setDateStyle: NSDateFormatterShortStyle];
     [formattedDate setTimeStyle: NSDateFormatterShortStyle];
     UILabel* beginningTime = [[UILabel alloc] initWithFrame: CGRectMake(55, 675, 200, 30)];
@@ -154,9 +145,7 @@ int lowestRecord = 100000;
         NSArray *record = [recordText componentsSeparatedByString: @"\t"];
         //NSLog(@"%@, %d", [record objectAtIndex:0], [[record objectAtIndex:0] intValue]);
         if([_captureRecords objectForKey: [record objectAtIndex:0] ]){
-            Tag* lastTag = [[_captureRecords objectForKey: [record objectAtIndex:0]] addTag: [[Tag alloc] initWithCenter:CGPointMake([[record objectAtIndex:2] intValue], [[record objectAtIndex: 3] intValue]) withIdentifier:[[record objectAtIndex: 0] intValue] withText:[[record objectAtIndex: 1] stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet] ] ]];
-            [lastTag addLabelToView:self.view];
-            
+            [[_captureRecords objectForKey: [record objectAtIndex:0]] addTag: [[Tag alloc] initWithCenter:CGPointMake([[record objectAtIndex:2] intValue], [[record objectAtIndex: 3] intValue]) withIdentifier:[[record objectAtIndex: 0] intValue] withText:[[record objectAtIndex: 1] stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet] ] ]];
         }
     }
     
@@ -165,8 +154,18 @@ int lowestRecord = 100000;
     //NSLog(@"%@", [_captureRecords description]);
     
 
-    
     [self loadView];
+    
+    int currentRecordNum = 0;
+    NSString *currentCapture = [NSString stringWithFormat:@"%d ", currentRecordNum];
+    for( int i = 0; i < windowSize; i++){
+        do {
+            currentRecordNum++;
+            currentCapture = [NSString stringWithFormat:@"%d ", currentRecordNum];
+        } while (![_captureRecords objectForKey: currentCapture]);
+        [[_captureRecords objectForKey: currentCapture] loadImages];
+        maxRecordNum = currentRecordNum;
+    }
     _av = [self.tabBarController.viewControllers objectAtIndex:1];
     self.av.tableData = _tableData;
     self.av.begin = begin;
@@ -262,6 +261,7 @@ int lowestRecord = 100000;
     //first case: there is a label selected on the left and we're creating a new label to drag onto the view for the first time.
     //second case: there is an existing label on the image and we're moving it
     if(recognizer.view == _labelTable){
+        NSLog(@"test");
         NSIndexPath* test = [_labelTable indexPathForRowAtPoint: [recognizer locationInView:recognizer.view]];
         if([recognizer state] == UIGestureRecognizerStateBegan){
             CGPoint gestureBegan = [recognizer locationInView:self.view];
@@ -499,11 +499,10 @@ int lowestRecord = 100000;
     } while (![_captureRecords objectForKey: currentCaptureRecord] || [[[_captureRecords objectForKey:currentCaptureRecord] pathNames] count] == 0);
     NSLog(@"maxRecordNum: %d,  current capture record: %@", maxRecordNum, currentCaptureRecord);
     if( maxRecordNum > minRecordNum) {
+        NSString *key;
         if (maxRecordNum - currentRecordNum < 10 && sender == _rightArrowButton){
             currentRecordNum = maxRecordNum;
-            for (int i = 0 ; i < windowSize - 10; i++){
-                NSString *key;
-                
+            for (int i = 0 ; i < 10; i++){
                 do{
                     currentRecordNum++;
                     if(currentRecordNum == highestRecord + 1) currentRecordNum = lowestRecord;
@@ -511,18 +510,25 @@ int lowestRecord = 100000;
                 } while (![_captureRecords objectForKey: key]);
                 [[_captureRecords objectForKey:key] loadImages];
             }
-            for ( int i = minRecordNum; i < minRecordNum + 10; i++){
-                NSString *key = [NSString stringWithFormat:@"%d ", i];
+            maxRecordNum = currentRecordNum;
+            currentRecordNum = minRecordNum;
+            for ( int i = 0; i < 10; i++){
+                do{
+                    currentRecordNum++;
+                    if(currentRecordNum == highestRecord + 1) currentRecordNum = lowestRecord;
+                    key = [NSString stringWithFormat:@"%d ", currentRecordNum];
+                } while (![_captureRecords objectForKey: key]);
                 [[_captureRecords objectForKey: key] removeImages];
             }
-            maxRecordNum = currentRecordNum;
+            
             minRecordNum += 10;
         }
         
         if (currentRecordNum - minRecordNum < 10 && sender ==_leftArrowButton){
             currentRecordNum = minRecordNum;
+            NSString *key;
             for (int i = 0 ; i < windowSize - 10; i++){
-                NSString *key;
+                
                 
                 do{
                     currentRecordNum--;
@@ -531,11 +537,17 @@ int lowestRecord = 100000;
                 } while (![_captureRecords objectForKey: key]);
                 [[_captureRecords objectForKey:key] loadImages];
             }
-            for ( int i = maxRecordNum; i > maxRecordNum - 10; i--){
-                NSString *key = [NSString stringWithFormat:@"%d ", i];
+            minRecordNum = currentRecordNum;
+            currentRecordNum = maxRecordNum;
+            for (int i = 0; i < 10; i++){
+                do{
+                    currentRecordNum--;
+                    if(currentRecordNum == lowestRecord - 1) currentRecordNum = highestRecord;
+                    key = [NSString stringWithFormat:@"%d ", currentRecordNum];
+                } while (![_captureRecords objectForKey: key]);
                 [[_captureRecords objectForKey: key] removeImages];
             }
-            minRecordNum = currentRecordNum;
+            
             maxRecordNum -= 10;
         }
     }
