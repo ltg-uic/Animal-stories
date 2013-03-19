@@ -130,7 +130,13 @@ int lowestRecord = 100000;
     NSString *tagListURL = [[NSString alloc] initWithFormat:@"taglist.php?scientist=%@", self.scientist];
     NSString *tagList = [NSString stringWithContentsOfURL: [NSURL URLWithString: tagListURL relativeToURL:server] encoding:NSUTF8StringEncoding error:nil];
     tagList = [tagList stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-    _tableData = [[ tagList componentsSeparatedByString:@"\n"] mutableCopy];
+    NSMutableArray *tagListData = [[ tagList componentsSeparatedByString:@"\n"] mutableCopy];
+    _tableData = [[NSMutableArray alloc] init];
+    for(NSString *tag in tagListData){
+        NSLog(@"%@, %@, %d", tag, _tableData, [_tableData containsObject: tag] ? YES : NO);
+        if( ![_tableData containsObject: tag]) [_tableData addObject: tag];
+    }
+    
     
     //instantiates labels
     _labelsAddedToImage = [[NSMutableArray alloc] init];
@@ -261,73 +267,76 @@ int lowestRecord = 100000;
 
     //first case: there is a label selected on the left and we're creating a new label to drag onto the view for the first time.
     //second case: there is an existing label on the image and we're moving it
-    if(recognizer.view == _labelTable){
-        NSIndexPath* test = [_labelTable indexPathForRowAtPoint: [recognizer locationInView:recognizer.view]];
-        if([recognizer state] == UIGestureRecognizerStateBegan){
-            CGPoint gestureBegan = [recognizer locationInView:self.view];
-            UILabel *duplicate = [[UILabel alloc] initWithFrame:(CGRectMake(gestureBegan.x, gestureBegan.y, 100, 30))];
-            duplicate.text = [_tableData objectAtIndex: test.row];
-            duplicate.textColor =  [UIColor whiteColor];
-            duplicate.textAlignment = NSTextAlignmentCenter;
-            duplicate.backgroundColor = [[UIColor alloc] initWithWhite:0.3 alpha:0.5];
-            //duplicate.shadowColor =[UIColor blackColor];
-            _activeTag = [[Tag alloc] initWithUIlabel:duplicate andID: [[_captureRecords objectForKey:currentCaptureRecord] imgSet]];
+    if([_captureRecords objectForKey: currentCaptureRecord]){
+        if(recognizer.view == _labelTable){
+            NSIndexPath* test = [_labelTable indexPathForRowAtPoint: [recognizer locationInView:recognizer.view]];
+            if([recognizer state] == UIGestureRecognizerStateBegan){
+                CGPoint gestureBegan = [recognizer locationInView:self.view];
+                UILabel *duplicate = [[UILabel alloc] initWithFrame:(CGRectMake(gestureBegan.x, gestureBegan.y, 100, 30))];
+                duplicate.text = [_tableData objectAtIndex: test.row];
+                duplicate.textColor =  [UIColor whiteColor];
+                duplicate.textAlignment = NSTextAlignmentCenter;
+                duplicate.backgroundColor = [[UIColor alloc] initWithWhite:0.3 alpha:0.5];
+                //duplicate.shadowColor =[UIColor blackColor];
+                
+                _activeTag = [[Tag alloc] initWithUIlabel:duplicate andID: [[_captureRecords objectForKey:currentCaptureRecord] imgSet]];
+                
+                //[_labelsAddedToImage addObject: duplicate];
+                [self.view addSubview: duplicate];
+                //NSLog(@"%@ , %@", duplicate, _labelsAddedToImage);
+                [recognizer setTranslation:CGPointZero inView:self.view];
+            } else if([recognizer state]  == UIGestureRecognizerStateChanged){
+                
+                CGPoint translation = [recognizer translationInView:self.view];
+                //NSLog(@"%f, %f", translation.x, translation.y);
+                [_activeTag moveTagToPosition:CGPointMake([_activeTag center].x + translation.x, [_activeTag center].y + translation.y)];
+                [recognizer setTranslation:CGPointZero inView:self.view];
+            }else if([recognizer state] == UIGestureRecognizerStateEnded){
+                //label has been dropped onto the image
+                [_labelTable deselectRowAtIndexPath:test animated: YES];
+                [[_captureRecords objectForKey:currentCaptureRecord] addTag: _activeTag];
+                
+                //Confirm that the label is within the image: if not, remove it from the list
+                if (!CGRectContainsPoint(self.currentImage.frame, [_activeTag center]) ){
+                    [_activeTag.uiTag removeFromSuperview ];
+                    //[[_captureRecords objectForKey:currentCaptureRecord] removeTag: _activeTag];
+                    
+                } else {
+                    NSString *logData = [NSString stringWithFormat:@"\n%@ : added tag: %@ to %f, %f on CaptureRecord: %@", [formattedDate stringFromDate:[NSDate date]],[[_activeTag uiTag] text] ,[_activeTag center].x, [_activeTag center].y, currentCaptureRecord];
+                    [self.file seekToEndOfFile];
+                    [self.file writeData:[logData dataUsingEncoding:NSUTF8StringEncoding]];
+                }
+                _activeTag = nil;
+            }
             
-            //[_labelsAddedToImage addObject: duplicate];
-            [self.view addSubview: duplicate];
-            //NSLog(@"%@ , %@", duplicate, _labelsAddedToImage);
-            [recognizer setTranslation:CGPointZero inView:self.view];
-        } else if([recognizer state]  == UIGestureRecognizerStateChanged){
-            
-            CGPoint translation = [recognizer translationInView:self.view];
-            //NSLog(@"%f, %f", translation.x, translation.y);
-            [_activeTag moveTagToPosition:CGPointMake([_activeTag center].x + translation.x, [_activeTag center].y + translation.y)];
-            [recognizer setTranslation:CGPointZero inView:self.view];
-        }else if([recognizer state] == UIGestureRecognizerStateEnded){
-            //label has been dropped onto the image
-            [_labelTable deselectRowAtIndexPath:test animated: YES];
-            [[_captureRecords objectForKey:currentCaptureRecord] addTag: _activeTag];
-
-            //Confirm that the label is within the image: if not, remove it from the list
-            if (!CGRectContainsPoint(self.currentImage.frame, [_activeTag center]) ){
-                [_activeTag.uiTag removeFromSuperview ];
-                //[[_captureRecords objectForKey:currentCaptureRecord] removeTag: _activeTag];
-
-            } else {
-                NSString *logData = [NSString stringWithFormat:@"\n%@ : added tag: %@ to %f, %f on CaptureRecord: %@", [formattedDate stringFromDate:[NSDate date]],[[_activeTag uiTag] text] ,[_activeTag center].x, [_activeTag center].y, currentCaptureRecord];
+        } else {
+            //handles moving labels that have already been placed on the image
+            if([recognizer state]  == UIGestureRecognizerStateBegan){
+                //check if any labels have been selected
+                for( Tag * tag in [[_captureRecords objectForKey:currentCaptureRecord] tagData]){
+                    if( CGRectContainsPoint( [tag.uiTag frame], [recognizer locationInView:self.view] )){
+                        _activeTag = tag;
+                    }
+                }
+                
+            } else if( [recognizer state] == UIGestureRecognizerStateChanged && _activeTag != nil) {
+                CGPoint translation = [recognizer translationInView:[ _activeTag.uiTag superview]];
+                [_activeTag moveTagToPosition:CGPointMake([_activeTag center].x + translation.x, [_activeTag center].y + translation.y)];
+                [recognizer setTranslation:CGPointZero inView:[_activeTag.uiTag superview]];
+            } else if ([recognizer state] == UIGestureRecognizerStateEnded && _activeTag != nil){
+                //NSLog(@"%@, %@", NSStringFromCGPoint([[_labelsAddedToImage objectAtIndex: _currentLabelIndex] center]), NSStringFromCGRect(self.currentImage.frame));
+                NSString *logData;
+                if (!CGRectContainsPoint(self.currentImage.frame, [_activeTag center]) ){
+                    [_activeTag.uiTag removeFromSuperview ];
+                    [[_captureRecords objectForKey:currentCaptureRecord] removeTag: _activeTag];
+                    logData = [NSString stringWithFormat:@"\n%@ : removed tag: %@ on CaptureRecord: %@", [formattedDate stringFromDate:[NSDate date]],[[_activeTag uiTag] text] , currentCaptureRecord];
+                } else {
+                    logData = [NSString stringWithFormat:@"\n%@ : moved tag: %@ to %f, %f on CaptureRecord: %@", [formattedDate stringFromDate:[NSDate date]],[[_activeTag uiTag] text] ,[_activeTag center].x, [_activeTag center].y, currentCaptureRecord];
+                }
                 [self.file seekToEndOfFile];
                 [self.file writeData:[logData dataUsingEncoding:NSUTF8StringEncoding]];
+                _activeTag = nil;
             }
-            _activeTag = nil;
-        }
-        
-    } else {
-        //handles moving labels that have already been placed on the image
-        if([recognizer state]  == UIGestureRecognizerStateBegan){
-            //check if any labels have been selected
-            for( Tag * tag in [[_captureRecords objectForKey:currentCaptureRecord] tagData]){
-                if( CGRectContainsPoint( [tag.uiTag frame], [recognizer locationInView:self.view] )){
-                    _activeTag = tag;
-                }
-            }
-            
-        } else if( [recognizer state] == UIGestureRecognizerStateChanged && _activeTag != nil) {
-            CGPoint translation = [recognizer translationInView:[ _activeTag.uiTag superview]];
-            [_activeTag moveTagToPosition:CGPointMake([_activeTag center].x + translation.x, [_activeTag center].y + translation.y)];
-            [recognizer setTranslation:CGPointZero inView:[_activeTag.uiTag superview]];
-        } else if ([recognizer state] == UIGestureRecognizerStateEnded && _activeTag != nil){
-            //NSLog(@"%@, %@", NSStringFromCGPoint([[_labelsAddedToImage objectAtIndex: _currentLabelIndex] center]), NSStringFromCGRect(self.currentImage.frame));
-            NSString *logData;
-            if (!CGRectContainsPoint(self.currentImage.frame, [_activeTag center]) ){
-                [_activeTag.uiTag removeFromSuperview ];
-                [[_captureRecords objectForKey:currentCaptureRecord] removeTag: _activeTag];
-                logData = [NSString stringWithFormat:@"\n%@ : removed tag: %@ on CaptureRecord: %@", [formattedDate stringFromDate:[NSDate date]],[[_activeTag uiTag] text] , currentCaptureRecord];
-            } else {
-            logData = [NSString stringWithFormat:@"\n%@ : moved tag: %@ to %f, %f on CaptureRecord: %@", [formattedDate stringFromDate:[NSDate date]],[[_activeTag uiTag] text] ,[_activeTag center].x, [_activeTag center].y, currentCaptureRecord];
-            }
-            [self.file seekToEndOfFile];
-            [self.file writeData:[logData dataUsingEncoding:NSUTF8StringEncoding]];
-            _activeTag = nil;
         }
     }
     
@@ -570,7 +579,7 @@ int lowestRecord = 100000;
 }
 
 - (IBAction)addNewLabel {
-    //NSLog(@"%@", _addLabelText.text);
+    NSLog(@"%@", _addLabelText.text);
     NSString *stringText = [NSString stringWithFormat: @"insertTag.php?scientist=%@&tag=%@", _scientist, _addLabelText.text];
     //NSLog(@"%@", stringText);
     [_tableData addObject: _addLabelText.text];
