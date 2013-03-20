@@ -582,12 +582,14 @@ int lowestRecord = 100000;
 
 - (IBAction)addNewLabel {
     NSLog(@"%@", _addLabelText.text);
+    if(![_tableData containsObject: _addLabelText.text]){
     NSString *stringText = [NSString stringWithFormat: @"insertTag.php?scientist=%@&tag=%@", _scientist, _addLabelText.text];
     //NSLog(@"%@", stringText);
     [_tableData addObject: _addLabelText.text];
     [_labelTable reloadData];
     NSString *addLabelData = [NSString stringWithContentsOfURL:[NSURL URLWithString: stringText relativeToURL:server] encoding:NSUTF8StringEncoding error:nil];
     NSLog(@"%@", addLabelData);
+    }
     _addLabelText.text = @"";
 }
 
