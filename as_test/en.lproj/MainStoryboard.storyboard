@@ -357,7 +357,6 @@
         <class className="AnalyzeViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/AnalyzeViewController.h"/>
             <relationships>
-                <relationship kind="action" name="tapAction:" candidateClass="UITapGestureRecognizer"/>
                 <relationship kind="outlet" name="canvasForLines" candidateClass="UIImageView"/>
                 <relationship kind="outlet" name="currentImage" candidateClass="UIImageView"/>
                 <relationship kind="outlet" name="lineView" candidateClass="LineDrawingView"/>
@@ -368,9 +367,6 @@
         <class className="LabelViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/LabelViewController.h"/>
             <relationships>
-                <relationship kind="action" name="arrowPressed:" candidateClass="UIButton"/>
-                <relationship kind="action" name="handleDrag:" candidateClass="UIPanGestureRecognizer"/>
-                <relationship kind="action" name="handleSwipeRecognizer:" candidateClass="UISwipeGestureRecognizer"/>
                 <relationship kind="outlet" name="addLabelText" candidateClass="UITextField"/>
                 <relationship kind="outlet" name="currentImage" candidateClass="UIImageView"/>
                 <relationship kind="outlet" name="currentRecordNumber" candidateClass="UILabel"/>
