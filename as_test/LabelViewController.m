@@ -691,10 +691,18 @@ int lowestRecord = 100000;
             NSString *oldTagName = [_tableData objectAtIndex:path.row];
             NSString *newTagName = [[self.edit textFieldAtIndex:0] text];
             NSLog(@"%@, %@", oldTagName, newTagName);
+            NSString *stringText = [NSString stringWithFormat:@"updateTagData.php?oldTag=%@&newTag=%@", oldTagName, newTagName];
+            NSString *addLabelData = [NSString stringWithContentsOfURL:[NSURL URLWithString: stringText relativeToURL:server] encoding:NSUTF8StringEncoding error:nil];
+            NSLog(@"%@", addLabelData);
             for(NSString *record in [_captureRecords allKeys]){
                 [[_captureRecords objectForKey:record] renameTag:oldTagName withTag: newTagName];
             }
+            if(![_tableData containsObject: _addLabelText.text]){
             [_tableData replaceObjectAtIndex:path.row withObject: newTagName];
+                
+            } else {
+                [_tableData removeObjectAtIndex: path.row];
+            }
             [_labelTable reloadData];
             NSString *logData = [NSString stringWithFormat:@"\n%@ : changed label: %@ to %@", [formattedDate stringFromDate:[NSDate date]], oldTagName, newTagName];
             [self.file seekToEndOfFile];
