@@ -133,7 +133,7 @@ int lowestRecord = 100000;
     NSMutableArray *tagListData = [[ tagList componentsSeparatedByString:@"\n"] mutableCopy];
     _tableData = [[NSMutableArray alloc] init];
     for(NSString *tag in tagListData){
-        NSLog(@"%@, %@, %d", tag, _tableData, [_tableData containsObject: tag] ? YES : NO);
+        //NSLog(@"%@, %@, %d", tag, _tableData, [_tableData containsObject: tag] ? YES : NO);
         if( ![_tableData containsObject: tag]) [_tableData addObject: tag];
     }
     
@@ -464,8 +464,7 @@ int lowestRecord = 100000;
             highlight = [[UIImageView alloc] initWithImage:[UIImage imageNamed: @"highlight.png"]];
             highlight.center = circle.center;
             //NSLog(@"%@", highlight);
-            [self.view addSubview: highlight];
-            [self.circleList addObject:highlight];
+
 
         }
 
@@ -473,8 +472,11 @@ int lowestRecord = 100000;
         [self.view addSubview: circle];
         [self.circleList addObject:circle];
 
-        _labelTable.editing = NO;
-        
+    }
+    _labelTable.editing = NO;
+    if (highlight){
+    [self.view addSubview: highlight];
+    [self.circleList addObject:highlight];
     }
 }
 
