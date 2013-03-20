@@ -537,15 +537,14 @@ int lowestRecord = 100000;
             minRecordNum += 10;
         }
         
-        if (currentRecordNum - minRecordNum < 10 && sender ==_leftArrowButton){
+        if (currentRecordNum - minRecordNum < 10 && sender == _leftArrowButton){
             currentRecordNum = minRecordNum;
             NSString *key;
             for (int i = 0 ; i < windowSize - 10; i++){
-                
-                
                 do{
+                    //NSLog(@"%d", currentRecordNum);
                     currentRecordNum--;
-                    if(currentRecordNum == lowestRecord - 1) currentRecordNum = highestRecord;
+                    if(currentRecordNum < lowestRecord) currentRecordNum = highestRecord;
                     key = [NSString stringWithFormat:@"%d ", currentRecordNum];
                 } while (![_captureRecords objectForKey: key]);
                 [[_captureRecords objectForKey:key] loadImages];
