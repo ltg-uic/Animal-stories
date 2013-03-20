@@ -76,10 +76,14 @@ SDWebImageDownloader *downloader;
 }
 
 - (void) removeTags: (NSString *) tagName{
+    NSMutableArray *tagsToDelete = [[NSMutableArray alloc] init];
     for (Tag * tag in _tagData){
         if ([tag.uiTag.text isEqualToString:tagName]){
-            [_tagData removeObject: tag];
+            [tagsToDelete addObject: tag];
         }
+    }
+    for(Tag * tag in tagsToDelete){
+        [_tagData removeObject: tag];
     }
 }
 

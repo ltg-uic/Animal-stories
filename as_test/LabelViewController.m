@@ -449,7 +449,7 @@ int lowestRecord = 100000;
     [self.circleList removeAllObjects];
     
     UIImageView *highlight;
-    for(CaptureRecord* record in _captureRecords){
+    for(NSString* record in [_captureRecords allKeys]){
         UIImageView *circle;
         if([[_captureRecords objectForKey: record ] isUntagged]){
             circle = [[UIImageView alloc] initWithImage: [UIImage imageNamed: @"unsorted.png"]];
@@ -665,11 +665,13 @@ int lowestRecord = 100000;
             NSString *addLabelData = [NSString stringWithContentsOfURL:[NSURL URLWithString: stringText relativeToURL:server] encoding:NSUTF8StringEncoding error:nil];
             NSLog(@"%@", addLabelData);
             //removes the tags from all records
-            for(CaptureRecord * record in _captureRecords){
+            for(NSString *record in [_captureRecords allKeys]){
                 [[_captureRecords objectForKey:record] removeTags: tagName];
             }
+            NSLog(@"%@", _labelTable);
             [_tableData removeObjectAtIndex:path.row];
             [_labelTable deleteRowsAtIndexPaths:[NSArray arrayWithObject:path] withRowAnimation:UITableViewRowAnimationFade];
+            
             NSString *logData = [NSString stringWithFormat:@"\n%@ : deleted label: %@", [formattedDate stringFromDate:[NSDate date]], tagName];
             [self.file seekToEndOfFile];
             [self.file writeData:[logData dataUsingEncoding:NSUTF8StringEncoding]];
@@ -685,7 +687,7 @@ int lowestRecord = 100000;
             NSString *oldTagName = [_tableData objectAtIndex:path.row];
             NSString *newTagName = [[self.edit textFieldAtIndex:0] text];
             NSLog(@"%@, %@", oldTagName, newTagName);
-            for(CaptureRecord *record in _captureRecords){
+            for(NSString *record in [_captureRecords allKeys]){
                 [[_captureRecords objectForKey:record] renameTag:oldTagName withTag: newTagName];
             }
             [_tableData replaceObjectAtIndex:path.row withObject: newTagName];
