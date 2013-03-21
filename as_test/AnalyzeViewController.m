@@ -60,7 +60,6 @@ NSInteger yDist = 30;
 
 - (void)viewDidLoad
 {
-    [_tableData insertObject:@"Untagged" atIndex: 0];
     [super viewDidLoad];
     NSDateFormatter* formattedDate = [[NSDateFormatter alloc] init];
     [formattedDate setDateFormat:@"yyyy-MM-dd HH:mm:ss Z"];
@@ -149,6 +148,7 @@ NSInteger yDist = 30;
     [_labels removeAllObjects];
     [_lines removeAllObjects];
     [_totals removeAllObjects];
+    [_tableData insertObject:@"Untagged" atIndex: 0];
 
     _leftLabel.center = CGPointMake(105, 315 + yDist * ([_tableData count] + 1));
     _rightLabel.center = CGPointMake(914, 315 + yDist * ( [_tableData count]+ 1));

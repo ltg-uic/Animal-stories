@@ -257,6 +257,7 @@ int lowestRecord = 100000;
     NSString *logData = [NSString stringWithFormat:@"\n%@ : Switched to the Label View", [formattedDate stringFromDate:[NSDate date]]];
     [self.file seekToEndOfFile];
     [self.file writeData: [logData dataUsingEncoding:NSUTF8StringEncoding]];
+    [self.tableData removeObjectIdenticalTo: @"Untagged"];
 }
 //Gesture Processing
 
@@ -268,8 +269,9 @@ int lowestRecord = 100000;
     //second case: there is an existing label on the image and we're moving it
     if([_captureRecords objectForKey: currentCaptureRecord]){
         if(recognizer.view == _labelTable){
+            
             NSIndexPath* test = [_labelTable indexPathForRowAtPoint: [recognizer locationInView:recognizer.view]];
-            if([recognizer state] == UIGestureRecognizerStateBegan){
+            if([recognizer state] == UIGestureRecognizerStateBegan && test){
                 CGPoint gestureBegan = [recognizer locationInView:self.view];
                 UILabel *duplicate = [[UILabel alloc] initWithFrame:(CGRectMake(gestureBegan.x, gestureBegan.y, 100, 30))];
                 duplicate.text = [_tableData objectAtIndex: test.row];
@@ -293,19 +295,21 @@ int lowestRecord = 100000;
             }else if([recognizer state] == UIGestureRecognizerStateEnded){
                 //label has been dropped onto the image
                 [_labelTable deselectRowAtIndexPath:test animated: YES];
-                [[_captureRecords objectForKey:currentCaptureRecord] addTag: _activeTag];
-                
-                //Confirm that the label is within the image: if not, remove it from the list
-                if (!CGRectContainsPoint(self.currentImage.frame, [_activeTag center]) ){
-                    [_activeTag.uiTag removeFromSuperview ];
-                    //[[_captureRecords objectForKey:currentCaptureRecord] removeTag: _activeTag];
+                if (_activeTag){
+                    [[_captureRecords objectForKey:currentCaptureRecord] addTag: _activeTag];
                     
-                } else {
-                    NSString *logData = [NSString stringWithFormat:@"\n%@ : added tag: %@ to %f, %f on CaptureRecord: %@", [formattedDate stringFromDate:[NSDate date]],[[_activeTag uiTag] text] ,[_activeTag center].x, [_activeTag center].y, currentCaptureRecord];
-                    [self.file seekToEndOfFile];
-                    [self.file writeData:[logData dataUsingEncoding:NSUTF8StringEncoding]];
+                    //Confirm that the label is within the image: if not, remove it from the list
+                    if (!CGRectContainsPoint(self.currentImage.frame, [_activeTag center]) ){
+                        [_activeTag.uiTag removeFromSuperview ];
+                        //[[_captureRecords objectForKey:currentCaptureRecord] removeTag: _activeTag];
+                        
+                    } else {
+                        NSString *logData = [NSString stringWithFormat:@"\n%@ : added tag: %@ to %f, %f on CaptureRecord: %@", [formattedDate stringFromDate:[NSDate date]],[[_activeTag uiTag] text] ,[_activeTag center].x, [_activeTag center].y, currentCaptureRecord];
+                        [self.file seekToEndOfFile];
+                        [self.file writeData:[logData dataUsingEncoding:NSUTF8StringEncoding]];
+                    }
+                    _activeTag = nil;
                 }
-                _activeTag = nil;
             }
             
         } else {
