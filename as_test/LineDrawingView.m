@@ -17,12 +17,12 @@
         self.path =[[UIBezierPath alloc] init];
         self.path.lineCapStyle=kCGLineCapRound;
         self.path.miterLimit=0;
-        self.path.lineWidth=3.0;
-        self.brushPattern=[UIColor blackColor];
+        self.path.lineWidth=2.0;
+        self.brushPattern=[UIColor whiteColor];
         self.path2 =[[UIBezierPath alloc] init];
         self.path2.lineCapStyle=kCGLineCapRound;
         self.path2.miterLimit=0;
-        self.path2.lineWidth=3.0;
+        self.path2.lineWidth=1.0;
 
     }
     return self;
