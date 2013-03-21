@@ -98,17 +98,25 @@ SDWebImageDownloader *downloader;
     _pathNames = [[NSMutableArray alloc] init];
     NSLog(@"Loading images for imgset: %d, %@", self.imgSet, self.urlArray);
     for (NSString *pathName in self.urlArray){
-        [SDWebImageDownloader.sharedDownloader
-         downloadImageWithURL:[NSURL URLWithString:pathName]
-         options:0
-         progress:^(NSUInteger receivedSize, long long expectedSize){
-             // NSLog(@"%d", receivedSize);
-         }
-         completed:^(UIImage *image, NSData *data, NSError *error, BOOL finished) {
-             if(image) {
-             [_pathNames addObject:image];
-             }
-         }];
+        
+        
+        int index = [pathName rangeOfString:@"/" options: NSBackwardsSearch].location;
+        NSString *fileName = [pathName substringFromIndex:index];
+        NSArray   *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+        NSString  *documentsDirectory = [paths objectAtIndex:0];
+        NSString  *filePath = [NSString stringWithFormat:@"%@/%@", documentsDirectory,fileName];
+        if(![[NSFileManager defaultManager] fileExistsAtPath:filePath]){
+            NSURL  *url = [NSURL URLWithString:pathName];
+            NSData *urlData = [NSData dataWithContentsOfURL:url];
+            if ( urlData )
+            {
+                [urlData writeToFile:filePath atomically:YES];
+                NSLog(@"%@%@", documentsDirectory, fileName);
+                
+            }
+        }
+        UIImage *image = [UIImage imageWithContentsOfFile:filePath];
+        if (image) [_pathNames addObject:image];
     }
     
 }

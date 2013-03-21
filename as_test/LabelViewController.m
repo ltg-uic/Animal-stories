@@ -69,14 +69,14 @@ int lowestRecord = 100000;
     self.circleList = [[NSMutableArray alloc] init];
     currentCaptureRecord = [[NSMutableString alloc] initWithString:@"0 "];
     //_scientist = @"TheSquirrelKids";
-    //NSLog(@"%@", self.scientist);
-    server = [NSURL URLWithString: @"http://10.0.1.100/~evl/as/"];
+    NSLog(@"%@", self.scientist);
+    server = [NSURL URLWithString: @"http://131.193.79.113/~evl/as/"];
     NSString* GMTOffset = @"-0600";
     //instantiates the labelTable
     _labelTable = [[UITableView alloc] initWithFrame:CGRectMake(10, 59, 320, 460) style: UITableViewStylePlain];
     NSString *fileListURL = [[NSString alloc] initWithFormat:@"filelistplusdata.php?scientist=%@", _scientist ];
     NSString *captureData = [NSString stringWithContentsOfURL:[NSURL URLWithString: fileListURL relativeToURL:server] encoding:NSUTF8StringEncoding error: nil];
-    //NSLog(@"%@", captureData);
+    NSLog(@"%@", captureData);
     captureData = [captureData stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]];
     captureDataArray = [captureData componentsSeparatedByString: @"\n"];
     _captureRecords = [[NSMutableDictionary alloc] init];
@@ -97,7 +97,7 @@ int lowestRecord = 100000;
         if(![_captureRecords objectForKey: [record objectAtIndex:1]]){
             //processes dateTime data
             NSString* dateTime = [[NSString alloc] initWithFormat: @"%@ %@ %@", [record objectAtIndex:5], [record objectAtIndex:6], GMTOffset] ;
-            //NSLog(@"%@, %@", dateTime, [formattedDate dateFromString:dateTime ]);
+            NSLog(@"%@, %@", dateTime, [formattedDate dateFromString:dateTime ]);
             NSString* pathName = [@"images/" stringByAppendingString:[record objectAtIndex:2]];
             NSDate* fileDate = [formattedDate dateFromString:dateTime];
             if ( [begin earlierDate: fileDate] == fileDate) begin = fileDate;
@@ -133,7 +133,7 @@ int lowestRecord = 100000;
     NSMutableArray *tagListData = [[ tagList componentsSeparatedByString:@"\n"] mutableCopy];
     _tableData = [[NSMutableArray alloc] init];
     for(NSString *tag in tagListData){
-        //NSLog(@"%@, %@, %d", tag, _tableData, [_tableData containsObject: tag] ? YES : NO);
+        NSLog(@"%@, %@, %d", tag, _tableData, [_tableData containsObject: tag] ? YES : NO);
         if( ![_tableData containsObject: tag]) [_tableData addObject: tag];
     }
     
@@ -143,12 +143,12 @@ int lowestRecord = 100000;
     
     NSString *tagPosURL = [[NSString alloc] initWithFormat:@"getalltags.php?scientist=%@", self.scientist];
     NSString *tagPositions = [NSString stringWithContentsOfURL: [NSURL URLWithString: tagPosURL relativeToURL: server] encoding:NSUTF8StringEncoding error:nil];
-    //NSLog(@"%@", tagPositions);
+    NSLog(@"%@", tagPositions);
     tagPositions = [tagPositions stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     NSArray *tagPos = [tagPositions componentsSeparatedByString:@"\n"];
     for(int i = 0; i < tagPos.count; i++){
         NSString *recordText = [ [tagPos objectAtIndex:i ] stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]];
-        //NSLog(@"%@", recordText);
+        NSLog(@"%@", recordText);
         NSArray *record = [recordText componentsSeparatedByString: @"\t"];
         //NSLog(@"%@, %d", [record objectAtIndex:0], [[record objectAtIndex:0] intValue]);
         if([_captureRecords objectForKey: [record objectAtIndex:0] ]){
@@ -164,13 +164,12 @@ int lowestRecord = 100000;
     [self loadView];
     
     int currentRecordNum = 0;
-    NSString *currentCapture = [NSString stringWithFormat:@"%d ", currentRecordNum];
-    for( int i = 0; i < windowSize; i++){
-        do {
+    for( NSString* record in [_captureRecords allKeys]){
+//        do {
             currentRecordNum++;
-            currentCapture = [NSString stringWithFormat:@"%d ", currentRecordNum];
-        } while (![_captureRecords objectForKey: currentCapture]);
-        [[_captureRecords objectForKey: currentCapture] loadImages];
+//            currentCapture = [NSString stringWithFormat:@"%d ", currentRecordNum];
+//        } while (![_captureRecords objectForKey: currentCapture]);
+        [[_captureRecords objectForKey: record] loadImages];
         maxRecordNum = currentRecordNum;
     }
     _av = [self.tabBarController.viewControllers objectAtIndex:1];
@@ -508,61 +507,64 @@ int lowestRecord = 100000;
             currentRecordNum--;
             if(currentRecordNum == lowestRecord - 1 ) currentRecordNum = highestRecord;
         }
+        NSLog(@"%d", currentRecordNum);
         currentCaptureRecord = [NSString stringWithFormat:@"%d ", currentRecordNum];
     } while (![_captureRecords objectForKey: currentCaptureRecord] || [[[_captureRecords objectForKey:currentCaptureRecord] pathNames] count] == 0);
-    NSLog(@"maxRecordNum: %d,  current capture record: %@", maxRecordNum, currentCaptureRecord);
-    if( maxRecordNum > minRecordNum) {
-        NSString *key;
-        if (maxRecordNum - currentRecordNum < 10 && sender == _rightArrowButton){
-            currentRecordNum = maxRecordNum;
-            for (int i = 0 ; i < 10; i++){
-                do{
-                    currentRecordNum++;
-                    if(currentRecordNum == highestRecord + 1) currentRecordNum = lowestRecord;
-                    key = [NSString stringWithFormat:@"%d ", currentRecordNum];
-                } while (![_captureRecords objectForKey: key]);
-                [[_captureRecords objectForKey:key] loadImages];
-            }
-            maxRecordNum = currentRecordNum;
-            currentRecordNum = minRecordNum;
-            for ( int i = 0; i < 10; i++){
-                do{
-                    currentRecordNum++;
-                    if(currentRecordNum == highestRecord + 1) currentRecordNum = lowestRecord;
-                    key = [NSString stringWithFormat:@"%d ", currentRecordNum];
-                } while (![_captureRecords objectForKey: key]);
-                [[_captureRecords objectForKey: key] removeImages];
-            }
-            
-            minRecordNum += 10;
-        }
-        
-        if (currentRecordNum - minRecordNum < 10 && sender == _leftArrowButton){
-            currentRecordNum = minRecordNum;
-            NSString *key;
-            for (int i = 0 ; i < windowSize - 10; i++){
-                do{
-                    //NSLog(@"%d", currentRecordNum);
-                    currentRecordNum--;
-                    if(currentRecordNum < lowestRecord) currentRecordNum = highestRecord;
-                    key = [NSString stringWithFormat:@"%d ", currentRecordNum];
-                } while (![_captureRecords objectForKey: key]);
-                [[_captureRecords objectForKey:key] loadImages];
-            }
-            minRecordNum = currentRecordNum;
-            currentRecordNum = maxRecordNum;
-            for (int i = 0; i < 10; i++){
-                do{
-                    currentRecordNum--;
-                    if(currentRecordNum == lowestRecord - 1) currentRecordNum = highestRecord;
-                    key = [NSString stringWithFormat:@"%d ", currentRecordNum];
-                } while (![_captureRecords objectForKey: key]);
-                [[_captureRecords objectForKey: key] removeImages];
-            }
-            
-            maxRecordNum -= 10;
-        }
-    }
+// The following code is preserved just in case we try to make the images load when they are loaded instead of at start-up in the future -- can be deleted/archived for launch.
+//
+//    NSLog(@"maxRecordNum: %d,  current capture record: %@", maxRecordNum, currentCaptureRecord);
+//    if( maxRecordNum > minRecordNum) {
+//        NSString *key;
+//        if (maxRecordNum - currentRecordNum < 10 && sender == _rightArrowButton){
+//            currentRecordNum = maxRecordNum;
+//            for (int i = 0 ; i < 10; i++){
+//                do{
+//                    currentRecordNum++;
+//                    if(currentRecordNum == highestRecord + 1) currentRecordNum = lowestRecord;
+//                    key = [NSString stringWithFormat:@"%d ", currentRecordNum];
+//                } while (![_captureRecords objectForKey: key]);
+//                //[[_captureRecords objectForKey:key] loadImages];
+//            }
+//            maxRecordNum = currentRecordNum;
+//            currentRecordNum = minRecordNum;
+//            for ( int i = 0; i < 10; i++){
+//                do{
+//                    currentRecordNum++;
+//                    if(currentRecordNum == highestRecord + 1) currentRecordNum = lowestRecord;
+//                    key = [NSString stringWithFormat:@"%d ", currentRecordNum];
+//                } while (![_captureRecords objectForKey: key]);
+//                //[[_captureRecords objectForKey: key] removeImages];
+//            }
+//            
+//            minRecordNum += 10;
+//        }
+//        
+//        if (currentRecordNum - minRecordNum < 10 && sender == _leftArrowButton){
+//            currentRecordNum = minRecordNum;
+//            NSString *key;
+//            for (int i = 0 ; i < windowSize - 10; i++){
+//                do{
+//                    //NSLog(@"%d", currentRecordNum);
+//                    currentRecordNum--;
+//                    if(currentRecordNum < lowestRecord) currentRecordNum = highestRecord;
+//                    key = [NSString stringWithFormat:@"%d ", currentRecordNum];
+//                } while (![_captureRecords objectForKey: key]);
+//                //[[_captureRecords objectForKey:key] loadImages];
+//            }
+//            minRecordNum = currentRecordNum;
+//            currentRecordNum = maxRecordNum;
+//            for (int i = 0; i < 10; i++){
+//                do{
+//                    currentRecordNum--;
+//                    if(currentRecordNum == lowestRecord - 1) currentRecordNum = highestRecord;
+//                    key = [NSString stringWithFormat:@"%d ", currentRecordNum];
+//                } while (![_captureRecords objectForKey: key]);
+//                //[[_captureRecords objectForKey: key] removeImages];
+//            }
+//            
+//            maxRecordNum -= 10;
+//        }
+//    }
     self.currentImage.animationImages = [[_captureRecords objectForKey: currentCaptureRecord] pathNames];
     self.currentImage.animationDuration = 1;
     [self.currentImage startAnimating];
