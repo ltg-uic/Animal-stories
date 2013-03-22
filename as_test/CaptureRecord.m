@@ -53,13 +53,19 @@ SDWebImageDownloader *downloader;
 }
 
 - (Tag *) addTag: (Tag *) newTag{
+    bool x = NO;
     for(Tag * tag2 in _tagData){
         if ([[[tag2 uiTag] text] isEqual: @"Untagged"]){
             [tag2 removeLabelFromView];
             [_tagData removeObject: tag2];
         }
+        if ([[[tag2 uiTag ]text] isEqual: [[newTag uiTag] text]]){
+            if ( CGPointEqualToPoint([[tag2 uiTag] center],[[newTag uiTag] center])){
+                x = YES;
+            }
+        }
     }
-    [_tagData addObject: newTag];
+    if(!x) [_tagData addObject: newTag];
     return newTag;
 }
 
