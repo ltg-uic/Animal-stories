@@ -89,6 +89,7 @@ SDWebImageDownloader *downloader;
         }
     }
     for(Tag * tag in tagsToDelete){
+        [tag.uiTag removeFromSuperview];
         [_tagData removeObject: tag];
     }
 }
