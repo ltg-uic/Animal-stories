@@ -88,7 +88,6 @@ int lowestRecord = 100000;
     [formattedDate setDateFormat:@"yyyy-MM-dd HH:mm:ss Z"];
     NSDate *begin = [NSDate distantFuture];
     NSDate *end = [NSDate distantPast];
-    self.totalNumberOfRecords.text = [[NSString alloc] initWithFormat: @"%d records", captureDataArray.count];
     int recordNumber = 0;
     NSMutableArray *firstPassImgSetToRecordNum = [[NSMutableArray alloc] init];
     for( int i = 0; i < captureDataArray.count; i++){
@@ -175,8 +174,9 @@ int lowestRecord = 100000;
             [recordNumToImgSet insertObject: record atIndex: loadedImages];
             loadedImages++;
         }
-        maxRecordNum = currentRecordNum;
     }
+    maxRecordNum = [recordNumToImgSet count];
+    self.totalNumberOfRecords.text = [[NSString alloc] initWithFormat: @"%d records", maxRecordNum - 1];
     _av = [self.tabBarController.viewControllers objectAtIndex:1];
     self.av.tableData = _tableData;
     self.av.begin = begin;
@@ -515,10 +515,10 @@ int lowestRecord = 100000;
         NSLog(@"Before increment %d", currentRecordNum);
         if(sender == _rightArrowButton){
             currentRecordNum++;
-            if(currentRecordNum == highestRecord ) currentRecordNum = lowestRecord;
+            if(currentRecordNum == [recordNumToImgSet count] ) currentRecordNum = 0;
         } else if(sender == _leftArrowButton){
             currentRecordNum--;
-            if(currentRecordNum == 0 ) currentRecordNum = highestRecord;
+            if(currentRecordNum == -1 ) currentRecordNum = [recordNumToImgSet count] -1;
         }
         NSLog(@"%d", currentRecordNum);
         currentCaptureRecord = [recordNumToImgSet objectAtIndex: currentRecordNum];
