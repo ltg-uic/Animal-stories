@@ -73,8 +73,6 @@
 		85794B3D16F90855001BBC56 /* bg_labels.png in Resources */ = {isa = PBXBuildFile; fileRef = 85794B3C16F90855001BBC56 /* bg_labels.png */; };
 		85C3327116F79FAA00C4433E /* arrow_left.png in Resources */ = {isa = PBXBuildFile; fileRef = 85C3327016F79FAA00C4433E /* arrow_left.png */; };
 		85D7E09E16D4297700E89260 /* bg_Analyze.png in Resources */ = {isa = PBXBuildFile; fileRef = 85D7E09D16D4297700E89260 /* bg_Analyze.png */; };
-		85F4AF9C17022DC200579734 /* NS_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 85F4AF9B17022DC200579734 /* NS_logo.png */; };
-		85F4AFA017023BF700579734 /* NS_logo_rotated.png in Resources */ = {isa = PBXBuildFile; fileRef = 85F4AF9F17023BF700579734 /* NS_logo_rotated.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -165,8 +163,6 @@
 		85794B3C16F90855001BBC56 /* bg_labels.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bg_labels.png; sourceTree = "<group>"; };
 		85C3327016F79FAA00C4433E /* arrow_left.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrow_left.png; sourceTree = "<group>"; };
 		85D7E09D16D4297700E89260 /* bg_Analyze.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bg_Analyze.png; sourceTree = "<group>"; };
-		85F4AF9B17022DC200579734 /* NS_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = NS_logo.png; sourceTree = "<group>"; };
-		85F4AF9F17023BF700579734 /* NS_logo_rotated.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = NS_logo_rotated.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -298,8 +294,6 @@
 		852CDE7516D426CF0048F317 /* UI images */ = {
 			isa = PBXGroup;
 			children = (
-				85F4AF9F17023BF700579734 /* NS_logo_rotated.png */,
-				85F4AF9B17022DC200579734 /* NS_logo.png */,
 				85794B3C16F90855001BBC56 /* bg_labels.png */,
 				85C3327016F79FAA00C4433E /* arrow_left.png */,
 				123E565016CAEB48000A910E /* arrowRight.png */,
@@ -447,8 +441,6 @@
 				1263B36816E69BF6008680C8 /* highlight.png in Resources */,
 				85C3327116F79FAA00C4433E /* arrow_left.png in Resources */,
 				85794B3D16F90855001BBC56 /* bg_labels.png in Resources */,
-				85F4AF9C17022DC200579734 /* NS_logo.png in Resources */,
-				85F4AFA017023BF700579734 /* NS_logo_rotated.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
