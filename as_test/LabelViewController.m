@@ -192,6 +192,7 @@ int lowestRecord = 100000;
         currentCaptureRecord = [NSString stringWithFormat:@"%d ", -1];
     } else {
     self.currentImage.animationImages = [[_captureRecords objectForKey:currentCaptureRecord] pathNames];
+        [[_captureRecords objectForKey:currentCaptureRecord] addTagsToView: self.view];
     }
     self.currentRecordNumber.text = [NSString stringWithFormat:@"%d /", [[_captureRecords objectForKey: currentCaptureRecord] recordNumber] + 1 ];
     self.currentImage.animationDuration = 2;
