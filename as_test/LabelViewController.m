@@ -184,6 +184,7 @@ int lowestRecord = 100000;
     self.begin = begin;
     self.end = end;
     self.addLabelText.delegate = self;
+    NSLog(@"labeltext superview: %@", self.addLabelText.superview);
     [self.view addSubview:beginningTime];
     [self.view addSubview:endTime];
     currentCaptureRecord = [recordNumToImgSet objectAtIndex: 0];
@@ -495,14 +496,17 @@ int lowestRecord = 100000;
 
 - (IBAction)editPressed {
     if (_labelTable.editing){
-        [self setEditing: NO animated: NO];
+        [self setEditing: NO animated: YES];
         editModeButton.titleLabel.text = @"Edit Mode";
-        [_addLabelText setAlpha:0.0];
+        self.addLabelText.alpha = 0;
+        
     } else {
         editModeButton.titleLabel.text = @"Done";
         [self setEditing: YES animated: YES];
-        [_addLabelText setAlpha:1.0];
+        
+        
     }
+    [_labelTable reloadData];
 }
 
 - (IBAction)arrowPressed:(UIButton *)sender {
@@ -619,7 +623,9 @@ int lowestRecord = 100000;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [_tableData count];
+    if(tableView.editing){
+        return [_tableData count] + 1;
+    }return [_tableData count];
 }
 
 
@@ -629,7 +635,20 @@ int lowestRecord = 100000;
         cell = [[UITableViewCell alloc] initWithStyle: UITableViewCellStyleDefault reuseIdentifier:@"cell1"];
     }
     //NSLog(@"Test String: %@", [_tableData objectAtIndex: indexPath.row]);
-    cell.textLabel.text = [_tableData objectAtIndex: indexPath.row];
+    if (tableView.editing){
+        if(indexPath.row == 0){
+            self.addLabelText.frame = CGRectMake(addLabelText.frame.origin.x,cell.contentView.frame.origin.y + 2, cell.contentView.frame.size.width-20, cell.contentView.frame.size.height-6);
+            self.addLabelText.alpha = 1.0;
+            [cell.contentView addSubview: self.addLabelText];
+            [cell.contentView bringSubviewToFront:self.addLabelText];
+            NSLog(@"added subview, %@", self.addLabelText);
+
+        } else {
+            cell.textLabel.text = [_tableData objectAtIndex: indexPath.row - 1];
+        }
+    } else {
+        cell.textLabel.text = [_tableData objectAtIndex: indexPath.row];
+    }
     return cell;
 }
 
