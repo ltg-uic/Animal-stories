@@ -512,18 +512,20 @@ int lowestRecord = 100000;
     [[_captureRecords objectForKey:currentCaptureRecord] updateDB:server view: self.currentImage];
     
     do {
-        NSLog(@"Before increment %d", currentRecordNum);
+        
         if(sender == _rightArrowButton){
+            NSLog(@"Before increment %d", currentRecordNum);
             currentRecordNum++;
             if(currentRecordNum == [recordNumToImgSet count] ) currentRecordNum = 0;
         } else if(sender == _leftArrowButton){
+            NSLog(@"Before decrement %d", currentRecordNum);
             currentRecordNum--;
             if(currentRecordNum == -1 ) currentRecordNum = [recordNumToImgSet count] -1;
         }
-        NSLog(@"%d", currentRecordNum);
+        NSLog(@"After: %d", currentRecordNum);
         currentCaptureRecord = [recordNumToImgSet objectAtIndex: currentRecordNum];
         NSLog(@"currentCaptureRecord: %@", currentCaptureRecord);
-    } while (![_captureRecords objectForKey: currentCaptureRecord] || [[[_captureRecords objectForKey:currentCaptureRecord] pathNames] count] == 0);
+    } 
 // The following code is preserved just in case we try to make the images load when they are loaded instead of at start-up in the future -- can be deleted/archived for launch.
 //
 //    NSLog(@"maxRecordNum: %d,  current capture record: %@", maxRecordNum, currentCaptureRecord);
