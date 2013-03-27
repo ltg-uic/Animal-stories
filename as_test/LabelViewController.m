@@ -405,7 +405,7 @@ int lowestRecord = 100000;
 }
 
 -(void)textViewDidBeginEditing:(UITextView *)textView{
-    
+    [self.view bringSubviewToFront:self.notesBox];
     CGRect frame = self.notesBox.frame;
     CGRect bgFrame = notesBG.frame;
     frame.origin.y -= 250;
