@@ -689,7 +689,7 @@ int lowestRecord = 100000;
    self.edit.alertViewStyle = UIAlertViewStylePlainTextInput;
     UITextField * alertTextField = [self.edit textFieldAtIndex:0];
     alertTextField.keyboardType = UIKeyboardTypeNumberPad;
-    alertTextField.placeholder = [_tableData objectAtIndex:path.row];
+    alertTextField.placeholder = [_tableData objectAtIndex:path.row-1];
     [self.edit show];
 }
 
@@ -698,7 +698,7 @@ int lowestRecord = 100000;
     if (actionSheet == self.delete){
         if (buttonIndex == actionSheet.firstOtherButtonIndex)
         {
-            NSString *tagName = [_tableData objectAtIndex:path.row];
+            NSString *tagName = [_tableData objectAtIndex:path.row - 1];
             NSLog(@"%@", tagName);
             NSString *stringText = [NSString stringWithFormat:@"deleteTag.php?scientist=%@&tag=%@", _scientist, tagName];
             NSString *addLabelData = [NSString stringWithContentsOfURL:[NSURL URLWithString: stringText relativeToURL:server] encoding:NSUTF8StringEncoding error:nil];
@@ -708,9 +708,9 @@ int lowestRecord = 100000;
                 [[_captureRecords objectForKey:record] removeTags: tagName];
             }
             NSLog(@"%@", _labelTable);
-            [_tableData removeObjectAtIndex:path.row];
-            [_labelTable deleteRowsAtIndexPaths:[NSArray arrayWithObject:path] withRowAnimation:UITableViewRowAnimationFade];
-            
+            [_tableData removeObjectAtIndex:path.row -1];
+                //[_labelTable deleteRowsAtIndexPaths:[NSArray arrayWithObject:path] withRowAnimation:UITableViewRowAnimationFade];
+            [_labelTable reloadData];
             NSString *logData = [NSString stringWithFormat:@"\n%@ : deleted label: %@", [formattedDate stringFromDate:[NSDate date]], tagName];
             [self.file seekToEndOfFile];
             [self.file writeData:[logData dataUsingEncoding:NSUTF8StringEncoding]];
@@ -723,7 +723,7 @@ int lowestRecord = 100000;
     } else {
         
         if (buttonIndex == actionSheet.firstOtherButtonIndex){
-            NSString *oldTagName = [_tableData objectAtIndex:path.row];
+            NSString *oldTagName = [_tableData objectAtIndex:path.row - 1];
             NSString *newTagName = [[self.edit textFieldAtIndex:0] text];
             NSLog(@"%@, %@", oldTagName, newTagName);
             NSString *stringText = [NSString stringWithFormat:@"updateTagData.php?oldTag=%@&newTag=%@", oldTagName, newTagName];
@@ -732,11 +732,12 @@ int lowestRecord = 100000;
             for(NSString *record in [_captureRecords allKeys]){
                 [[_captureRecords objectForKey:record] renameTag:oldTagName withTag: newTagName];
             }
-            if(![_tableData containsObject: _addLabelText.text]){
-            [_tableData replaceObjectAtIndex:path.row withObject: newTagName];
+            
+            if(![_tableData containsObject: newTagName]){
+            [_tableData replaceObjectAtIndex:path.row - 1 withObject: newTagName];
                 
             } else {
-                [_tableData removeObjectAtIndex: path.row];
+                [_tableData removeObjectAtIndex: path.row - 1];
             }
             [_labelTable reloadData];
             NSString *logData = [NSString stringWithFormat:@"\n%@ : changed label: %@ to %@", [formattedDate stringFromDate:[NSDate date]], oldTagName, newTagName];
