@@ -509,7 +509,7 @@ int lowestRecord = 100000;
     NSInteger currentRecordNum = [[_captureRecords objectForKey:currentCaptureRecord] recordNumber];
 
     [[_captureRecords objectForKey:currentCaptureRecord] removeTagsFromView];
-    [[_captureRecords objectForKey:currentCaptureRecord] updateDB:server];
+    [[_captureRecords objectForKey:currentCaptureRecord] updateDB:server view: self.currentImage];
     
     do {
         NSLog(@"Before increment %d", currentRecordNum);
