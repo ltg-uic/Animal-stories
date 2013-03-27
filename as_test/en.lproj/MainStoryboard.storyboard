@@ -15,6 +15,15 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="AS_back-01.png" id="tBM-am-Uhv">
                                 <rect key="frame" x="-6" y="0.0" width="1030" height="767"/>
                             </imageView>
+                            <imageView contentMode="scaleToFill" id="wgk-I3-EU1">
+                                <rect key="frame" x="318" y="50" width="666" height="460"/>
+                                <gestureRecognizers/>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="WhJ-4L-Bio" appends="YES" id="aDc-DH-xYz"/>
+                                    <outletCollection property="gestureRecognizers" destination="E1M-uQ-asd" appends="YES" id="5Ee-4n-Nuu"/>
+                                    <outletCollection property="gestureRecognizers" destination="Hpx-i2-YQK" appends="YES" id="w3F-UB-79J"/>
+                                </connections>
+                            </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="image_notes.png" id="EWf-jz-Dz3">
                                 <rect key="frame" x="318" y="518" width="666" height="145"/>
                             </imageView>
@@ -26,15 +35,6 @@
                                     <outlet property="delegate" destination="2" id="IPu-Wt-KzU"/>
                                 </connections>
                             </textView>
-                            <imageView contentMode="scaleToFill" id="wgk-I3-EU1">
-                                <rect key="frame" x="318" y="50" width="666" height="460"/>
-                                <gestureRecognizers/>
-                                <connections>
-                                    <outletCollection property="gestureRecognizers" destination="WhJ-4L-Bio" appends="YES" id="aDc-DH-xYz"/>
-                                    <outletCollection property="gestureRecognizers" destination="E1M-uQ-asd" appends="YES" id="5Ee-4n-Nuu"/>
-                                    <outletCollection property="gestureRecognizers" destination="Hpx-i2-YQK" appends="YES" id="w3F-UB-79J"/>
-                                </connections>
-                            </imageView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" maximumZoomScale="2" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="ZQP-nc-FHD">
                                 <rect key="frame" x="16" y="97" width="266" height="480"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -155,7 +155,6 @@
                                 <nil key="highlightedColor"/>
                             </label>
 <<<<<<< HEAD
-<<<<<<< HEAD
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Test" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="kOG-eW-b16">
                                 <rect key="frame" x="323" y="11" width="128" height="31"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -168,8 +167,6 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
 >>>>>>> logo update
-=======
->>>>>>> Revert "logo update"
                         </subviews>
                         <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                         <gestureRecognizers/>
@@ -266,45 +263,45 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" enabled="NO" adjustsFontSizeToFit="NO" id="aHb-16-HIJ">
-                                <rect key="frame" x="327" y="222" width="371" height="208"/>
+                                <rect key="frame" x="327" y="177" width="371" height="208"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.74242102581521741" green="0.74016801951736322" blue="0.3217999721184252" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="icon_AS_app_2x.png" id="drX-y5-loS">
-                                <rect key="frame" x="1" y="523" width="295" height="225"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="NS_logo.png" id="drX-y5-loS">
+                                <rect key="frame" x="254" y="416" width="517" height="225"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </imageView>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Login" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="qdj-pV-ORg">
-                                <rect key="frame" x="352" y="258" width="88" height="21"/>
+                                <rect key="frame" x="352" y="202" width="88" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Password" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="OEE-mE-inR">
-                                <rect key="frame" x="352" y="328" width="88" height="21"/>
+                                <rect key="frame" x="352" y="272" width="88" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" id="DQv-I8-k6r">
-                                <rect key="frame" x="469" y="256" width="204" height="30"/>
+                                <rect key="frame" x="469" y="200" width="204" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" id="fjl-Cu-bcJ">
-                                <rect key="frame" x="469" y="324" width="204" height="30"/>
+                                <rect key="frame" x="469" y="268" width="204" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="HYg-21-1Ho">
-                                <rect key="frame" x="608" y="375" width="65" height="44"/>
+                                <rect key="frame" x="608" y="319" width="65" height="44"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal" title="Login">
@@ -358,10 +355,11 @@
     <resources>
         <image name="AS_back-01.png" width="5518" height="4139"/>
         <image name="Default-568h@2x.png" width="640" height="1136"/>
+        <image name="NS_logo.png" width="415" height="181"/>
+        <image name="NS_logo_rotated.png" width="221" height="148"/>
         <image name="arrowRight.png" width="30" height="480"/>
         <image name="arrow_left.png" width="30" height="480"/>
         <image name="bg_labels.png" width="145" height="45"/>
-        <image name="icon_AS_app_2x.png" width="144" height="144"/>
         <image name="icon_analyze_0.png" width="30" height="29"/>
         <image name="icon_label_0.png" width="30" height="29"/>
         <image name="image_notes.png" width="2418" height="944"/>
@@ -376,6 +374,7 @@
         <class className="AnalyzeViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/AnalyzeViewController.h"/>
             <relationships>
+                <relationship kind="action" name="tapAction:" candidateClass="UITapGestureRecognizer"/>
                 <relationship kind="outlet" name="canvasForLines" candidateClass="UIImageView"/>
                 <relationship kind="outlet" name="currentImage" candidateClass="UIImageView"/>
                 <relationship kind="outlet" name="lineView" candidateClass="LineDrawingView"/>
@@ -386,6 +385,9 @@
         <class className="LabelViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/LabelViewController.h"/>
             <relationships>
+                <relationship kind="action" name="arrowPressed:" candidateClass="UIButton"/>
+                <relationship kind="action" name="handleDrag:" candidateClass="UIPanGestureRecognizer"/>
+                <relationship kind="action" name="handleSwipeRecognizer:" candidateClass="UISwipeGestureRecognizer"/>
                 <relationship kind="outlet" name="addLabelText" candidateClass="UITextField"/>
                 <relationship kind="outlet" name="currentImage" candidateClass="UIImageView"/>
                 <relationship kind="outlet" name="currentRecordNumber" candidateClass="UILabel"/>
