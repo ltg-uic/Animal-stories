@@ -511,7 +511,7 @@ int lowestRecord = 100000;
     [[_captureRecords objectForKey:currentCaptureRecord] removeTagsFromView];
     [[_captureRecords objectForKey:currentCaptureRecord] updateDB:server view: self.currentImage];
     
-    do {
+
         
         if(sender == _rightArrowButton){
             NSLog(@"Before increment %d", currentRecordNum);
@@ -525,7 +525,6 @@ int lowestRecord = 100000;
         NSLog(@"After: %d", currentRecordNum);
         currentCaptureRecord = [recordNumToImgSet objectAtIndex: currentRecordNum];
         NSLog(@"currentCaptureRecord: %@", currentCaptureRecord);
-    } 
 // The following code is preserved just in case we try to make the images load when they are loaded instead of at start-up in the future -- can be deleted/archived for launch.
 //
 //    NSLog(@"maxRecordNum: %d,  current capture record: %@", maxRecordNum, currentCaptureRecord);
