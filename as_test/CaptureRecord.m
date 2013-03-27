@@ -104,8 +104,9 @@ SDWebImageDownloader *downloader;
 - (int) loadImages {
     _pathNames = [[NSMutableArray alloc] init];
     int numberOfImages = 0;
+    NSArray *reverseUrlArray = [[self.urlArray reverseObjectEnumerator] allObjects];
     //NSLog(@"Loading images for imgset: %d, %@", self.imgSet, self.urlArray);
-    for (NSString *pathName in self.urlArray){
+    for (NSString *pathName in reverseUrlArray){
         
         
         int index = [pathName rangeOfString:@"/" options: NSBackwardsSearch].location;
