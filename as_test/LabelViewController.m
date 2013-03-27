@@ -515,10 +515,10 @@ int lowestRecord = 100000;
         NSLog(@"Before increment %d", currentRecordNum);
         if(sender == _rightArrowButton){
             currentRecordNum++;
-            if(currentRecordNum == highestRecord + 1) currentRecordNum = lowestRecord;
+            if(currentRecordNum == highestRecord ) currentRecordNum = lowestRecord;
         } else if(sender == _leftArrowButton){
             currentRecordNum--;
-            if(currentRecordNum == lowestRecord - 1 ) currentRecordNum = highestRecord;
+            if(currentRecordNum == 0 ) currentRecordNum = highestRecord;
         }
         NSLog(@"%d", currentRecordNum);
         currentCaptureRecord = [recordNumToImgSet objectAtIndex: currentRecordNum];
