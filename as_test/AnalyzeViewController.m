@@ -49,7 +49,7 @@
 @synthesize lineView = _lineView;
 @synthesize tap;
 
-NSInteger yDist = 30;
+NSInteger yDist = 25;
 
 
 -(AnalyzeViewController *) init{
