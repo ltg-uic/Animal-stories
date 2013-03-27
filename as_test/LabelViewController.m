@@ -623,7 +623,7 @@ int lowestRecord = 100000;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if(tableView.editing){
+    if(tableView.editing && _tableData.count < 10){
         return [_tableData count] + 1;
     }return [_tableData count];
 }
@@ -636,15 +636,17 @@ int lowestRecord = 100000;
     }
     //NSLog(@"Test String: %@", [_tableData objectAtIndex: indexPath.row]);
     if (tableView.editing){
-        if(indexPath.row == 0){
-            self.addLabelText.frame = CGRectMake(addLabelText.frame.origin.x,cell.contentView.frame.origin.y + 2, cell.contentView.frame.size.width-20, cell.contentView.frame.size.height-6);
-            self.addLabelText.alpha = 1.0;
-            [cell.contentView addSubview: self.addLabelText];
-            [cell.contentView bringSubviewToFront:self.addLabelText];
-            NSLog(@"added subview, %@", self.addLabelText);
-
-        } else {
-            cell.textLabel.text = [_tableData objectAtIndex: indexPath.row - 1];
+        if(_tableData.count < 10){
+            if(indexPath.row == 0){
+                self.addLabelText.frame = CGRectMake(addLabelText.frame.origin.x,cell.contentView.frame.origin.y + 2, cell.contentView.frame.size.width-20, cell.contentView.frame.size.height-6);
+                self.addLabelText.alpha = 1.0;
+                [cell.contentView addSubview: self.addLabelText];
+                [cell.contentView bringSubviewToFront:self.addLabelText];
+                NSLog(@"added subview, %@", self.addLabelText);
+                
+            } else {
+                cell.textLabel.text = [_tableData objectAtIndex: indexPath.row - 1];
+            }
         }
     } else {
         cell.textLabel.text = [_tableData objectAtIndex: indexPath.row];
@@ -698,7 +700,9 @@ int lowestRecord = 100000;
     if (actionSheet == self.delete){
         if (buttonIndex == actionSheet.firstOtherButtonIndex)
         {
-            NSString *tagName = [_tableData objectAtIndex:path.row - 1];
+            NSString *tagName;
+            if(_tableData.count < 10 ) tagName = [_tableData objectAtIndex:path.row - 1];
+            else tagName = [_tableData objectAtIndex: path.row ];
             NSLog(@"%@", tagName);
             NSString *stringText = [NSString stringWithFormat:@"deleteTag.php?scientist=%@&tag=%@", _scientist, tagName];
             NSString *addLabelData = [NSString stringWithContentsOfURL:[NSURL URLWithString: stringText relativeToURL:server] encoding:NSUTF8StringEncoding error:nil];
@@ -708,7 +712,8 @@ int lowestRecord = 100000;
                 [[_captureRecords objectForKey:record] removeTags: tagName];
             }
             NSLog(@"%@", _labelTable);
-            [_tableData removeObjectAtIndex:path.row -1];
+            if(_tableData.count< 10) [_tableData removeObjectAtIndex:path.row -1];
+            else [_tableData removeObjectAtIndex:path.row];
                 //[_labelTable deleteRowsAtIndexPaths:[NSArray arrayWithObject:path] withRowAnimation:UITableViewRowAnimationFade];
             [_labelTable reloadData];
             NSString *logData = [NSString stringWithFormat:@"\n%@ : deleted label: %@", [formattedDate stringFromDate:[NSDate date]], tagName];
@@ -723,7 +728,9 @@ int lowestRecord = 100000;
     } else {
         
         if (buttonIndex == actionSheet.firstOtherButtonIndex){
-            NSString *oldTagName = [_tableData objectAtIndex:path.row - 1];
+            NSString *oldTagName;
+            if(_tableData.count < 10) oldTagName= [_tableData objectAtIndex:path.row - 1];
+            else oldTagName = [_tableData objectAtIndex:path.row];
             NSString *newTagName = [[self.edit textFieldAtIndex:0] text];
             NSLog(@"%@, %@", oldTagName, newTagName);
             NSString *stringText = [NSString stringWithFormat:@"updateTagData.php?oldTag=%@&newTag=%@", oldTagName, newTagName];
@@ -732,12 +739,18 @@ int lowestRecord = 100000;
             for(NSString *record in [_captureRecords allKeys]){
                 [[_captureRecords objectForKey:record] renameTag:oldTagName withTag: newTagName];
             }
-            
-            if(![_tableData containsObject: newTagName]){
-            [_tableData replaceObjectAtIndex:path.row - 1 withObject: newTagName];
-                
+            if(_tableData.count < 10){
+                if(![_tableData containsObject: newTagName]){
+                    [_tableData replaceObjectAtIndex:path.row - 1 withObject: newTagName];
+                } else {
+                    [_tableData removeObjectAtIndex: path.row - 1];
+                }
             } else {
-                [_tableData removeObjectAtIndex: path.row - 1];
+                if(![_tableData containsObject: newTagName]){
+                    [_tableData replaceObjectAtIndex:path.row withObject: newTagName];
+                } else {
+                    [_tableData removeObjectAtIndex: path.row];
+                }
             }
             [_labelTable reloadData];
             NSString *logData = [NSString stringWithFormat:@"\n%@ : changed label: %@ to %@", [formattedDate stringFromDate:[NSDate date]], oldTagName, newTagName];
