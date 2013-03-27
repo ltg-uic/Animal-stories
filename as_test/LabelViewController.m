@@ -89,13 +89,11 @@ int lowestRecord = 100000;
     NSDate *begin = [NSDate distantFuture];
     NSDate *end = [NSDate distantPast];
     self.totalNumberOfRecords.text = [[NSString alloc] initWithFormat: @"%d records", captureDataArray.count];
-    NSString *firstImgSetNumber = @"";
     int recordNumber = 0;
-    if( windowSize > captureDataArray.count) windowSize = captureDataArray.count;
+    NSMutableArray *firstPassImgSetToRecordNum = [[NSMutableArray alloc] init];
     for( int i = 0; i < captureDataArray.count; i++){
         NSString *recordText = [ [captureDataArray objectAtIndex:i ] stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]];
         NSArray *record = [recordText componentsSeparatedByString: @"\t"];
-        if( i == 0) firstImgSetNumber = [record objectAtIndex: 1];
         if(![_captureRecords objectForKey: [record objectAtIndex:1]]){
             //processes dateTime data
             NSString* dateTime = [[NSString alloc] initWithFormat: @"%@ %@ %@", [record objectAtIndex:5], [record objectAtIndex:6], GMTOffset] ;
@@ -108,7 +106,7 @@ int lowestRecord = 100000;
             if (highestRecord < [[record objectAtIndex:1] intValue]) highestRecord = [[record objectAtIndex:1] intValue];
             CaptureRecord *newRecord = [[ CaptureRecord alloc] initWithPathName:[[server absoluteString] stringByAppendingString: pathName ] identifier: [[record objectAtIndex: 1] intValue]  author:[record objectAtIndex: 3] atTime: [formattedDate dateFromString:dateTime] withRecord: recordNumber notes: [record objectAtIndex: 7]];
             [_captureRecords setObject:newRecord forKey:[record objectAtIndex:1]];
-            [recordNumToImgSet insertObject: [record objectAtIndex:1] atIndex: recordNumber];
+            [firstPassImgSetToRecordNum insertObject: [record objectAtIndex:1] atIndex: recordNumber];
             recordNumber++;
         }else {
             NSString* pathName = [@"images/" stringByAppendingString:[record objectAtIndex:2]];
@@ -165,14 +163,18 @@ int lowestRecord = 100000;
 
     [self loadView];
     username.text = self.user;
+
     NSLog(@"user text: %@", username);
     int currentRecordNum = 0;
-    for( NSString* record in [_captureRecords allKeys]){
-//        do {
-            currentRecordNum++;
-//            currentCapture = [NSString stringWithFormat:@"%d ", currentRecordNum];
-//        } while (![_captureRecords objectForKey: currentCapture]);
-        [[_captureRecords objectForKey: record] loadImages];
+    int loadedImages = 0;
+    for( int i = 0; i < firstPassImgSetToRecordNum.count; i++){
+        currentRecordNum++;
+        NSString *record = [firstPassImgSetToRecordNum objectAtIndex: i];
+        if([[_captureRecords objectForKey: record] loadImages] > 0 ){
+            [[_captureRecords objectForKey:record] setRecordNumber: loadedImages];
+            [recordNumToImgSet insertObject: record atIndex: loadedImages];
+            loadedImages++;
+        }
         maxRecordNum = currentRecordNum;
     }
     _av = [self.tabBarController.viewControllers objectAtIndex:1];
@@ -184,13 +186,14 @@ int lowestRecord = 100000;
     self.addLabelText.delegate = self;
     [self.view addSubview:beginningTime];
     [self.view addSubview:endTime];
-    currentCaptureRecord = [firstImgSetNumber mutableCopy];
+    currentCaptureRecord = [recordNumToImgSet objectAtIndex: 0];
     if ([[[_captureRecords objectForKey:currentCaptureRecord] pathNames] count] == 0){
         self.currentImage.image = [UIImage imageNamed:@"startImage.png"];
         currentCaptureRecord = [NSString stringWithFormat:@"%d ", -1];
     } else {
     self.currentImage.animationImages = [[_captureRecords objectForKey:currentCaptureRecord] pathNames];
     }
+    self.currentRecordNumber.text = [NSString stringWithFormat:@"%d /", [[_captureRecords objectForKey: currentCaptureRecord] recordNumber] + 1 ];
     self.currentImage.animationDuration = 2;
     [self.currentImage startAnimating];
     //NSLog(@"Key: %@, %@", currentCaptureRecord,[_captureRecords objectForKey:currentCaptureRecord]);
@@ -502,12 +505,13 @@ int lowestRecord = 100000;
 }
 
 - (IBAction)arrowPressed:(UIButton *)sender {
-    NSInteger currentRecordNum = [currentCaptureRecord intValue];
+    NSInteger currentRecordNum = [[_captureRecords objectForKey:currentCaptureRecord] recordNumber];
 
     [[_captureRecords objectForKey:currentCaptureRecord] removeTagsFromView];
     [[_captureRecords objectForKey:currentCaptureRecord] updateDB:server];
     
     do {
+        NSLog(@"Before increment %d", currentRecordNum);
         if(sender == _rightArrowButton){
             currentRecordNum++;
             if(currentRecordNum == highestRecord + 1) currentRecordNum = lowestRecord;
@@ -516,7 +520,8 @@ int lowestRecord = 100000;
             if(currentRecordNum == lowestRecord - 1 ) currentRecordNum = highestRecord;
         }
         NSLog(@"%d", currentRecordNum);
-        currentCaptureRecord = [NSString stringWithFormat:@"%d ", currentRecordNum];
+        currentCaptureRecord = [recordNumToImgSet objectAtIndex: currentRecordNum];
+        NSLog(@"currentCaptureRecord: %@", currentCaptureRecord);
     } while (![_captureRecords objectForKey: currentCaptureRecord] || [[[_captureRecords objectForKey:currentCaptureRecord] pathNames] count] == 0);
 // The following code is preserved just in case we try to make the images load when they are loaded instead of at start-up in the future -- can be deleted/archived for launch.
 //
