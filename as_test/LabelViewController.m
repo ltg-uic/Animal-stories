@@ -191,7 +191,7 @@ int lowestRecord = 100000;
     } else {
     self.currentImage.animationImages = [[_captureRecords objectForKey:currentCaptureRecord] pathNames];
     }
-    self.currentImage.animationDuration = 1;
+    self.currentImage.animationDuration = 2;
     [self.currentImage startAnimating];
     //NSLog(@"Key: %@, %@", currentCaptureRecord,[_captureRecords objectForKey:currentCaptureRecord]);
     //NSLog(@"%@", self.currentImage.image);
@@ -430,7 +430,7 @@ int lowestRecord = 100000;
     currentCaptureRecord = [NSString stringWithFormat:@"%d ", currentRecordNum];
     //NSLog(@"%@", currentCaptureRecord);
     self.currentImage.animationImages = [[_captureRecords objectForKey: currentCaptureRecord] pathNames];
-    self.currentImage.animationDuration = 1;
+    self.currentImage.animationDuration = 2;
     [self.currentImage startAnimating];
     [[_captureRecords objectForKey:currentCaptureRecord] addTagsToView: self.view];
     
@@ -574,7 +574,7 @@ int lowestRecord = 100000;
 //        }
 //    }
     self.currentImage.animationImages = [[_captureRecords objectForKey: currentCaptureRecord] pathNames];
-    self.currentImage.animationDuration = 1;
+    self.currentImage.animationDuration = 2;
     [self.currentImage startAnimating];
     [[_captureRecords objectForKey:currentCaptureRecord] addTagsToView: self.view];
     [self drawTimeLineCirclesWithHighlight:[_captureRecords objectForKey:currentCaptureRecord]];
