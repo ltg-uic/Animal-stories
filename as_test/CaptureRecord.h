@@ -29,7 +29,7 @@
 - (void) addPathName: (NSString *) pathName;
 
 //These two images in conjunction help deal with memory warnings
-- (void) loadImages;
+- (int) loadImages;
 - (void) removeImages;
 
 //partnered methods that deal with the tags when the image switches

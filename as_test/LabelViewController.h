@@ -20,8 +20,8 @@
     IBOutlet UIButton *leftArrowButton;
     IBOutlet UIImageView *notesBG;
     IBOutlet UITextView *notesField;
+    IBOutlet UILabel *username;
 }
-
 
 @property (strong, nonatomic) IBOutlet UILabel *totalNumberOfRecords;
 @property (strong, nonatomic) IBOutlet UILabel *currentRecordNumber;

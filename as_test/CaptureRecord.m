@@ -100,9 +100,10 @@ SDWebImageDownloader *downloader;
     [self.urlArray addObject:pathName];
 }
 
-- (void) loadImages {
+- (int) loadImages {
     _pathNames = [[NSMutableArray alloc] init];
-    NSLog(@"Loading images for imgset: %d, %@", self.imgSet, self.urlArray);
+    int numberOfImages = 0;
+    //NSLog(@"Loading images for imgset: %d, %@", self.imgSet, self.urlArray);
     for (NSString *pathName in self.urlArray){
         
         
@@ -117,14 +118,18 @@ SDWebImageDownloader *downloader;
             if ( urlData )
             {
                 [urlData writeToFile:filePath atomically:YES];
-                NSLog(@"%@%@", documentsDirectory, fileName);
+                //NSLog(@"%@%@", documentsDirectory, fileName);
                 
             }
         }
         UIImage *image = [UIImage imageWithContentsOfFile:filePath];
-        if (image) [_pathNames addObject:image];
+        if (image){
+            
+        [_pathNames addObject:image];
+            numberOfImages++;
+        }
     }
-    
+    return numberOfImages;
 }
 
 - (void) removeImages {
