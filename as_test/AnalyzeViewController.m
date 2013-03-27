@@ -205,7 +205,7 @@ NSInteger yDist = 30;
 - (void)rangeSliderValueChanged:(id)sender {
     
     [self updateSliderLabels];
-    [self updateLines];
+    //[self updateLines];
 }
 
 - (void)updateSliderLabels {
