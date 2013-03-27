@@ -379,6 +379,7 @@
         <class className="AnalyzeViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/AnalyzeViewController.h"/>
             <relationships>
+                <relationship kind="action" name="tapAction:" candidateClass="UITapGestureRecognizer"/>
                 <relationship kind="outlet" name="canvasForLines" candidateClass="UIImageView"/>
                 <relationship kind="outlet" name="currentImage" candidateClass="UIImageView"/>
                 <relationship kind="outlet" name="lineView" candidateClass="LineDrawingView"/>
