@@ -278,6 +278,13 @@ NSInteger yDist = 25;
                 }
             }
         }
+        if ([record isEqual: self.currentRecord]){
+            self.highlight.alpha = 1.0;
+            self.highlight.center = CGPointMake([self mapTimeToDisplay: [[_captureRecords objectForKey:record] firstImageTime]  withBeginTime:beginTime withEndTime: endTime beginX:105 width:814], self.highlight.center.y);
+            if (self.highlight.center.x > 814 || self.highlight.center.x < 105){
+                self.highlight.alpha = 0.0;
+            }
+        }
     }
     [self updateTotals: totals];
 }
