@@ -24,6 +24,7 @@
 @property UIBezierPath *rightLine;
 @property UIColor *brushPattern;
 @property UIBezierPath *path;
+@property UIImageView *highlight;
 @end
 
 
@@ -48,6 +49,7 @@
 @synthesize canvasForLines = _canvasForLines;
 @synthesize lineView = _lineView;
 @synthesize tap;
+@synthesize highlight = _highlight;
 
 NSInteger yDist = 25;
 
@@ -117,8 +119,10 @@ NSInteger yDist = 25;
     [self.view addGestureRecognizer:self.tap];
     self.tap.delegate = self;
     NSLog(@"%@", self.timeLineContainer.gestureRecognizers);
-
-	// Do any additional setup after loading the view, typically from a nib.
+    
+    self.highlight = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"highlight2.png"]];
+    self.highlight.center = CGPointMake(-100, 10000);
+    [self.timeLineContainer addSubview: self.highlight];
 }
 
 
@@ -309,6 +313,8 @@ NSInteger yDist = 25;
         if(CGRectContainsPoint([[_dataPoints objectForKey:circleRecord] frame], tapLocation)){
             NSString *circleRecordModified;
             NSRange range = [circleRecord rangeOfString:@" "];
+            self.highlight.center = [[_dataPoints objectForKey:circleRecord] center];
+            [self.timeLineContainer sendSubviewToBack: self.highlight];
             circleRecordModified = [circleRecord substringToIndex:range.location + 1];
             self.currentRecord = [circleRecordModified mutableCopy];
             self.currentImage.animationImages = [[self.captureRecords objectForKey:circleRecordModified] pathNames];
