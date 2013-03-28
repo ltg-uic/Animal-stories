@@ -270,10 +270,12 @@ int lowestRecord = 100000;
     }
 
 - (void) viewDidAppear: (BOOL) animated{
-    NSLog(@"view did appear");
-    if(self.av.currentRecord){[[_captureRecords objectForKey:currentCaptureRecord] removeTagsFromView];
+    NSLog(@"view did appear, currentRecord: %@ ", self.av.currentRecord);
+
+    if(self.av.currentRecord){
+        [[_captureRecords objectForKey:currentCaptureRecord] removeTagsFromView];
     [[_captureRecords objectForKey:currentCaptureRecord] updateDB:server view: self.currentImage];
-    self.captureRecords = self.av.captureRecords;
+    currentCaptureRecord = self.av.currentRecord;
     self.currentImage.animationImages = [[_captureRecords objectForKey: currentCaptureRecord] pathNames];
     self.currentImage.animationDuration = 2;
     [self.currentImage startAnimating];
@@ -283,6 +285,7 @@ int lowestRecord = 100000;
     self.currentRecordNumber.text = [NSString stringWithFormat:@"%d /", [[_captureRecords objectForKey: currentCaptureRecord] recordNumber] + 1 ];
     self.notesBox.text =[[_captureRecords objectForKey:currentCaptureRecord] notes];
     }
+    [self.view setNeedsDisplay];
 }
 //Gesture Processing
 
