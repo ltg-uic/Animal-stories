@@ -29,6 +29,7 @@
 @property (strong, nonatomic) NSDate * end;
 @property (strong, nonatomic) IBOutlet UIScrollView *timeLineContainer;
 @property NSFileHandle *file;
+@property NSMutableString *currentRecord;
 
 
 @end

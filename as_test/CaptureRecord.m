@@ -165,14 +165,14 @@ SDWebImageDownloader *downloader;
 
 - (void) updateDB : (NSURL *) server view: (UIView *) view{
     NSString *stringText = [NSString stringWithFormat:@"deleteTagData.php?imgSetID=%d", _imgSet];
-    NSString *addLabelData = [NSString stringWithContentsOfURL:[NSURL URLWithString: stringText relativeToURL:server] encoding:NSUTF8StringEncoding error:nil];
-    NSLog(@"%@", addLabelData);
+   [NSString stringWithContentsOfURL:[NSURL URLWithString: stringText relativeToURL:server] encoding:NSUTF8StringEncoding error:nil];
+        //NSLog(@"%@", addLabelData);
     NSMutableArray *tagsToDelete = [[NSMutableArray alloc] init];
     for( Tag* tag in _tagData){
         if(CGRectContainsPoint(view.frame, tag.uiTag.frame.origin)){
         NSString *stringText = [NSString stringWithFormat:@"insertTagData.php?imgSetID=%d&tag=%@&x=%f&y=%f", _imgSet, tag.uiTag.text, tag.uiTag.frame.origin.x, tag.uiTag.frame.origin.y];
-        NSString *addLabelData = [NSString stringWithContentsOfURL:[NSURL URLWithString: stringText relativeToURL:server] encoding:NSUTF8StringEncoding error:nil];
-            NSLog(@"%@ \n, %@", stringText, addLabelData);
+        [NSString stringWithContentsOfURL:[NSURL URLWithString: stringText relativeToURL:server] encoding:NSUTF8StringEncoding error:nil];
+                //NSLog(@"%@ \n, %@", stringText, addLabelData);
         } else {
             [tagsToDelete addObject:tag];
         }

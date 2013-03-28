@@ -267,6 +267,22 @@ int lowestRecord = 100000;
     [self.file seekToEndOfFile];
     [self.file writeData: [logData dataUsingEncoding:NSUTF8StringEncoding]];
     [self.tableData removeObjectIdenticalTo: @"Untagged"];
+    }
+
+- (void) viewDidAppear: (BOOL) animated{
+    NSLog(@"view did appear");
+    if(self.av.currentRecord){[[_captureRecords objectForKey:currentCaptureRecord] removeTagsFromView];
+    [[_captureRecords objectForKey:currentCaptureRecord] updateDB:server view: self.currentImage];
+    self.captureRecords = self.av.captureRecords;
+    self.currentImage.animationImages = [[_captureRecords objectForKey: currentCaptureRecord] pathNames];
+    self.currentImage.animationDuration = 2;
+    [self.currentImage startAnimating];
+    [[_captureRecords objectForKey:currentCaptureRecord] addTagsToView: self.view];
+    [self drawTimeLineCirclesWithHighlight:[_captureRecords objectForKey:currentCaptureRecord]];
+    self.av.captureRecords = self.captureRecords;
+    self.currentRecordNumber.text = [NSString stringWithFormat:@"%d /", [[_captureRecords objectForKey: currentCaptureRecord] recordNumber] + 1 ];
+    self.notesBox.text =[[_captureRecords objectForKey:currentCaptureRecord] notes];
+    }
 }
 //Gesture Processing
 

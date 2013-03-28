@@ -124,7 +124,7 @@ NSInteger yDist = 25;
 
 
 
--(void)viewWillAppear:(BOOL)animated{
+-(void)viewDidAppear:(BOOL)animated{
     NSDateFormatter* formattedDate = [[NSDateFormatter alloc] init];
     [formattedDate setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
     NSString *logData = [NSString stringWithFormat:@"\n%@ : Switched to the Analyze View", [formattedDate stringFromDate:[NSDate date]]];
@@ -176,7 +176,7 @@ NSInteger yDist = 25;
     }
     [self drawCirclesWithBegin:_begin withEndTime:_end andWithTotals:totals];
     //NSLog(@"%@", NSStringFromCGSize(self.timeLineContainer.contentSize));
-
+    
 
 
 }
@@ -310,6 +310,7 @@ NSInteger yDist = 25;
             NSString *circleRecordModified;
             NSRange range = [circleRecord rangeOfString:@" "];
             circleRecordModified = [circleRecord substringToIndex:range.location + 1];
+            self.currentRecord = [circleRecordModified mutableCopy];
             self.currentImage.animationImages = [[self.captureRecords objectForKey:circleRecordModified] pathNames];
             self.currentImage.animationDuration = 1;
             [self.currentImage startAnimating];
