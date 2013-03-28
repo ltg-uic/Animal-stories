@@ -136,7 +136,7 @@ SDWebImageDownloader *downloader;
 
 - (void) removeImages {
     //NSLog(@"Removing images for imgset: %d", self.imgSet);
-    [self.pathNames removeAllObjects];
+    //[self.pathNames removeAllObjects];
 }
 
 - (void) addTagsToView: (UIView *) view{
