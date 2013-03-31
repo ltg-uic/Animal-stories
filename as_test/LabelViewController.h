@@ -13,8 +13,6 @@
 {
     UITableView* labelTable;
     NSMutableArray* tableData;
-    
-    IBOutlet UIButton *editModeButton;
     IBOutlet UITextField *addLabelText;
     IBOutlet UIButton *rightArrowButton;
     IBOutlet UIButton *leftArrowButton;

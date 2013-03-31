@@ -97,23 +97,6 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" reversesTitleShadowWhenHighlighted="YES" lineBreakMode="middleTruncation" id="KY2-Pw-5eU">
-                                <rect key="frame" x="186" y="49" width="96" height="44"/>
-                                <fontDescription key="fontDescription" type="boldSystem" size="button"/>
-                                <color key="tintColor" red="0.1960784495" green="0.71764707569999997" blue="0.3058823645" alpha="1" colorSpace="deviceRGB"/>
-                                <inset key="contentEdgeInsets" minX="0.0" minY="2" maxX="0.0" maxY="1"/>
-                                <state key="normal" title="Edit Mode">
-                                    <color key="titleColor" red="0.0" green="0.49823794157608692" blue="0.23308665283480734" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                </state>
-                                <state key="selected" image="label_color.png" backgroundImage="label_2.png"/>
-                                <state key="highlighted">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="editPressed" destination="2" eventType="touchUpInside" id="jEc-Zx-KvH"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="t2p-dF-gj0">
                                 <rect key="frame" x="985" y="50" width="28" height="450"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
@@ -174,6 +157,21 @@
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="LYs-Lu-8Ux">
+                                <rect key="frame" x="178" y="46" width="104" height="44"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
+                                <state key="normal" title="Edit Mode">
+                                    <color key="titleColor" red="0.0" green="0.49823794160000001" blue="0.23308665279999999" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="selected">
+                                    <color key="titleColor" red="0.0" green="0.49823794160000001" blue="0.23308665279999999" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="editPressed" destination="2" eventType="touchUpInside" id="lzo-T9-hLo"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                         <gestureRecognizers/>
@@ -186,7 +184,7 @@
                         <outlet property="currentImage" destination="wgk-I3-EU1" id="OUr-Vp-vRY"/>
                         <outlet property="currentRecordNumber" destination="DgO-cq-dxs" id="d1x-AL-YEH"/>
                         <outlet property="dragGesture" destination="Hpx-i2-YQK" id="NAn-7s-tow"/>
-                        <outlet property="editModeButton" destination="KY2-Pw-5eU" id="TAZ-Db-q6b"/>
+                        <outlet property="editModeButton" destination="LYs-Lu-8Ux" id="Ba0-z6-U8R"/>
                         <outlet property="labelTable" destination="ZQP-nc-FHD" id="hDg-T1-zA3"/>
                         <outlet property="leftArrowButton" destination="qr5-U7-8x3" id="Yeg-et-Lzf"/>
                         <outlet property="notesBG" destination="EWf-jz-Dz3" id="Lso-in-UeS"/>
@@ -372,59 +370,8 @@
         <image name="image_notes.png" width="2418" height="944"/>
         <image name="label_1.png" width="504" height="91"/>
         <image name="label_2.png" width="504" height="91"/>
-        <image name="label_color.png" width="60" height="60"/>
         <image name="trash.png" width="128" height="128"/>
     </resources>
-    <classes>
-        <class className="AnalyzeViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/AnalyzeViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="tapAction:" candidateClass="UITapGestureRecognizer"/>
-                <relationship kind="outlet" name="canvasForLines" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="currentImage" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="lineView" candidateClass="LineDrawingView"/>
-                <relationship kind="outlet" name="tap" candidateClass="UITapGestureRecognizer"/>
-                <relationship kind="outlet" name="timeLineContainer" candidateClass="UIScrollView"/>
-            </relationships>
-        </class>
-        <class className="LabelViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/LabelViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="arrowPressed:" candidateClass="UIButton"/>
-                <relationship kind="action" name="handleDrag:" candidateClass="UIPanGestureRecognizer"/>
-                <relationship kind="action" name="handleSwipeRecognizer:" candidateClass="UISwipeGestureRecognizer"/>
-                <relationship kind="outlet" name="addLabelText" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="currentImage" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="currentRecordNumber" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="dragGesture" candidateClass="UIPanGestureRecognizer"/>
-                <relationship kind="outlet" name="dragGesture2" candidateClass="UIPanGestureRecognizer"/>
-                <relationship kind="outlet" name="editModeButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="leftArrowButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="notesBG" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="notesBox" candidateClass="UITextView"/>
-                <relationship kind="outlet" name="notesField" candidateClass="UITextView"/>
-                <relationship kind="outlet" name="rightArrowButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="swipeRecognizer" candidateClass="UISwipeGestureRecognizer"/>
-                <relationship kind="outlet" name="swipeRecognizer2" candidateClass="UISwipeGestureRecognizer"/>
-                <relationship kind="outlet" name="totalNumberOfRecords" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="username" candidateClass="UILabel"/>
-            </relationships>
-        </class>
-        <class className="LineDrawingView" superclassName="UIView">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/LineDrawingView.h"/>
-        </class>
-        <class className="LoginViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/LoginViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="loginButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="loginField" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="passwordField" candidateClass="UITextField"/>
-            </relationships>
-        </class>
-        <class className="TabController" superclassName="UITabBarController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/TabController.h"/>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar" statusBarStyle="blackTranslucent"/>
         <simulatedOrientationMetrics key="orientation"/>

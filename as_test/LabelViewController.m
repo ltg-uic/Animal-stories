@@ -239,7 +239,8 @@ int lowestRecord = 100000;
     //NSLog(@"%@", self.currentImage.image);
     
     //NSLog(@"%@", [self.view subviews]);
-    
+    [self.editModeButton setTitle:@"Edit Mode" forState:UIControlStateNormal];
+    [self.editModeButton setTitle:@"Done" forState: UIControlStateSelected];
     self.labelTable.allowsSelectionDuringEditing = YES;
     _addLabelText.borderStyle = UITextBorderStyleRoundedRect;
     _addLabelText.alpha = 0.0;
@@ -550,16 +551,13 @@ int lowestRecord = 100000;
 //Begin button processing
 
 - (IBAction)editPressed {
+    NSLog(@"editpressed. editmodebutton state: %d", self.editModeButton.state);
     if (_labelTable.editing){
         [self setEditing: NO animated: YES];
-        editModeButton.titleLabel.text = @"Edit Mode";
         self.addLabelText.alpha = 0;
         
     } else {
-        editModeButton.titleLabel.text = @"Done";
         [self setEditing: YES animated: YES];
-        
-        
     }
     [_labelTable reloadData];
 }
@@ -573,17 +571,17 @@ int lowestRecord = 100000;
 
         
         if(sender == _rightArrowButton){
-            NSLog(@"Before increment %d", currentRecordNum);
+            //NSLog(@"Before increment %d", currentRecordNum);
             currentRecordNum++;
             if(currentRecordNum == [recordNumToImgSet count] ) currentRecordNum = 0;
         } else if(sender == _leftArrowButton){
-            NSLog(@"Before decrement %d", currentRecordNum);
+            //NSLog(@"Before decrement %d", currentRecordNum);
             currentRecordNum--;
             if(currentRecordNum == -1 ) currentRecordNum = [recordNumToImgSet count] -1;
         }
-        NSLog(@"After: %d", currentRecordNum);
+        //NSLog(@"After: %d", currentRecordNum);
         currentCaptureRecord = [recordNumToImgSet objectAtIndex: currentRecordNum];
-        NSLog(@"currentCaptureRecord: %@, pathNames: %@", currentCaptureRecord, [[_captureRecords objectForKey:currentCaptureRecord] pathNames]);
+        //NSLog(@"currentCaptureRecord: %@, pathNames: %@", currentCaptureRecord, [[_captureRecords objectForKey:currentCaptureRecord] pathNames]);
 // The following code is preserved just in case we try to make the images load when they are loaded instead of at start-up in the future -- can be deleted/archived for launch.
 //
 //    NSLog(@"maxRecordNum: %d,  current capture record: %@", maxRecordNum, currentCaptureRecord);
@@ -652,6 +650,12 @@ int lowestRecord = 100000;
 
 - (void)setEditing:(BOOL)editing animated:(BOOL)animated {
     [super setEditing:editing animated:animated];
+    if(editing){
+        self.editModeButton.selected = YES;
+    } else {
+        self.editModeButton.selected = NO;
+    }
+    [self.editModeButton setNeedsDisplay];
     [_labelTable setEditing:editing animated:animated];
 }
 
