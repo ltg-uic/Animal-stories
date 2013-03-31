@@ -22,6 +22,7 @@
 @synthesize notes = _notes;
 @synthesize recordNumber = _recordNumber;
 @synthesize urlArray = _urlArray;
+@synthesize timeArray = _timeArray;
 
 SDWebImageDownloader *downloader;
 
@@ -49,6 +50,7 @@ SDWebImageDownloader *downloader;
     _tagData = [[NSMutableArray alloc] init];
     _firstImageTime = dateTime;
     _notes = [notes mutableCopy];
+    _timeArray = [[NSMutableArray alloc] initWithObjects:dateTime, nil];
     return self;
 }
 
@@ -94,19 +96,23 @@ SDWebImageDownloader *downloader;
     }
 }
 
-- (void) addPathName: (NSString *) pathName{
+- (void) addPathName: (NSString *) pathName atTime: (NSDate *) date{
     pathName = [pathName stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]];
     //    UIImage *nextImage = [[UIImage alloc] initWithData: [NSData dataWithContentsOfURL:[NSURL URLWithString:pathName]]];
-
+    [self.timeArray addObject: date];
     [self.urlArray addObject:pathName];
 }
 
 - (int) loadImages {
     _pathNames = [[NSMutableArray alloc] init];
     int numberOfImages = 0;
-    NSArray *reverseUrlArray = [[self.urlArray reverseObjectEnumerator] allObjects];
-    //NSLog(@"Loading images for imgset: %d, %@", self.imgSet, self.urlArray);
-    for (NSString *pathName in reverseUrlArray){
+    NSMutableArray *orderedArray = self.urlArray;
+    if([[self.timeArray objectAtIndex:0] laterDate: [self.timeArray lastObject] ] == [self.timeArray objectAtIndex:0]){
+        NSArray *reverseUrlArray = [[self.urlArray reverseObjectEnumerator] allObjects];
+        orderedArray = [reverseUrlArray mutableCopy];
+    }
+    
+    for (NSString *pathName in orderedArray){
         
         
         int index = [pathName rangeOfString:@"/" options: NSBackwardsSearch].location;

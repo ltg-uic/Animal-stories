@@ -20,13 +20,14 @@
 @property NSDate *firstImageTime;
 @property NSMutableString *notes;
 @property int recordNumber;
+@property NSMutableArray *timeArray;
 
 
 //  Creates a new record, using the imgSet as the identifier. After a new record is created, all following records with the same imgSet# are just additional pathNames, and so we use the "addPathName" method.
 
 -(CaptureRecord*)  initWithPathName: (NSString *) pathName identifier:(int) imgSet author:(NSString *) scientist atTime: (NSDate *) dateTime withRecord: (int) recordNum notes: (NSString *) notes;
 
-- (void) addPathName: (NSString *) pathName;
+- (void) addPathName: (NSString *) pathName atTime: (NSDate *) date;
 
 //These two images in conjunction help deal with memory warnings
 - (int) loadImages;

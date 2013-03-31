@@ -109,7 +109,9 @@ int lowestRecord = 100000;
             recordNumber++;
         }else {
             NSString* pathName = [@"images/" stringByAppendingString:[record objectAtIndex:2]];
-            [[_captureRecords objectForKey: [record objectAtIndex:1] ] addPathName: [[server absoluteString] stringByAppendingString: pathName]];
+            NSString* dateTime = [[NSString alloc] initWithFormat: @"%@ %@ %@", [record objectAtIndex:5], [record objectAtIndex:6], GMTOffset] ;
+            NSDate* fileDate = [formattedDate dateFromString:dateTime];
+            [[_captureRecords objectForKey: [record objectAtIndex:1] ] addPathName: [[server absoluteString] stringByAppendingString: pathName] atTime: fileDate];
         }
     }
 
