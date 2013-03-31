@@ -330,7 +330,7 @@ int lowestRecord = 100000;
 
 //handles drags
 - (IBAction)handleDrag: (UIPanGestureRecognizer *) recognizer{
-
+    if(!_labelTable.editing){
 
     //first case: there is a label selected on the left and we're creating a new label to drag onto the view for the first time.
     //second case: there is an existing label on the image and we're moving it
@@ -408,6 +408,7 @@ int lowestRecord = 100000;
                 _activeTag = nil;
             }
         }
+    }
     }
     
 }
@@ -553,7 +554,7 @@ int lowestRecord = 100000;
 //Begin button processing
 
 - (IBAction)editPressed {
-    NSLog(@"editpressed. editmodebutton state: %d", self.editModeButton.state);
+    //NSLog(@"editpressed. editmodebutton state: %d", self.editModeButton.state);
     if (_labelTable.editing){
         [self setEditing: NO animated: YES];
         self.addLabelText.alpha = 0;
@@ -672,6 +673,7 @@ int lowestRecord = 100000;
     NSLog(@"%@", addLabelData);
     }
     _addLabelText.text = @"";
+
 }
 
 
