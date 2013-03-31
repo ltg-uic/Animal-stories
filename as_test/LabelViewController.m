@@ -439,6 +439,7 @@ int lowestRecord = 100000;
     //need to address the fact that this might steal from
     //label adding too, and double check that.
     NSLog(@"Keyboard did hide");
+     [_labelTable reloadData];
     [self.notesBox resignFirstResponder];
     CaptureRecord *record = [_captureRecords objectForKey:currentCaptureRecord];
     record.notes = [self.notesBox.text mutableCopy];
