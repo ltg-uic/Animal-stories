@@ -113,21 +113,21 @@ SDWebImageDownloader *downloader;
         NSString *fileName = [pathName substringFromIndex:index];
         NSArray   *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
         NSString  *documentsDirectory = [paths objectAtIndex:0];
-        NSString  *filePath = [NSString stringWithFormat:@"%@/%@", documentsDirectory,fileName];
-        if(![[NSFileManager defaultManager] fileExistsAtPath:filePath]){
+        NSString  *filePath = [NSString stringWithFormat:@"%@%@", documentsDirectory,fileName];
+        //NSLog(@"%@", filePath);
+        if(![[NSFileManager defaultManager] fileExistsAtPath:filePath] ){
+            //NSLog(@"File Does Not Already Exist");
             NSURL  *url = [NSURL URLWithString:pathName];
             NSData *urlData = [NSData dataWithContentsOfURL:url];
             if ( urlData )
             {
                 [urlData writeToFile:filePath atomically:YES];
-                //NSLog(@"%@%@", documentsDirectory, fileName);
-                
+                NSLog(@"%@%@", documentsDirectory, fileName);   
             }
         }
         UIImage *image = [UIImage imageWithContentsOfFile:filePath];
         if (image){
-            
-        [_pathNames addObject:image];
+            [_pathNames addObject:image];
             numberOfImages++;
         }
     }
@@ -182,5 +182,6 @@ SDWebImageDownloader *downloader;
     }
     
 }
+
 
 @end

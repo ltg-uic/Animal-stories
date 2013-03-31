@@ -163,20 +163,55 @@ int lowestRecord = 100000;
     [self loadView];
     username.text = self.user;
 
-    NSLog(@"user text: %@", username);
+    //NSLog(@"%@", firstPassImgSetToRecordNum);
     int currentRecordNum = 0;
     int loadedImages = 0;
     for( int i = 0; i < firstPassImgSetToRecordNum.count; i++){
         currentRecordNum++;
         NSString *record = [firstPassImgSetToRecordNum objectAtIndex: i];
         if([[_captureRecords objectForKey: record] loadImages] > 0 ){
-            [[_captureRecords objectForKey:record] setRecordNumber: loadedImages];
-            [recordNumToImgSet insertObject: record atIndex: loadedImages];
-            loadedImages++;
+            if( [recordNumToImgSet count] == 0 ){
+                [[_captureRecords objectForKey:record] setRecordNumber: 0];
+                [recordNumToImgSet insertObject: record atIndex: 0];
+                loadedImages++;
+            } else {
+                for(int j = 0; j <= loadedImages ; j++){
+                    if( j == loadedImages){
+                        NSLog(@"quicktest");
+                        [recordNumToImgSet addObject: record];
+                        loadedImages++;
+                        break;
+                    } else{
+                        NSString *record2 = [recordNumToImgSet objectAtIndex:j];
+                        NSString *date = [formattedDate stringFromDate:[[_captureRecords objectForKey:record] firstImageTime]];
+                        NSString *date2 = [formattedDate stringFromDate:[[_captureRecords objectForKey:record2] firstImageTime]];
+                        NSLog(@"Comparing %d and %d at times:  %@ and %@, earlier date is: %@", i, j,date, date2, [[[_captureRecords objectForKey:record] firstImageTime] earlierDate:[[_captureRecords objectForKey:record2] firstImageTime]]);
+                        if([[[_captureRecords objectForKey:record] firstImageTime] earlierDate:[[_captureRecords objectForKey:record2] firstImageTime]] == [[_captureRecords objectForKey:record] firstImageTime]){
+                        
+                            NSLog(@"j: %d", j);
+                        
+                            [recordNumToImgSet insertObject: record atIndex: j];
+                            loadedImages++;
+                            break;
+                        }
+                    }
+                }
+            }
+        } else {
+            [_captureRecords removeObjectForKey: record];
         }
     }
+    
+    for(int i =0 ; i < [recordNumToImgSet count]; i++){
+        
+        NSString *record=[recordNumToImgSet objectAtIndex:i];
+        if (i == 0) begin = [[_captureRecords objectForKey:record] firstImageTime];
+        if( i == [recordNumToImgSet count]) end = [[_captureRecords objectForKey:record] firstImageTime];
+        [[_captureRecords objectForKey:record] setRecordNumber: i];
+    }
     maxRecordNum = [recordNumToImgSet count];
-    self.totalNumberOfRecords.text = [[NSString alloc] initWithFormat: @"%d records", maxRecordNum - 1];
+    NSLog(@"%d", loadedImages);
+    self.totalNumberOfRecords.text = [[NSString alloc] initWithFormat: @"%d", loadedImages];
     _av = [self.tabBarController.viewControllers objectAtIndex:1];
     self.av.tableData = _tableData;
     self.av.begin = begin;
@@ -184,7 +219,9 @@ int lowestRecord = 100000;
     self.begin = begin;
     self.end = end;
     self.addLabelText.delegate = self;
-    NSLog(@"labeltext superview: %@", self.addLabelText.superview);
+    beginningTime.text = [formattedDate stringFromDate:begin];
+    endTime.text = [formattedDate stringFromDate: end];
+    //NSLog(@"labeltext superview: %@", self.addLabelText.superview);
     [self.view addSubview:beginningTime];
     [self.view addSubview:endTime];
     currentCaptureRecord = [recordNumToImgSet objectAtIndex: 0];
@@ -201,10 +238,9 @@ int lowestRecord = 100000;
     //NSLog(@"Key: %@, %@", currentCaptureRecord,[_captureRecords objectForKey:currentCaptureRecord]);
     //NSLog(@"%@", self.currentImage.image);
     
-    NSLog(@"%@", [self.view subviews]);
+    //NSLog(@"%@", [self.view subviews]);
     
     self.labelTable.allowsSelectionDuringEditing = YES;
-    _totalNumberOfRecords.text = [[NSString alloc] initWithFormat: @"%d", [_captureRecords count]];
     _addLabelText.borderStyle = UITextBorderStyleRoundedRect;
     _addLabelText.alpha = 0.0;
     
@@ -547,7 +583,7 @@ int lowestRecord = 100000;
         }
         NSLog(@"After: %d", currentRecordNum);
         currentCaptureRecord = [recordNumToImgSet objectAtIndex: currentRecordNum];
-        NSLog(@"currentCaptureRecord: %@", currentCaptureRecord);
+        NSLog(@"currentCaptureRecord: %@, pathNames: %@", currentCaptureRecord, [[_captureRecords objectForKey:currentCaptureRecord] pathNames]);
 // The following code is preserved just in case we try to make the images load when they are loaded instead of at start-up in the future -- can be deleted/archived for launch.
 //
 //    NSLog(@"maxRecordNum: %d,  current capture record: %@", maxRecordNum, currentCaptureRecord);
