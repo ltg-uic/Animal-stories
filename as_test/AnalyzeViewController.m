@@ -129,6 +129,7 @@ NSInteger yDist = 25;
 
 
 -(void)viewDidAppear:(BOOL)animated{
+    self.highlight.center = CGPointMake(-100, 10000);
     NSDateFormatter* formattedDate = [[NSDateFormatter alloc] init];
     [formattedDate setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
     NSString *logData = [NSString stringWithFormat:@"\n%@ : Switched to the Analyze View", [formattedDate stringFromDate:[NSDate date]]];

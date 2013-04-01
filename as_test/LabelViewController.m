@@ -288,6 +288,7 @@ int lowestRecord = 100000;
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
+    NSLog(@"Received memory warning");
     for (CaptureRecord *record in _captureRecords){
         if([[_captureRecords objectForKey:record] imgSet]!= [currentCaptureRecord intValue]){
             [[_captureRecords objectForKey:record] removeImages];
@@ -569,6 +570,7 @@ int lowestRecord = 100000;
 - (IBAction)arrowPressed:(UIButton *)sender {
     NSInteger currentRecordNum = [[_captureRecords objectForKey:currentCaptureRecord] recordNumber];
     [self setEditing: NO animated: YES];
+    self.addLabelText.alpha = 0;
     [_labelTable reloadData];
     [[_captureRecords objectForKey:currentCaptureRecord] removeTagsFromView];
     [[_captureRecords objectForKey:currentCaptureRecord] updateDB:server view: self.currentImage];
@@ -798,7 +800,7 @@ int lowestRecord = 100000;
             else oldTagName = [_tableData objectAtIndex:path.row];
             NSString *newTagName = [[self.edit textFieldAtIndex:0] text];
             NSLog(@"%@, %@", oldTagName, newTagName);
-            NSString *stringText = [NSString stringWithFormat:@"updateTagData.php?oldTag=%@&newTag=%@", oldTagName, newTagName];
+            NSString *stringText = [NSString stringWithFormat:@"updateTagData.php?oldTag=%@&newTag=%@&scientist=%@", oldTagName, newTagName, _scientist];
             NSString *addLabelData = [NSString stringWithContentsOfURL:[NSURL URLWithString: stringText relativeToURL:server] encoding:NSUTF8StringEncoding error:nil];
             NSLog(@"%@", addLabelData);
             for(NSString *record in [_captureRecords allKeys]){

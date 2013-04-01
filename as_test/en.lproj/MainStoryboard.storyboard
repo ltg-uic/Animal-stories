@@ -15,7 +15,7 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="AS_back-01.png" id="tBM-am-Uhv">
                                 <rect key="frame" x="-6" y="0.0" width="1030" height="767"/>
                             </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="image_notes.png" id="EWf-jz-Dz3">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="image_notes_small.png" id="EWf-jz-Dz3">
                                 <rect key="frame" x="318" y="518" width="666" height="145"/>
                             </imageView>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" horizontalCompressionResistancePriority="739" verticalCompressionResistancePriority="1000" showsHorizontalScrollIndicator="NO" text="Notes" id="iFi-TQ-KSA">
@@ -374,7 +374,7 @@
         <image name="bg_labels.png" width="145" height="45"/>
         <image name="icon_analyze_0.png" width="30" height="29"/>
         <image name="icon_label_0.png" width="30" height="29"/>
-        <image name="image_notes.png" width="2418" height="944"/>
+        <image name="image_notes_small.png" width="656" height="145"/>
         <image name="label_1.png" width="504" height="91"/>
         <image name="label_2.png" width="504" height="91"/>
         <image name="trash.png" width="128" height="128"/>
@@ -383,7 +383,6 @@
         <class className="AnalyzeViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/AnalyzeViewController.h"/>
             <relationships>
-                <relationship kind="action" name="tapAction:" candidateClass="UITapGestureRecognizer"/>
                 <relationship kind="outlet" name="canvasForLines" candidateClass="UIImageView"/>
                 <relationship kind="outlet" name="currentImage" candidateClass="UIImageView"/>
                 <relationship kind="outlet" name="lineView" candidateClass="LineDrawingView"/>

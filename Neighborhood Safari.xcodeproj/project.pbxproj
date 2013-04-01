@@ -76,6 +76,7 @@
 		85794B3D16F90855001BBC56 /* bg_labels.png in Resources */ = {isa = PBXBuildFile; fileRef = 85794B3C16F90855001BBC56 /* bg_labels.png */; };
 		85C3327116F79FAA00C4433E /* arrow_left.png in Resources */ = {isa = PBXBuildFile; fileRef = 85C3327016F79FAA00C4433E /* arrow_left.png */; };
 		85D7E09E16D4297700E89260 /* bg_Analyze.png in Resources */ = {isa = PBXBuildFile; fileRef = 85D7E09D16D4297700E89260 /* bg_Analyze.png */; };
+		85DAB18A1709FB9300283FF1 /* image_notes_small.png in Resources */ = {isa = PBXBuildFile; fileRef = 85DAB1891709FB9300283FF1 /* image_notes_small.png */; };
 		FEC99D171703C24600C5EC79 /* highlight2.png in Resources */ = {isa = PBXBuildFile; fileRef = FEC99D161703C24600C5EC79 /* highlight2.png */; };
 /* End PBXBuildFile section */
 
@@ -170,6 +171,7 @@
 		85794B3C16F90855001BBC56 /* bg_labels.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bg_labels.png; sourceTree = "<group>"; };
 		85C3327016F79FAA00C4433E /* arrow_left.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrow_left.png; sourceTree = "<group>"; };
 		85D7E09D16D4297700E89260 /* bg_Analyze.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bg_Analyze.png; sourceTree = "<group>"; };
+		85DAB1891709FB9300283FF1 /* image_notes_small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = image_notes_small.png; sourceTree = "<group>"; };
 		FEC99D161703C24600C5EC79 /* highlight2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = highlight2.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -303,6 +305,7 @@
 		852CDE7516D426CF0048F317 /* UI images */ = {
 			isa = PBXGroup;
 			children = (
+				85DAB1891709FB9300283FF1 /* image_notes_small.png */,
 				85181AE817036CF2006F8A9D /* NS_logo_rotated_l.png */,
 				85181AE417036ADA006F8A9D /* NS_logo_rotated.png */,
 				85181AE517036ADA006F8A9D /* NS_logo.png */,
@@ -457,6 +460,7 @@
 				85181AE717036ADA006F8A9D /* NS_logo.png in Resources */,
 				85181AE917036CF2006F8A9D /* NS_logo_rotated_l.png in Resources */,
 				FEC99D171703C24600C5EC79 /* highlight2.png in Resources */,
+				85DAB18A1709FB9300283FF1 /* image_notes_small.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
