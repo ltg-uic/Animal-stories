@@ -126,14 +126,14 @@
 		1263B36D16E7C6E4008680C8 /* TabController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TabController.m; sourceTree = "<group>"; };
 		1263B3A016E816CF008680C8 /* LineDrawingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LineDrawingView.h; sourceTree = "<group>"; };
 		1263B3A116E816D0008680C8 /* LineDrawingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LineDrawingView.m; sourceTree = "<group>"; };
-		127FED9816A73B6000801699 /* Animal Stories.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Animal Stories.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		127FED9816A73B6000801699 /* Neighborhood Safari.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Neighborhood Safari.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		127FED9C16A73B6000801699 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		127FED9E16A73B6000801699 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		127FEDA016A73B6000801699 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		127FEDA416A73B6000801699 /* Animal Stories-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Animal Stories-Info.plist"; sourceTree = "<group>"; };
+		127FEDA416A73B6000801699 /* Neighborhood Safari-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Neighborhood Safari-Info.plist"; sourceTree = "<group>"; };
 		127FEDA616A73B6000801699 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		127FEDA816A73B6000801699 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		127FEDAA16A73B6000801699 /* Animal Stories-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Animal Stories-Prefix.pch"; sourceTree = "<group>"; };
+		127FEDAA16A73B6000801699 /* Neighborhood Safari-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Neighborhood Safari-Prefix.pch"; sourceTree = "<group>"; };
 		127FEDAB16A73B6000801699 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		127FEDAC16A73B6000801699 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		127FEDAE16A73B6000801699 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
@@ -146,7 +146,7 @@
 		127FEDBF16A73B6000801699 /* AnalyzeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AnalyzeViewController.m; sourceTree = "<group>"; };
 		127FEDC116A73B6000801699 /* second.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = second.png; sourceTree = "<group>"; };
 		127FEDC316A73B6000801699 /* second@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "second@2x.png"; sourceTree = "<group>"; };
-		127FEDCA16A73B6000801699 /* Animal StoriesTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Animal StoriesTests.octest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		127FEDCA16A73B6000801699 /* Neighborhood SafariTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Neighborhood SafariTests.octest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		127FEDCB16A73B6000801699 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		12D5BCDB16DE8BB00067936A /* REDRangeSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = REDRangeSlider.h; sourceTree = "<group>"; };
 		12D5BCDC16DE8BB00067936A /* REDRangeSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = REDRangeSlider.m; sourceTree = "<group>"; };
@@ -212,8 +212,8 @@
 		127FED9916A73B6000801699 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				127FED9816A73B6000801699 /* Animal Stories.app */,
-				127FEDCA16A73B6000801699 /* Animal StoriesTests.octest */,
+				127FED9816A73B6000801699 /* Neighborhood Safari.app */,
+				127FEDCA16A73B6000801699 /* Neighborhood SafariTests.octest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -272,10 +272,10 @@
 				123F7D3216D404D100474EDF /* startImage.png */,
 				1234A3C516B1EF79005D3B6B /* image_notes.png */,
 				1234A3C616B1EF79005D3B6B /* imageBackdrop.png */,
-				127FEDA416A73B6000801699 /* Animal Stories-Info.plist */,
+				127FEDA416A73B6000801699 /* Neighborhood Safari-Info.plist */,
 				127FEDA516A73B6000801699 /* InfoPlist.strings */,
 				127FEDA816A73B6000801699 /* main.m */,
-				127FEDAA16A73B6000801699 /* Animal Stories-Prefix.pch */,
+				127FEDAA16A73B6000801699 /* Neighborhood Safari-Prefix.pch */,
 				127FEDAE16A73B6000801699 /* Default.png */,
 				127FEDB016A73B6000801699 /* Default@2x.png */,
 				127FEDB216A73B6000801699 /* Default-568h@2x.png */,
@@ -337,9 +337,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		127FED9716A73B6000801699 /* Animal Stories */ = {
+		127FED9716A73B6000801699 /* Neighborhood Safari */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 127FEDDC16A73B6000801699 /* Build configuration list for PBXNativeTarget "Animal Stories" */;
+			buildConfigurationList = 127FEDDC16A73B6000801699 /* Build configuration list for PBXNativeTarget "Neighborhood Safari" */;
 			buildPhases = (
 				127FED9416A73B6000801699 /* Sources */,
 				127FED9516A73B6000801699 /* Frameworks */,
@@ -349,14 +349,14 @@
 			);
 			dependencies = (
 			);
-			name = "Animal Stories";
+			name = "Neighborhood Safari";
 			productName = as_test;
-			productReference = 127FED9816A73B6000801699 /* Animal Stories.app */;
+			productReference = 127FED9816A73B6000801699 /* Neighborhood Safari.app */;
 			productType = "com.apple.product-type.application";
 		};
-		127FEDC916A73B6000801699 /* Animal StoriesTests */ = {
+		127FEDC916A73B6000801699 /* Neighborhood SafariTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 127FEDDF16A73B6000801699 /* Build configuration list for PBXNativeTarget "Animal StoriesTests" */;
+			buildConfigurationList = 127FEDDF16A73B6000801699 /* Build configuration list for PBXNativeTarget "Neighborhood SafariTests" */;
 			buildPhases = (
 				127FEDC516A73B6000801699 /* Sources */,
 				127FEDC616A73B6000801699 /* Frameworks */,
@@ -368,9 +368,9 @@
 			dependencies = (
 				127FEDD016A73B6000801699 /* PBXTargetDependency */,
 			);
-			name = "Animal StoriesTests";
+			name = "Neighborhood SafariTests";
 			productName = as_testTests;
-			productReference = 127FEDCA16A73B6000801699 /* Animal StoriesTests.octest */;
+			productReference = 127FEDCA16A73B6000801699 /* Neighborhood SafariTests.octest */;
 			productType = "com.apple.product-type.bundle";
 		};
 /* End PBXNativeTarget section */
@@ -382,7 +382,7 @@
 				LastUpgradeCheck = 0450;
 				ORGANIZATIONNAME = LTG;
 			};
-			buildConfigurationList = 127FED9216A73B6000801699 /* Build configuration list for PBXProject "Animal Stories" */;
+			buildConfigurationList = 127FED9216A73B6000801699 /* Build configuration list for PBXProject "Neighborhood Safari" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -394,8 +394,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				127FED9716A73B6000801699 /* Animal Stories */,
-				127FEDC916A73B6000801699 /* Animal StoriesTests */,
+				127FED9716A73B6000801699 /* Neighborhood Safari */,
+				127FEDC916A73B6000801699 /* Neighborhood SafariTests */,
 			);
 		};
 /* End PBXProject section */
@@ -515,7 +515,7 @@
 /* Begin PBXTargetDependency section */
 		127FEDD016A73B6000801699 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 127FED9716A73B6000801699 /* Animal Stories */;
+			target = 127FED9716A73B6000801699 /* Neighborhood Safari */;
 			targetProxy = 127FEDCF16A73B6000801699 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -601,13 +601,13 @@
 					"\"$(SRCROOT)\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "as_test/Animal Stories-Prefix.pch";
-				INFOPLIST_FILE = "as_test/Animal Stories-Info.plist";
+				GCC_PREFIX_HEADER = "as_test/Neighborhood Safari-Prefix.pch";
+				INFOPLIST_FILE = "as_test/Neighborhood Safari-Info.plist";
 				"OTHER_LDFLAGS[arch=*]" = (
 					"-ObjC",
 					"-all_load",
 				);
-				PRODUCT_NAME = "Animal Stories";
+				PRODUCT_NAME = "Neighborhood Safari";
 				TARGETED_DEVICE_FAMILY = 2;
 				WRAPPER_EXTENSION = app;
 			};
@@ -621,13 +621,13 @@
 					"\"$(SRCROOT)\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "as_test/Animal Stories-Prefix.pch";
-				INFOPLIST_FILE = "as_test/Animal Stories-Info.plist";
+				GCC_PREFIX_HEADER = "as_test/Neighborhood Safari-Prefix.pch";
+				INFOPLIST_FILE = "as_test/Neighborhood Safari-Info.plist";
 				"OTHER_LDFLAGS[arch=*]" = (
 					"-ObjC",
 					"-all_load",
 				);
-				PRODUCT_NAME = "Animal Stories";
+				PRODUCT_NAME = "Neighborhood Safari";
 				TARGETED_DEVICE_FAMILY = 2;
 				WRAPPER_EXTENSION = app;
 			};
@@ -644,7 +644,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "as_test/as_test-Prefix.pch";
 				INFOPLIST_FILE = "as_testTests/as_testTests-Info.plist";
-				PRODUCT_NAME = "Animal StoriesTests";
+				PRODUCT_NAME = "Neighborhood SafariTests";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = octest;
 			};
@@ -661,7 +661,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "as_test/as_test-Prefix.pch";
 				INFOPLIST_FILE = "as_testTests/as_testTests-Info.plist";
-				PRODUCT_NAME = "Animal StoriesTests";
+				PRODUCT_NAME = "Neighborhood SafariTests";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = octest;
 			};
@@ -670,7 +670,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		127FED9216A73B6000801699 /* Build configuration list for PBXProject "Animal Stories" */ = {
+		127FED9216A73B6000801699 /* Build configuration list for PBXProject "Neighborhood Safari" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				127FEDDA16A73B6000801699 /* Debug */,
@@ -679,7 +679,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		127FEDDC16A73B6000801699 /* Build configuration list for PBXNativeTarget "Animal Stories" */ = {
+		127FEDDC16A73B6000801699 /* Build configuration list for PBXNativeTarget "Neighborhood Safari" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				127FEDDD16A73B6000801699 /* Debug */,
@@ -688,7 +688,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		127FEDDF16A73B6000801699 /* Build configuration list for PBXNativeTarget "Animal StoriesTests" */ = {
+		127FEDDF16A73B6000801699 /* Build configuration list for PBXNativeTarget "Neighborhood SafariTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				127FEDE016A73B6000801699 /* Debug */,

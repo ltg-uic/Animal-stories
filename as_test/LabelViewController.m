@@ -72,7 +72,7 @@ int lowestRecord = 100000;
 
     //_scientist = @"TheSquirrelKids";
     //NSLog(@"%@", self.scientist);
-    server = [NSURL URLWithString: @"http://131.193.79.113/~evl/as/"];
+    server = [NSURL URLWithString: @"http://10.0.1.100/~evl/as/"];
     NSString* GMTOffset = @"-0600";
     //instantiates the labelTable
     _labelTable = [[UITableView alloc] initWithFrame:CGRectMake(10, 59, 320, 460) style: UITableViewStylePlain];
@@ -305,7 +305,7 @@ int lowestRecord = 100000;
     NSString *logData = [NSString stringWithFormat:@"\n%@ : Switched to the Label View", [formattedDate stringFromDate:[NSDate date]]];
     [self.file seekToEndOfFile];
     [self.file writeData: [logData dataUsingEncoding:NSUTF8StringEncoding]];
-    [self.tableData removeObjectIdenticalTo: @"Untagged"];
+    [self.tableData removeObjectIdenticalTo: @"Unlabeled"];
     }
 
 - (void) viewDidAppear: (BOOL) animated{
@@ -568,7 +568,8 @@ int lowestRecord = 100000;
 
 - (IBAction)arrowPressed:(UIButton *)sender {
     NSInteger currentRecordNum = [[_captureRecords objectForKey:currentCaptureRecord] recordNumber];
-
+    [self setEditing: NO animated: YES];
+    [_labelTable reloadData];
     [[_captureRecords objectForKey:currentCaptureRecord] removeTagsFromView];
     [[_captureRecords objectForKey:currentCaptureRecord] updateDB:server view: self.currentImage];
     

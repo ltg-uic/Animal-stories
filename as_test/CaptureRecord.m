@@ -57,7 +57,7 @@ SDWebImageDownloader *downloader;
 - (Tag *) addTag: (Tag *) newTag{
     bool x = NO;
     for(Tag * tag2 in _tagData){
-        if ([[[tag2 uiTag] text] isEqual: @"Untagged"]){
+        if ([[[tag2 uiTag] text] isEqual: @"Unlabeled"]){
             [tag2 removeLabelFromView];
             [_tagData removeObject: tag2];
         }
@@ -160,7 +160,7 @@ SDWebImageDownloader *downloader;
 
 - (bool) isUntagged{
     for( Tag* tag in _tagData){
-        if ([[tag tagText] isEqual: @"Untagged "]) return YES;
+        if ([[tag tagText] isEqual: @"Unlabeled "]) return YES;
     }
     return NO;
 }
@@ -170,13 +170,13 @@ SDWebImageDownloader *downloader;
 }
 
 - (void) updateDB : (NSURL *) server view: (UIView *) view{
-    NSString *stringText = [NSString stringWithFormat:@"deleteTagData.php?imgSetID=%d", _imgSet];
+    NSString *stringText = [NSString stringWithFormat:@"deleteTagData.php?imgSetID=%d&scientist=%@", _imgSet, _scientist];
    [NSString stringWithContentsOfURL:[NSURL URLWithString: stringText relativeToURL:server] encoding:NSUTF8StringEncoding error:nil];
         //NSLog(@"%@", addLabelData);
     NSMutableArray *tagsToDelete = [[NSMutableArray alloc] init];
     for( Tag* tag in _tagData){
         if(CGRectContainsPoint(view.frame, tag.uiTag.frame.origin)){
-        NSString *stringText = [NSString stringWithFormat:@"insertTagData.php?imgSetID=%d&tag=%@&x=%f&y=%f", _imgSet, tag.uiTag.text, tag.uiTag.frame.origin.x, tag.uiTag.frame.origin.y];
+        NSString *stringText = [NSString stringWithFormat:@"insertTagData.php?imgSetID=%d&tag=%@&x=%f&y=%f&scientist=%@", _imgSet, tag.uiTag.text, tag.uiTag.frame.origin.x, tag.uiTag.frame.origin.y, _scientist];
         [NSString stringWithContentsOfURL:[NSURL URLWithString: stringText relativeToURL:server] encoding:NSUTF8StringEncoding error:nil];
                 //NSLog(@"%@ \n, %@", stringText, addLabelData);
         } else {

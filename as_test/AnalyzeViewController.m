@@ -152,7 +152,7 @@ NSInteger yDist = 25;
     [_labels removeAllObjects];
     [_lines removeAllObjects];
     [_totals removeAllObjects];
-    [_tableData insertObject:@"Untagged" atIndex: 0];
+    [_tableData insertObject:@"Unlabeled" atIndex: 0];
 
     _leftLabel.center = CGPointMake(105, 315 + yDist * ([_tableData count] + 1));
     _rightLabel.center = CGPointMake(914, 315 + yDist * ( [_tableData count]+ 1));
@@ -173,7 +173,7 @@ NSInteger yDist = 25;
         label.backgroundColor = [UIColor clearColor];
         label.font = [UIFont systemFontOfSize:14];
         if( i == [_tableData count]){
-            label.text = @"No Tags";
+            label.text = @"No Labels";
         } else  label.text = [_tableData objectAtIndex:i];
         [self.timeLineContainer addSubview:label];
         [_labels addObject:label];
