@@ -24,27 +24,10 @@
 @synthesize urlArray = _urlArray;
 @synthesize timeArray = _timeArray;
 
-SDWebImageDownloader *downloader;
-
 -(CaptureRecord*)  initWithPathName: (NSString *) pathName identifier:(int) imgSet author:(NSString *) scientist atTime: (NSDate *) dateTime withRecord: (int) recordNum notes: (NSString *) notes{
     pathName = [pathName stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]];
     self.urlArray = [[NSMutableArray alloc] initWithObjects: pathName, nil];
     _recordNumber = recordNum;
-//    [SDWebImageDownloader.sharedDownloader
-//     downloadImageWithURL:[NSURL URLWithString: pathName]
-//     options:0
-//     progress:^(NSUInteger receivedSize, long long expectedSize){
-//         // NSLog(@"Img Set: %d %d / %llu", imgSet, receivedSize, expectedSize);
-//     }
-//     completed:^(UIImage *image, NSData *data, NSError *error, BOOL finished) {
-//         //NSLog(@"%@", error);
-//         if(image){
-//             _pathNames = [[NSMutableArray alloc] initWithObjects: image, nil];
-//         }
-//     }];
-    //  UIImage *firstImage = [[UIImage alloc] initWithData: [NSData dataWithContentsOfURL:[NSURL URLWithString:pathName]]];
-    //   _pathNames = [[NSMutableArray alloc] initWithObjects: firstImage, nil];
-    //    UIImage *firstImage = setImageFromURL
     _imgSet = imgSet;
     _scientist = [ [NSString alloc] initWithString: scientist];
     _tagData = [[NSMutableArray alloc] init];
@@ -98,7 +81,6 @@ SDWebImageDownloader *downloader;
 
 - (void) addPathName: (NSString *) pathName atTime: (NSDate *) date{
     pathName = [pathName stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]];
-    //    UIImage *nextImage = [[UIImage alloc] initWithData: [NSData dataWithContentsOfURL:[NSURL URLWithString:pathName]]];
     [self.timeArray addObject: date];
     [self.urlArray addObject:pathName];
 }
@@ -113,7 +95,6 @@ SDWebImageDownloader *downloader;
     }
     
     for (NSString *pathName in orderedArray){
-        
         
         int index = [pathName rangeOfString:@"/" options: NSBackwardsSearch].location;
         NSString *fileName = [pathName substringFromIndex:index];
@@ -142,7 +123,7 @@ SDWebImageDownloader *downloader;
 
 - (void) removeImages {
     //NSLog(@"Removing images for imgset: %d", self.imgSet);
-    //[self.pathNames removeAllObjects];
+    [self.pathNames removeAllObjects];
 }
 
 - (void) addTagsToView: (UIView *) view{

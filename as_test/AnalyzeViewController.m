@@ -22,9 +22,9 @@
 @property (strong, nonatomic) UILabel *rightLabel;
 @property UIBezierPath *leftLine;
 @property UIBezierPath *rightLine;
-@property UIColor *brushPattern;
-@property UIBezierPath *path;
 @property UIImageView *highlight;
+@property UIImage *sorted;
+@property UIImage *unsorted;
 @end
 
 
@@ -123,10 +123,23 @@ NSInteger yDist = 25;
     self.highlight = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"highlight2.png"]];
     self.highlight.center = CGPointMake(-100, 10000);
     [self.timeLineContainer addSubview: self.highlight];
+    
+    self.sorted = [UIImage imageNamed:@"sorted.png"];
+    self.unsorted = [UIImage imageNamed:@"unsorted.png"];
 }
-
-
-
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    NSLog(@"Received memory warning");
+    int i = 0;
+    for (NSString * record in _captureRecords){
+        if(record != self.currentRecord && [[[self.captureRecords objectForKey:record] pathNames] count] > 0){
+            [[self.captureRecords objectForKey: record] removeImages];
+            i++;
+        }
+        if (i == 10) break;
+    }
+}
 
 -(void)viewDidAppear:(BOOL)animated{
     self.highlight.center = CGPointMake(-100, 10000);
@@ -158,8 +171,6 @@ NSInteger yDist = 25;
     _leftLabel.center = CGPointMake(105, 315 + yDist * ([_tableData count] + 1));
     _rightLabel.center = CGPointMake(914, 315 + yDist * ( [_tableData count]+ 1));
     
-    
-    //NSInteger yDist = (CGRectGetHeight([self.view frame]) - 300)/([_tableData count] + 1);
     self.timeLineContainer.contentSize = CGSizeMake(900, yDist* ([_tableData count] + 4));
     int totals[[_tableData count] + 2];
     for (int i = 0; i < [_tableData count] + 1 ; i++){
@@ -168,8 +179,8 @@ NSInteger yDist = 25;
         blackLine.backgroundColor = [UIColor blackColor];
         [self.timeLineContainer addSubview:blackLine];
         [_lines addObject: blackLine];
+        
         UILabel *label = [[UILabel alloc] initWithFrame: CGRectMake(30, (yDist * i), 100, 30 )];
-        //NSLog(@"%f", (CGRectGetMaxY(self.currentImage.frame) + (yDist * i)) );
         label.textColor = [UIColor whiteColor];
         label.backgroundColor = [UIColor clearColor];
         label.font = [UIFont systemFontOfSize:14];
@@ -192,14 +203,6 @@ NSInteger yDist = 25;
         [[self.captureRecords objectForKey: record] print];
     }
 }
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-
 
 - (int) mapTimeToDisplay : (NSDate *) imageTime withBeginTime : (NSDate *) begin withEndTime : (NSDate *) end beginX : (int) x width : (int) w{
     NSTimeInterval totalTime = [end timeIntervalSinceDate:begin];
@@ -239,17 +242,16 @@ NSInteger yDist = 25;
     for( NSString *view in _dataPoints){
         [[_dataPoints objectForKey:view ] removeFromSuperview];
     }
-    //NSLog(@"\n\n");
     [_dataPoints removeAllObjects];
     
     for(NSString* record in _captureRecords){
         if ([[[_captureRecords objectForKey:record] tagData] count] == 0){
 
-            UIImageView *circle =[[UIImageView alloc] initWithImage:[UIImage imageNamed: @"unsorted.png"]];
+            UIImageView *circle =[[UIImageView alloc] initWithImage:self.unsorted];
             circle.frame = CGRectMake(0, 0, 15, 15);
             circle.center = CGPointMake([self mapTimeToDisplay: [[_captureRecords objectForKey:record] firstImageTime]  withBeginTime:beginTime withEndTime: endTime beginX:105 width:814], 15 + (yDist * [_tableData count]));
             CGRect frame = CGRectMake(105, 0, 814, 395);
-            //NSLog(@"%@, %@", NSStringFromCGRect(frame), NSStringFromCGPoint(circle.center));
+
             if(CGRectContainsPoint(frame, circle.center)){
                 [self.timeLineContainer addSubview: circle];
                 NSString *recordNewName = [[NSString alloc] initWithFormat:@"%@%f%f", record, circle.center.x, circle.center.y];
@@ -262,15 +264,14 @@ NSInteger yDist = 25;
                 for (int i = 0; i < [_tableData count]; i++){
                     UIImageView *circle;
                     if([[[tag uiTag] text] isEqual: [_tableData objectAtIndex:i]]){
-                        circle = [[UIImageView alloc] initWithImage:[UIImage imageNamed: @"sorted.png"]];
+                        circle = [[UIImageView alloc] initWithImage:self.sorted];
                         circle.frame = CGRectMake(0, 0, 15, 15);
                         circle.center = CGPointMake([self mapTimeToDisplay: [[_captureRecords objectForKey:record] firstImageTime]  withBeginTime:beginTime withEndTime: endTime beginX:105 width:814], 15 + (yDist * i));
                         CGRect frame = CGRectMake(105, 0, 814, 395);
-                        //NSLog(@"%@, %@", NSStringFromCGRect(frame), NSStringFromCGPoint(circle.center));
+
                         if(CGRectContainsPoint(frame, circle.center)){
                             [self.timeLineContainer addSubview: circle];
                             NSString *recordNewName = [[NSString alloc] initWithFormat:@"%@%@%@", record, [[tag uiTag] text], NSStringFromCGPoint([[tag uiTag] center])];
-                            //NSLog(@"%@", recordNewName);
                             [_dataPoints setValue:circle forKey: recordNewName];
                             totals[i]++;
                         }
@@ -311,13 +312,12 @@ NSInteger yDist = 25;
         [self.timeLineContainer addSubview:label];
         [_totals addObject:label];
     }
-    
 }
 
 - (IBAction)tapAction:(UITapGestureRecognizer *) tapInstance {
     CGPoint tapLocation = [tapInstance locationInView:self.timeLineContainer];
     for(NSString *circleRecord in _dataPoints){
-        NSLog(@"containsData: %@" , NSStringFromCGRect([[_dataPoints objectForKey:circleRecord] frame]));
+        //NSLog(@"containsData: %@" , NSStringFromCGRect([[_dataPoints objectForKey:circleRecord] frame]));
         if(CGRectContainsPoint([[_dataPoints objectForKey:circleRecord] frame], tapLocation)){
             NSString *circleRecordModified;
             NSRange range = [circleRecord rangeOfString:@" "];
@@ -325,15 +325,15 @@ NSInteger yDist = 25;
             [self.timeLineContainer sendSubviewToBack: self.highlight];
             circleRecordModified = [circleRecord substringToIndex:range.location + 1];
             self.currentRecord = [circleRecordModified mutableCopy];
+            if([[[self.captureRecords objectForKey:circleRecordModified] pathNames] count] < 1) [[self.captureRecords objectForKey:circleRecordModified] loadImages];
             self.currentImage.animationImages = [[self.captureRecords objectForKey:circleRecordModified] pathNames];
-            self.currentImage.animationDuration = 1;
+            self.currentImage.animationDuration = 2;
             [self.currentImage startAnimating];
             NSDateFormatter* formattedDate = [[NSDateFormatter alloc] init];
             [formattedDate setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
             NSString *logData = [NSString stringWithFormat:@"\n%@ : Activated the image(s) for CaptureRecord: %@", [formattedDate stringFromDate:[NSDate date]], circleRecordModified];
             [self.file seekToEndOfFile];
             [self.file writeData: [logData dataUsingEncoding:NSUTF8StringEncoding]];
-            
         }
     }
     

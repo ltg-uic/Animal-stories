@@ -29,7 +29,6 @@
 @property UIAlertView *edit;
 @property NSFileHandle *file;
 
-
 @end
 
 @implementation LabelViewController
@@ -61,18 +60,16 @@ NSMutableArray *recordNumToImgSet;
 int windowSize = 25;
 int minRecordNum = 0;
 int maxRecordNum = 0;
-int highestRecord = 0;
-int lowestRecord = 100000;
+UIImage *sorted;
+UIImage *unsorted;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     recordNumToImgSet = [[NSMutableArray alloc] init];
     self.circleList = [[NSMutableArray alloc] init];
     currentCaptureRecord = [[NSMutableString alloc] initWithString:@"0 "];
-
-    //_scientist = @"TheSquirrelKids";
-    //NSLog(@"%@", self.scientist);
     server = [NSURL URLWithString: @"http://10.0.1.100/~evl/as/"];
+    
     NSString* GMTOffset = @"-0600";
     //instantiates the labelTable
     _labelTable = [[UITableView alloc] initWithFrame:CGRectMake(10, 59, 320, 460) style: UITableViewStylePlain];
@@ -96,13 +93,11 @@ int lowestRecord = 100000;
         if(![_captureRecords objectForKey: [record objectAtIndex:1]]){
             //processes dateTime data
             NSString* dateTime = [[NSString alloc] initWithFormat: @"%@ %@ %@", [record objectAtIndex:5], [record objectAtIndex:6], GMTOffset] ;
-            //NSLog(@"%@, %@", dateTime, [formattedDate dateFromString:dateTime ]);
-            NSString* pathName = [@"images/" stringByAppendingString:[record objectAtIndex:2]];
             NSDate* fileDate = [formattedDate dateFromString:dateTime];
             if ( [begin earlierDate: fileDate] == fileDate) begin = fileDate;
             if ( [end laterDate: fileDate] == fileDate) end = fileDate;
-            if( lowestRecord >  [[record objectAtIndex: 1] intValue]) lowestRecord = [[record objectAtIndex:1] intValue];
-            if (highestRecord < [[record objectAtIndex:1] intValue]) highestRecord = [[record objectAtIndex:1] intValue];
+            
+            NSString* pathName = [@"images/" stringByAppendingString:[record objectAtIndex:2]];
             CaptureRecord *newRecord = [[ CaptureRecord alloc] initWithPathName:[[server absoluteString] stringByAppendingString: pathName ] identifier: [[record objectAtIndex: 1] intValue]  author:[record objectAtIndex: 3] atTime: [formattedDate dateFromString:dateTime] withRecord: recordNumber notes: [record objectAtIndex: 7]];
             [_captureRecords setObject:newRecord forKey:[record objectAtIndex:1]];
             [firstPassImgSetToRecordNum insertObject: [record objectAtIndex:1] atIndex: recordNumber];
@@ -127,14 +122,14 @@ int lowestRecord = 100000;
     endTime.backgroundColor = [UIColor clearColor];
     endTime.font = [UIFont systemFontOfSize:12];
     endTime.text = [formattedDate stringFromDate: end];
-    //instantiates tableData from the web: later need to make this user specific.
+    
+    //instantiates tableData from the web
     NSString *tagListURL = [[NSString alloc] initWithFormat:@"taglist.php?scientist=%@", self.scientist];
     NSString *tagList = [NSString stringWithContentsOfURL: [NSURL URLWithString: tagListURL relativeToURL:server] encoding:NSUTF8StringEncoding error:nil];
     tagList = [tagList stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     NSMutableArray *tagListData = [[ tagList componentsSeparatedByString:@"\n"] mutableCopy];
     _tableData = [[NSMutableArray alloc] init];
     for(NSString *tag in tagListData){
-        //NSLog(@"%@, %@, %d", tag, _tableData, [_tableData containsObject: tag] ? YES : NO);
         if( ![_tableData containsObject: tag]) [_tableData addObject: tag];
     }
     
@@ -144,28 +139,22 @@ int lowestRecord = 100000;
     
     NSString *tagPosURL = [[NSString alloc] initWithFormat:@"getalltags.php?scientist=%@", self.scientist];
     NSString *tagPositions = [NSString stringWithContentsOfURL: [NSURL URLWithString: tagPosURL relativeToURL: server] encoding:NSUTF8StringEncoding error:nil];
-    //NSLog(@"%@", tagPositions);
+
     tagPositions = [tagPositions stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     NSArray *tagPos = [tagPositions componentsSeparatedByString:@"\n"];
     for(int i = 0; i < tagPos.count; i++){
         NSString *recordText = [ [tagPos objectAtIndex:i ] stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]];
-        //NSLog(@"%@", recordText);
         NSArray *record = [recordText componentsSeparatedByString: @"\t"];
-        //NSLog(@"%@, %d", [record objectAtIndex:0], [[record objectAtIndex:0] intValue]);
         if([_captureRecords objectForKey: [record objectAtIndex:0] ]){
             [[_captureRecords objectForKey: [record objectAtIndex:0]] addTag: [[Tag alloc] initWithCenter:CGPointMake([[record objectAtIndex:2] intValue], [[record objectAtIndex: 3] intValue]) withIdentifier:[[record objectAtIndex: 0] intValue] withText:[[record objectAtIndex: 1] stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet] ] ]];
         }
     }
     
-    //[self imageList];
     [_addLabelText setAlpha:1.0];
-    //NSLog(@"%@", [_captureRecords description]);
-    
 
     [self loadView];
     username.text = self.user;
 
-    //NSLog(@"%@", firstPassImgSetToRecordNum);
     int currentRecordNum = 0;
     int loadedImages = 0;
     for( int i = 0; i < firstPassImgSetToRecordNum.count; i++){
@@ -194,6 +183,7 @@ int lowestRecord = 100000;
                         
                             [recordNumToImgSet insertObject: record atIndex: j];
                             loadedImages++;
+                            if(maxRecordNum < windowSize) maxRecordNum++;
                             break;
                         }
                     }
@@ -205,14 +195,11 @@ int lowestRecord = 100000;
     }
     
     for(int i =0 ; i < [recordNumToImgSet count]; i++){
-        
         NSString *record=[recordNumToImgSet objectAtIndex:i];
         if (i == 0) begin = [[_captureRecords objectForKey:record] firstImageTime];
         if( i == [recordNumToImgSet count]) end = [[_captureRecords objectForKey:record] firstImageTime];
         [[_captureRecords objectForKey:record] setRecordNumber: i];
     }
-    maxRecordNum = [recordNumToImgSet count];
-    NSLog(@"%d", loadedImages);
     self.totalNumberOfRecords.text = [[NSString alloc] initWithFormat: @"%d", loadedImages];
     _av = [self.tabBarController.viewControllers objectAtIndex:1];
     self.av.tableData = _tableData;
@@ -223,7 +210,7 @@ int lowestRecord = 100000;
     self.addLabelText.delegate = self;
     beginningTime.text = [formattedDate stringFromDate:begin];
     endTime.text = [formattedDate stringFromDate: end];
-    //NSLog(@"labeltext superview: %@", self.addLabelText.superview);
+
     [self.view addSubview:beginningTime];
     [self.view addSubview:endTime];
     currentCaptureRecord = [recordNumToImgSet objectAtIndex: 0];
@@ -237,10 +224,7 @@ int lowestRecord = 100000;
     self.currentRecordNumber.text = [NSString stringWithFormat:@"%d /", [[_captureRecords objectForKey: currentCaptureRecord] recordNumber] + 1 ];
     self.currentImage.animationDuration = 2;
     [self.currentImage startAnimating];
-    //NSLog(@"Key: %@, %@", currentCaptureRecord,[_captureRecords objectForKey:currentCaptureRecord]);
-    //NSLog(@"%@", self.currentImage.image);
-    
-    //NSLog(@"%@", [self.view subviews]);
+
     [self.editModeButton setTitle:@"Edit Mode" forState:UIControlStateNormal];
     [self.editModeButton setTitle:@"Done" forState: UIControlStateSelected];
     self.labelTable.allowsSelectionDuringEditing = YES;
@@ -282,6 +266,8 @@ int lowestRecord = 100000;
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector (keyboardDidHide:)
                                                  name: UIKeyboardDidHideNotification object:nil];
+    sorted = [UIImage imageNamed:@"sorted.png"];
+    unsorted = [UIImage imageNamed:@"unsorted.png"];
 
 }
 
@@ -289,10 +275,11 @@ int lowestRecord = 100000;
 {
     [super didReceiveMemoryWarning];
     NSLog(@"Received memory warning");
-    for (CaptureRecord *record in _captureRecords){
-        if([[_captureRecords objectForKey:record] imgSet]!= [currentCaptureRecord intValue]){
-            [[_captureRecords objectForKey:record] removeImages];
-        }
+    for (int i = 0; i < minRecordNum; i++){
+        [[self.captureRecords objectForKey:[recordNumToImgSet objectAtIndex: i]] removeImages];
+    }
+    for (int i = maxRecordNum; i < [recordNumToImgSet count]; i++){
+        [[self.captureRecords objectForKey:[recordNumToImgSet objectAtIndex: i]] removeImages];
     }
 }
 
@@ -314,16 +301,16 @@ int lowestRecord = 100000;
 
     if(self.av.currentRecord){
         [[_captureRecords objectForKey:currentCaptureRecord] removeTagsFromView];
-    [[_captureRecords objectForKey:currentCaptureRecord] updateDB:server view: self.currentImage];
-    currentCaptureRecord = self.av.currentRecord;
-    self.currentImage.animationImages = [[_captureRecords objectForKey: currentCaptureRecord] pathNames];
-    self.currentImage.animationDuration = 2;
-    [self.currentImage startAnimating];
-    [[_captureRecords objectForKey:currentCaptureRecord] addTagsToView: self.view];
-    [self drawTimeLineCirclesWithHighlight:[_captureRecords objectForKey:currentCaptureRecord]];
-    self.av.captureRecords = self.captureRecords;
-    self.currentRecordNumber.text = [NSString stringWithFormat:@"%d /", [[_captureRecords objectForKey: currentCaptureRecord] recordNumber] + 1 ];
-    self.notesBox.text =[[_captureRecords objectForKey:currentCaptureRecord] notes];
+        [[_captureRecords objectForKey:currentCaptureRecord] updateDB:server view: self.currentImage];
+        currentCaptureRecord = self.av.currentRecord;
+        self.currentImage.animationImages = [[_captureRecords objectForKey: currentCaptureRecord] pathNames];
+        self.currentImage.animationDuration = 2;
+        [self.currentImage startAnimating];
+        [[_captureRecords objectForKey:currentCaptureRecord] addTagsToView: self.view];
+        [self drawTimeLineCirclesWithHighlight:[_captureRecords objectForKey:currentCaptureRecord]];
+        self.av.captureRecords = self.captureRecords;
+        self.currentRecordNumber.text = [NSString stringWithFormat:@"%d /", [[_captureRecords objectForKey: currentCaptureRecord] recordNumber] + 1 ];
+        self.notesBox.text =[[_captureRecords objectForKey:currentCaptureRecord] notes];
     }
     [self.view setNeedsDisplay];
 }
@@ -346,8 +333,7 @@ int lowestRecord = 100000;
                 duplicate.textColor =  [UIColor whiteColor];
                 duplicate.textAlignment = NSTextAlignmentCenter;
                 duplicate.backgroundColor = [[UIColor alloc] initWithWhite:0.3 alpha:0.5];
-                //duplicate.shadowColor =[UIColor blackColor];
-                
+
                 _activeTag = [[Tag alloc] initWithUIlabel:duplicate andID: [[_captureRecords objectForKey:currentCaptureRecord] imgSet]];
                 
                 //[_labelsAddedToImage addObject: duplicate];
@@ -514,9 +500,7 @@ int lowestRecord = 100000;
 
 
 - (void) drawTimeLineCirclesWithHighlight : (CaptureRecord *) captureKey {
-    //NSLog(@"%@", self.circleList);
     for(UIImageView* circle in self.circleList){
-        //NSLog(@"%@", circle);
         [circle removeFromSuperview];
     }
     [self.circleList removeAllObjects];
@@ -525,31 +509,23 @@ int lowestRecord = 100000;
     for(NSString* record in [_captureRecords allKeys]){
         UIImageView *circle;
         if([[_captureRecords objectForKey: record ] isUntagged]){
-            circle = [[UIImageView alloc] initWithImage: [UIImage imageNamed: @"unsorted.png"]];
+            circle = [[UIImageView alloc] initWithImage: unsorted];
         } else {
-            circle = [[UIImageView alloc] initWithImage:[UIImage imageNamed: @"sorted.png"]];
+            circle = [[UIImageView alloc] initWithImage:sorted];
         }
         circle.center = CGPointMake([self mapTimeToDisplay: [[_captureRecords objectForKey:record] firstImageTime]  withBeginTime:self.begin withEndTime:self.end beginX:105 width:814], 678);
         
         if([_captureRecords objectForKey:record] == captureKey){
-            //NSLog(@"%@%@", [_captureRecords objectForKey:record], captureKey);
-
             highlight = [[UIImageView alloc] initWithImage:[UIImage imageNamed: @"highlight.png"]];
             highlight.center = circle.center;
-            //NSLog(@"%@", highlight);
-
-
         }
-
-
         [self.view addSubview: circle];
         [self.circleList addObject:circle];
-
     }
     _labelTable.editing = NO;
     if (highlight){
-    [self.view addSubview: highlight];
-    [self.circleList addObject:highlight];
+        [self.view addSubview: highlight];
+        [self.circleList addObject:highlight];
     }
 }
 
@@ -574,76 +550,63 @@ int lowestRecord = 100000;
     [_labelTable reloadData];
     [[_captureRecords objectForKey:currentCaptureRecord] removeTagsFromView];
     [[_captureRecords objectForKey:currentCaptureRecord] updateDB:server view: self.currentImage];
-    
+    [self.activeTag removeLabelFromView];
 
         
         if(sender == _rightArrowButton){
-            //NSLog(@"Before increment %d", currentRecordNum);
             currentRecordNum++;
             if(currentRecordNum == [recordNumToImgSet count] ) currentRecordNum = 0;
         } else if(sender == _leftArrowButton){
-            //NSLog(@"Before decrement %d", currentRecordNum);
             currentRecordNum--;
             if(currentRecordNum == -1 ) currentRecordNum = [recordNumToImgSet count] -1;
         }
         //NSLog(@"After: %d", currentRecordNum);
         currentCaptureRecord = [recordNumToImgSet objectAtIndex: currentRecordNum];
         //NSLog(@"currentCaptureRecord: %@, pathNames: %@", currentCaptureRecord, [[_captureRecords objectForKey:currentCaptureRecord] pathNames]);
-// The following code is preserved just in case we try to make the images load when they are loaded instead of at start-up in the future -- can be deleted/archived for launch.
-//
-//    NSLog(@"maxRecordNum: %d,  current capture record: %@", maxRecordNum, currentCaptureRecord);
-//    if( maxRecordNum > minRecordNum) {
-//        NSString *key;
-//        if (maxRecordNum - currentRecordNum < 10 && sender == _rightArrowButton){
-//            currentRecordNum = maxRecordNum;
-//            for (int i = 0 ; i < 10; i++){
-//                do{
-//                    currentRecordNum++;
-//                    if(currentRecordNum == highestRecord + 1) currentRecordNum = lowestRecord;
-//                    key = [NSString stringWithFormat:@"%d ", currentRecordNum];
-//                } while (![_captureRecords objectForKey: key]);
-//                //[[_captureRecords objectForKey:key] loadImages];
-//            }
-//            maxRecordNum = currentRecordNum;
-//            currentRecordNum = minRecordNum;
-//            for ( int i = 0; i < 10; i++){
-//                do{
-//                    currentRecordNum++;
-//                    if(currentRecordNum == highestRecord + 1) currentRecordNum = lowestRecord;
-//                    key = [NSString stringWithFormat:@"%d ", currentRecordNum];
-//                } while (![_captureRecords objectForKey: key]);
-//                //[[_captureRecords objectForKey: key] removeImages];
-//            }
-//            
-//            minRecordNum += 10;
-//        }
-//        
-//        if (currentRecordNum - minRecordNum < 10 && sender == _leftArrowButton){
-//            currentRecordNum = minRecordNum;
-//            NSString *key;
-//            for (int i = 0 ; i < windowSize - 10; i++){
-//                do{
-//                    //NSLog(@"%d", currentRecordNum);
-//                    currentRecordNum--;
-//                    if(currentRecordNum < lowestRecord) currentRecordNum = highestRecord;
-//                    key = [NSString stringWithFormat:@"%d ", currentRecordNum];
-//                } while (![_captureRecords objectForKey: key]);
-//                //[[_captureRecords objectForKey:key] loadImages];
-//            }
-//            minRecordNum = currentRecordNum;
-//            currentRecordNum = maxRecordNum;
-//            for (int i = 0; i < 10; i++){
-//                do{
-//                    currentRecordNum--;
-//                    if(currentRecordNum == lowestRecord - 1) currentRecordNum = highestRecord;
-//                    key = [NSString stringWithFormat:@"%d ", currentRecordNum];
-//                } while (![_captureRecords objectForKey: key]);
-//                //[[_captureRecords objectForKey: key] removeImages];
-//            }
-//            
-//            maxRecordNum -= 10;
-//        }
-//    }
+
+    NSLog(@"maxRecordNum: %d,  current capture record: %@", maxRecordNum, currentCaptureRecord);
+    if( maxRecordNum > minRecordNum) {
+        NSString *key;
+        if (maxRecordNum - currentRecordNum < 10 && sender == _rightArrowButton){
+            currentRecordNum = maxRecordNum;
+            for (int i = 0 ; i < 10; i++){
+                    currentRecordNum++;
+                    if(currentRecordNum == [recordNumToImgSet count]) currentRecordNum = 0;
+                    key = [recordNumToImgSet objectAtIndex: currentRecordNum];
+                    [[_captureRecords objectForKey:key] loadImages];
+            }
+            maxRecordNum = currentRecordNum;
+            currentRecordNum = minRecordNum;
+            for ( int i = 0; i < 10; i++){
+                currentRecordNum++;
+                if(currentRecordNum == [recordNumToImgSet count]) currentRecordNum = 0;
+                key = [recordNumToImgSet objectAtIndex: currentRecordNum];
+                [[_captureRecords objectForKey: key] removeImages];
+            }
+            minRecordNum += 10;
+        }
+        if (currentRecordNum - minRecordNum < 10 && sender == _leftArrowButton){
+            currentRecordNum = minRecordNum;
+            NSString *key;
+            for (int i = 0 ; i < windowSize - 10; i++){
+                currentRecordNum--;
+                if(currentRecordNum == -1) currentRecordNum = [recordNumToImgSet count] - 1;
+                key = [recordNumToImgSet objectAtIndex: currentRecordNum];
+                [_captureRecords objectForKey: key];
+                [[_captureRecords objectForKey:key] loadImages];
+            }
+            minRecordNum = currentRecordNum;
+            currentRecordNum = maxRecordNum;
+            for (int i = 0; i < 10; i++){
+                currentRecordNum--;
+                if(currentRecordNum == -1) currentRecordNum = [recordNumToImgSet count] - 1;
+                key = [recordNumToImgSet objectAtIndex: currentRecordNum];
+                [_captureRecords objectForKey: key];
+                [[_captureRecords objectForKey: key] removeImages];
+            }
+            maxRecordNum -= 10;
+        }
+    }
     self.currentImage.animationImages = [[_captureRecords objectForKey: currentCaptureRecord] pathNames];
     self.currentImage.animationDuration = 2;
     [self.currentImage startAnimating];
@@ -652,7 +615,6 @@ int lowestRecord = 100000;
     self.av.captureRecords = self.captureRecords;
     self.currentRecordNumber.text = [NSString stringWithFormat:@"%d /", [[_captureRecords objectForKey: currentCaptureRecord] recordNumber] + 1 ];
     self.notesBox.text =[[_captureRecords objectForKey:currentCaptureRecord] notes];
-    //NSLog(@"%@, %@", self.currentImage.isAnimating? @"YES" : @"NO", self.currentImage.animationImages);
 }
 
 - (void)setEditing:(BOOL)editing animated:(BOOL)animated {
@@ -667,14 +629,14 @@ int lowestRecord = 100000;
 }
 
 - (IBAction)addNewLabel {
-    NSLog(@"%@", _addLabelText.text);
+    //NSLog(@"%@", _addLabelText.text);
     if(![_tableData containsObject: _addLabelText.text]){
-    NSString *stringText = [NSString stringWithFormat: @"insertTag.php?scientist=%@&tag=%@", _scientist, _addLabelText.text];
-    //NSLog(@"%@", stringText);
-    [_tableData addObject: _addLabelText.text];
-    [_labelTable reloadData];
-    NSString *addLabelData = [NSString stringWithContentsOfURL:[NSURL URLWithString: stringText relativeToURL:server] encoding:NSUTF8StringEncoding error:nil];
-    NSLog(@"%@", addLabelData);
+        NSString *stringText = [NSString stringWithFormat: @"insertTag.php?scientist=%@&tag=%@", _scientist, _addLabelText.text];
+        //NSLog(@"%@", stringText);
+        [_tableData addObject: _addLabelText.text];
+        [_labelTable reloadData];
+        [NSString stringWithContentsOfURL:[NSURL URLWithString: stringText relativeToURL:server] encoding:NSUTF8StringEncoding error:nil];
+        //NSLog(@"%@", addLabelData);
     }
     _addLabelText.text = @"";
 
@@ -709,7 +671,7 @@ int lowestRecord = 100000;
                 self.addLabelText.alpha = 1.0;
                 [cell.contentView addSubview: self.addLabelText];
                 [cell.contentView bringSubviewToFront:self.addLabelText];
-                NSLog(@"added subview, %@", self.addLabelText);
+                //NSLog(@"added subview, %@", self.addLabelText);
                 
             } else {
                 cell.textLabel.text = [_tableData objectAtIndex: indexPath.row - 1];
@@ -732,7 +694,7 @@ int lowestRecord = 100000;
 }
 
 - (void) tableView: (UITableView *) tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    NSLog(@"selected row");
+    //NSLog(@"selected row");
     if(_labelTable.editing){
         path = indexPath;
         [self alertStatusEdit:@"Change the name of your label" : @"Edit Label"];
@@ -770,15 +732,15 @@ int lowestRecord = 100000;
             NSString *tagName;
             if(_tableData.count < 10 ) tagName = [_tableData objectAtIndex:path.row - 1];
             else tagName = [_tableData objectAtIndex: path.row ];
-            NSLog(@"%@", tagName);
+            //NSLog(@"%@", tagName);
             NSString *stringText = [NSString stringWithFormat:@"deleteTag.php?scientist=%@&tag=%@", _scientist, tagName];
-            NSString *addLabelData = [NSString stringWithContentsOfURL:[NSURL URLWithString: stringText relativeToURL:server] encoding:NSUTF8StringEncoding error:nil];
-            NSLog(@"%@", addLabelData);
+            [NSString stringWithContentsOfURL:[NSURL URLWithString: stringText relativeToURL:server] encoding:NSUTF8StringEncoding error:nil];
+            //NSLog(@"%@", addLabelData);
             //removes the tags from all records
             for(NSString *record in [_captureRecords allKeys]){
                 [[_captureRecords objectForKey:record] removeTags: tagName];
             }
-            NSLog(@"%@", _labelTable);
+            //NSLog(@"%@", _labelTable);
             if(_tableData.count< 10) [_tableData removeObjectAtIndex:path.row -1];
             else [_tableData removeObjectAtIndex:path.row];
                 //[_labelTable deleteRowsAtIndexPaths:[NSArray arrayWithObject:path] withRowAnimation:UITableViewRowAnimationFade];
@@ -790,7 +752,6 @@ int lowestRecord = 100000;
         else
         {
             //Does not actually remove the tag
-            NSLog(@"cancel");
         }
     } else {
         
@@ -799,10 +760,10 @@ int lowestRecord = 100000;
             if(_tableData.count < 10) oldTagName= [_tableData objectAtIndex:path.row - 1];
             else oldTagName = [_tableData objectAtIndex:path.row];
             NSString *newTagName = [[self.edit textFieldAtIndex:0] text];
-            NSLog(@"%@, %@", oldTagName, newTagName);
+            //NSLog(@"%@, %@", oldTagName, newTagName);
             NSString *stringText = [NSString stringWithFormat:@"updateTagData.php?oldTag=%@&newTag=%@&scientist=%@", oldTagName, newTagName, _scientist];
-            NSString *addLabelData = [NSString stringWithContentsOfURL:[NSURL URLWithString: stringText relativeToURL:server] encoding:NSUTF8StringEncoding error:nil];
-            NSLog(@"%@", addLabelData);
+            [NSString stringWithContentsOfURL:[NSURL URLWithString: stringText relativeToURL:server] encoding:NSUTF8StringEncoding error:nil];
+            //NSLog(@"%@", addLabelData);
             for(NSString *record in [_captureRecords allKeys]){
                 [[_captureRecords objectForKey:record] renameTag:oldTagName withTag: newTagName];
             }
@@ -825,7 +786,6 @@ int lowestRecord = 100000;
             [self.file writeData:[logData dataUsingEncoding:NSUTF8StringEncoding]];
             
         } else {
-            NSLog(@"cancel");
         }
     }
 }
