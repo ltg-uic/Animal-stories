@@ -86,6 +86,7 @@
 }
 
 - (int) loadImages {
+    NSLog(@"adding images for imgSet: %d", self.recordNumber);
     _pathNames = [[NSMutableArray alloc] init];
     int numberOfImages = 0;
     NSMutableArray *orderedArray = self.urlArray;
@@ -122,7 +123,7 @@
 }
 
 - (void) removeImages {
-    //NSLog(@"Removing images for imgset: %d", self.imgSet);
+    NSLog(@"Removing images for imgset: %d", self.recordNumber);
     [self.pathNames removeAllObjects];
 }
 

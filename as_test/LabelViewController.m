@@ -68,7 +68,7 @@ UIImage *unsorted;
     recordNumToImgSet = [[NSMutableArray alloc] init];
     self.circleList = [[NSMutableArray alloc] init];
     currentCaptureRecord = [[NSMutableString alloc] initWithString:@"0 "];
-    server = [NSURL URLWithString: @"http://10.0.1.100/~evl/as/"];
+    server = [NSURL URLWithString: @"http://131.193.79.113/~evl/as/"];
     
     NSString* GMTOffset = @"-0600";
     //instantiates the labelTable
@@ -174,13 +174,7 @@ UIImage *unsorted;
                         break;
                     } else{
                         NSString *record2 = [recordNumToImgSet objectAtIndex:j];
-                        NSString *date = [formattedDate stringFromDate:[[_captureRecords objectForKey:record] firstImageTime]];
-                        NSString *date2 = [formattedDate stringFromDate:[[_captureRecords objectForKey:record2] firstImageTime]];
-                        NSLog(@"Comparing %d and %d at times:  %@ and %@, earlier date is: %@", i, j,date, date2, [[[_captureRecords objectForKey:record] firstImageTime] earlierDate:[[_captureRecords objectForKey:record2] firstImageTime]]);
                         if([[[_captureRecords objectForKey:record] firstImageTime] earlierDate:[[_captureRecords objectForKey:record2] firstImageTime]] == [[_captureRecords objectForKey:record] firstImageTime]){
-                        
-                            NSLog(@"j: %d", j);
-                        
                             [recordNumToImgSet insertObject: record atIndex: j];
                             loadedImages++;
                             if(maxRecordNum < windowSize) maxRecordNum++;
@@ -307,11 +301,12 @@ UIImage *unsorted;
         self.currentImage.animationDuration = 2;
         [self.currentImage startAnimating];
         [[_captureRecords objectForKey:currentCaptureRecord] addTagsToView: self.view];
-        [self drawTimeLineCirclesWithHighlight:[_captureRecords objectForKey:currentCaptureRecord]];
+
         self.av.captureRecords = self.captureRecords;
         self.currentRecordNumber.text = [NSString stringWithFormat:@"%d /", [[_captureRecords objectForKey: currentCaptureRecord] recordNumber] + 1 ];
         self.notesBox.text =[[_captureRecords objectForKey:currentCaptureRecord] notes];
     }
+    [self drawTimeLineCirclesWithHighlight:[_captureRecords objectForKey:currentCaptureRecord]];
     [self.view setNeedsDisplay];
 }
 //Gesture Processing
@@ -564,49 +559,21 @@ UIImage *unsorted;
         currentCaptureRecord = [recordNumToImgSet objectAtIndex: currentRecordNum];
         //NSLog(@"currentCaptureRecord: %@, pathNames: %@", currentCaptureRecord, [[_captureRecords objectForKey:currentCaptureRecord] pathNames]);
 
-    NSLog(@"maxRecordNum: %d,  current capture record: %@", maxRecordNum, currentCaptureRecord);
-    if( maxRecordNum > minRecordNum) {
-        NSString *key;
-        if (maxRecordNum - currentRecordNum < 10 && sender == _rightArrowButton){
-            currentRecordNum = maxRecordNum;
-            for (int i = 0 ; i < 10; i++){
-                    currentRecordNum++;
-                    if(currentRecordNum == [recordNumToImgSet count]) currentRecordNum = 0;
-                    key = [recordNumToImgSet objectAtIndex: currentRecordNum];
-                    [[_captureRecords objectForKey:key] loadImages];
-            }
-            maxRecordNum = currentRecordNum;
-            currentRecordNum = minRecordNum;
-            for ( int i = 0; i < 10; i++){
-                currentRecordNum++;
-                if(currentRecordNum == [recordNumToImgSet count]) currentRecordNum = 0;
-                key = [recordNumToImgSet objectAtIndex: currentRecordNum];
-                [[_captureRecords objectForKey: key] removeImages];
-            }
-            minRecordNum += 10;
-        }
-        if (currentRecordNum - minRecordNum < 10 && sender == _leftArrowButton){
-            currentRecordNum = minRecordNum;
-            NSString *key;
-            for (int i = 0 ; i < windowSize - 10; i++){
-                currentRecordNum--;
-                if(currentRecordNum == -1) currentRecordNum = [recordNumToImgSet count] - 1;
-                key = [recordNumToImgSet objectAtIndex: currentRecordNum];
-                [_captureRecords objectForKey: key];
-                [[_captureRecords objectForKey:key] loadImages];
-            }
-            minRecordNum = currentRecordNum;
-            currentRecordNum = maxRecordNum;
-            for (int i = 0; i < 10; i++){
-                currentRecordNum--;
-                if(currentRecordNum == -1) currentRecordNum = [recordNumToImgSet count] - 1;
-                key = [recordNumToImgSet objectAtIndex: currentRecordNum];
-                [_captureRecords objectForKey: key];
-                [[_captureRecords objectForKey: key] removeImages];
-            }
-            maxRecordNum -= 10;
-        }
+    NSLog(@"maxRecordNum: %d, minRecordNum: %d  current record: %d", maxRecordNum, minRecordNum, currentRecordNum);
+    int originRecord = currentRecordNum;
+    NSString *key;
+    minRecordNum = originRecord - 2;
+    if(minRecordNum < 0 ) minRecordNum += ( [recordNumToImgSet count] - 1);
+    maxRecordNum = originRecord + 2;
+    currentRecordNum = minRecordNum;
+    for(int i = 0; i < 5 ; i++){
+        currentRecordNum++;
+        if(currentRecordNum == [recordNumToImgSet count]) currentRecordNum = 0;
+        key = [recordNumToImgSet objectAtIndex: currentRecordNum];
+        [[_captureRecords objectForKey:key] loadImages];
     }
+
+
     self.currentImage.animationImages = [[_captureRecords objectForKey: currentCaptureRecord] pathNames];
     self.currentImage.animationDuration = 2;
     [self.currentImage startAnimating];
