@@ -68,7 +68,7 @@ UIImage *unsorted;
     recordNumToImgSet = [[NSMutableArray alloc] init];
     self.circleList = [[NSMutableArray alloc] init];
     currentCaptureRecord = [[NSMutableString alloc] initWithString:@"0 "];
-    server = [NSURL URLWithString: @"http://131.193.79.113/~evl/as/"];
+    server = [NSURL URLWithString: @"http://10.0.1.100/~evl/as/"];
     
     NSString* GMTOffset = @"-0600";
     //instantiates the labelTable
