@@ -158,8 +158,11 @@
     NSMutableArray *tagsToDelete = [[NSMutableArray alloc] init];
     for( Tag* tag in _tagData){
         if(CGRectContainsPoint(view.frame, tag.uiTag.frame.origin)){
-        NSString *stringText = [NSString stringWithFormat:@"insertTagData.php?imgSetID=%d&tag=%@&x=%f&y=%f&scientist=%@", _imgSet, tag.uiTag.text, tag.uiTag.frame.origin.x, tag.uiTag.frame.origin.y, _scientist];
-        [NSString stringWithContentsOfURL:[NSURL URLWithString: stringText relativeToURL:server] encoding:NSUTF8StringEncoding error:nil];
+            NSString *content;
+            while (!content){
+                NSString *stringText = [NSString stringWithFormat:@"insertTagData.php?imgSetID=%d&tag=%@&x=%f&y=%f&scientist=%@", _imgSet, tag.uiTag.text, tag.uiTag.frame.origin.x, tag.uiTag.frame.origin.y, _scientist];
+                content = [NSString stringWithContentsOfURL:[NSURL URLWithString: stringText relativeToURL:server] encoding:NSUTF8StringEncoding error:nil];
+            }
                 //NSLog(@"%@ \n, %@", stringText, addLabelData);
         } else {
             [tagsToDelete addObject:tag];
