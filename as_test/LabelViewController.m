@@ -168,7 +168,6 @@ UIImage *unsorted;
             } else {
                 for(int j = 0; j <= loadedImages ; j++){
                     if( j == loadedImages){
-                        NSLog(@"quicktest");
                         [recordNumToImgSet addObject: record];
                         loadedImages++;
                         break;
@@ -210,13 +209,9 @@ UIImage *unsorted;
     [self.view addSubview:beginningTime];
     [self.view addSubview:endTime];
     currentCaptureRecord = [recordNumToImgSet objectAtIndex: 0];
-    if ([[[_captureRecords objectForKey:currentCaptureRecord] pathNames] count] == 0){
-        self.currentImage.image = [UIImage imageNamed:@"startImage.png"];
-        currentCaptureRecord = [NSString stringWithFormat:@"%d ", -1];
-    } else {
-        self.currentImage.animationImages = [[_captureRecords objectForKey:currentCaptureRecord] pathNames];
-        [[_captureRecords objectForKey:currentCaptureRecord] addTagsToView: self.view];
-    }
+    self.currentImage.animationImages = [[_captureRecords objectForKey:currentCaptureRecord] pathNames];
+    [[_captureRecords objectForKey:currentCaptureRecord] addTagsToView: self.view];
+    
     self.currentRecordNumber.text = [NSString stringWithFormat:@"%d /", [[_captureRecords objectForKey: currentCaptureRecord] recordNumber] + 1 ];
     self.currentImage.animationDuration = 2;
     [self.currentImage startAnimating];
@@ -249,11 +244,11 @@ UIImage *unsorted;
     NSLog(@"%@", fileNameEnding);
     NSString *documentsDirectory = [NSSearchPathForDirectoriesInDomains (NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
     NSString *fileName = [documentsDirectory stringByAppendingPathComponent:fileNameEnding];
-    [formattedDate setDateFormat:@"dd:MM:YYYY HH:mm:ss"];
+    [formattedDate setDateFormat:@"MM/dd/YYYY HH:mm:ss"];
     //create file if it doesn't exist
     if(![[NSFileManager defaultManager] fileExistsAtPath:fileName])
         [[NSFileManager defaultManager] createFileAtPath:fileName contents:nil attributes:nil];
-    NSLog (@"%@", fileName);
+    NSLog (@"\n%@", fileName);
     //append text to file (you'll probably want to add a newline every write)
     self.file = [NSFileHandle fileHandleForUpdatingAtPath:fileName];
     [self.file seekToEndOfFile];
@@ -351,7 +346,7 @@ UIImage *unsorted;
                         [[_captureRecords objectForKey:currentCaptureRecord] addTag: _activeTag];
                         
                         //Confirm that the label is within the image: if not, remove it from the list
-                        if (!CGRectContainsPoint(self.currentImage.frame, [_activeTag center]) ){
+                        if (!CGRectContainsRect(self.currentImage.frame, [[_activeTag uiTag] frame]) ){
                             [_activeTag.uiTag removeFromSuperview ];
                             //[[_captureRecords objectForKey:currentCaptureRecord] removeTag: _activeTag];
                             
@@ -443,7 +438,7 @@ UIImage *unsorted;
 }
 
 - (void) addNoteToDB: (NSString *) note{
-    NSString *logData = [NSString stringWithFormat:@"\n%@ : added note: %@ to imgSetID %@", [formattedDate stringFromDate:[NSDate date]], note, currentCaptureRecord];
+    NSString *logData = [NSString stringWithFormat:@"\n%@ : added note: %@ to CaptureRecord: %@", [formattedDate stringFromDate:[NSDate date]], note, currentCaptureRecord];
     [self.file seekToEndOfFile];
     [self.file writeData:[logData dataUsingEncoding:NSUTF8StringEncoding]];
     NSString *notesForDB=[note stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];

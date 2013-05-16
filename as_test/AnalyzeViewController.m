@@ -64,7 +64,7 @@ NSInteger yDist = 25;
 {
     [super viewDidLoad];
     NSDateFormatter* formattedDate = [[NSDateFormatter alloc] init];
-    [formattedDate setDateFormat:@"yyyy-MM-dd HH:mm:ss Z"];
+    [formattedDate setDateFormat:@"MM/dd/yyyy HH:mm:ss Z"];
     [formattedDate setDateStyle: NSDateFormatterShortStyle];
     [formattedDate setTimeStyle: NSDateFormatterShortStyle];
     
@@ -144,7 +144,7 @@ NSInteger yDist = 25;
 -(void)viewDidAppear:(BOOL)animated{
     self.highlight.center = CGPointMake(-100, 10000);
     NSDateFormatter* formattedDate = [[NSDateFormatter alloc] init];
-    [formattedDate setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    [formattedDate setDateFormat:@"MM/dd/yyyy HH:mm:ss"];
     NSString *logData = [NSString stringWithFormat:@"\n%@ : Switched to the Analyze View", [formattedDate stringFromDate:[NSDate date]]];
     [self.file seekToEndOfFile];
     [self.file writeData: [logData dataUsingEncoding:NSUTF8StringEncoding]];
@@ -218,7 +218,7 @@ NSInteger yDist = 25;
 
 - (void)updateSliderLabels {
     NSDateFormatter* formattedDate = [[NSDateFormatter alloc] init];
-    [formattedDate setDateFormat:@"yyyy-MM-dd HH:mm:ss Z"];
+    [formattedDate setDateFormat:@"MM/dd/yyyy HH:mm:ss Z"];
     [formattedDate setDateStyle: NSDateFormatterShortStyle];
     [formattedDate setTimeStyle: NSDateFormatterShortStyle];
     
@@ -330,7 +330,7 @@ NSInteger yDist = 25;
             self.currentImage.animationDuration = 2;
             [self.currentImage startAnimating];
             NSDateFormatter* formattedDate = [[NSDateFormatter alloc] init];
-            [formattedDate setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+            [formattedDate setDateFormat:@"MM/dd/yyyy HH:mm:ss"];
             NSString *logData = [NSString stringWithFormat:@"\n%@ : Activated the image(s) for CaptureRecord: %@", [formattedDate stringFromDate:[NSDate date]], circleRecordModified];
             [self.file seekToEndOfFile];
             [self.file writeData: [logData dataUsingEncoding:NSUTF8StringEncoding]];
