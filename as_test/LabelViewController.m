@@ -68,7 +68,7 @@ UIImage *unsorted;
     recordNumToImgSet = [[NSMutableArray alloc] init];
     self.circleList = [[NSMutableArray alloc] init];
     currentCaptureRecord = [[NSMutableString alloc] initWithString:@"0 "];
-    server = [NSURL URLWithString: @"http://10.0.1.100/~evl/as/"];
+    server = [NSURL URLWithString: @"http://polarbear.evl.uic.edu/~evl/as/"];
     
     NSString* GMTOffset = @"-0600";
     //instantiates the labelTable
@@ -160,7 +160,7 @@ UIImage *unsorted;
     for( int i = 0; i < firstPassImgSetToRecordNum.count; i++){
         currentRecordNum++;
         NSString *record = [firstPassImgSetToRecordNum objectAtIndex: i];
-        if([[_captureRecords objectForKey: record] loadImages] > 0 ){
+        //if([[_captureRecords objectForKey: record] loadImages] > 0 ){
             if( [recordNumToImgSet count] == 0 ){
                 [[_captureRecords objectForKey:record] setRecordNumber: 0];
                 [recordNumToImgSet insertObject: record atIndex: 0];
@@ -182,9 +182,9 @@ UIImage *unsorted;
                     }
                 }
             }
-        } else {
-            [_captureRecords removeObjectForKey: record];
-        }
+        //} else {
+        //    [_captureRecords removeObjectForKey: record];
+        //}
     }
     //assigns recordNumbers to the appropriate captureRecord
     for(int i =0 ; i < [recordNumToImgSet count]; i++){

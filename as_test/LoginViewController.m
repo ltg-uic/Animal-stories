@@ -36,7 +36,7 @@
     //NSLog(@"%@, %@", _loginField.text, _passwordField.text);
     NSString *myRequestString = [[NSString alloc] initWithFormat:@"userid=%@&password=%@", _loginField.text, _passwordField.text ];
     NSData *myRequestData = [ NSData dataWithBytes: [ myRequestString UTF8String ] length: [ myRequestString length ] ];
-    NSMutableURLRequest *request = [ [ NSMutableURLRequest alloc ] initWithURL: [ NSURL URLWithString: @"http://10.0.1.100/~evl/as/validate2.php" ] ];
+    NSMutableURLRequest *request = [ [ NSMutableURLRequest alloc ] initWithURL: [ NSURL URLWithString: @"http://polarbear.evl.uic.edu/~evl/as/validate2.php" ] ];
     [ request setHTTPMethod: @"POST" ];
     [ request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"content-type"];
     [ request setHTTPBody: myRequestData ];
