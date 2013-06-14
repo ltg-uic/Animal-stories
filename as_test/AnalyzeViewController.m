@@ -335,7 +335,7 @@ NSInteger yDist = 25;
             NSDateFormatter* formattedDate = [[NSDateFormatter alloc] init];
             [formattedDate setDateFormat:@"MM/dd/yyyy HH:mm:ss"];
             NSString *logData = [NSString stringWithFormat:@"\n%@ : Activated the image(s) for CaptureRecord: %@", [formattedDate stringFromDate:[NSDate date]], circleRecordModified];
-            NSLog(logData);
+//            NSLog(logData);
             [self.file seekToEndOfFile];
             [self.file writeData: [logData dataUsingEncoding:NSUTF8StringEncoding]];
             break;

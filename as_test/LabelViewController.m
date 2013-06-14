@@ -447,7 +447,7 @@ UIImage *unsorted;
     NSString *logData = [NSString stringWithFormat:@"\n%@ : added note: %@ to CaptureRecord: %@", [formattedDate stringFromDate:[NSDate date]], note, currentCaptureRecord];
     [self.file seekToEndOfFile];
     [self.file writeData:[logData dataUsingEncoding:NSUTF8StringEncoding]];
-    NSString *notesForDB=[note stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+ //   NSString *notesForDB=[note stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
 //    NSString *content;
 //    while(!content){
 //        NSString *notesURL = [[NSString alloc] initWithFormat:@"notes.php?imgSetID=%d&notes=%@", [currentCaptureRecord intValue], notesForDB];
@@ -610,7 +610,7 @@ UIImage *unsorted;
         //NSLog(@"%@", stringText);
         [_tableData addObject: _addLabelText.text];
         [_labelTable reloadData];
-        NSString *content;
+//        NSString *content;
 //        while(!content){
 //            NSString *stringText = [NSString stringWithFormat: @"insertTag.php?scientist=%@&tag=%@", _scientist, _addLabelText.text];
 //            content =[NSString stringWithContentsOfURL:[NSURL URLWithString: stringText relativeToURL:server] encoding:NSUTF8StringEncoding error:nil];
