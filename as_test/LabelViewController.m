@@ -64,49 +64,56 @@ UIImage *sorted;
 UIImage *unsorted;
 
 - (void)viewDidLoad {
+    NSLog(@"loaded in");
     [super viewDidLoad];
     recordNumToImgSet = [[NSMutableArray alloc] init];
     self.circleList = [[NSMutableArray alloc] init];
     currentCaptureRecord = [[NSMutableString alloc] initWithString:@"0 "];
-    server = [NSURL URLWithString: @"http://10.0.1.100/~evl/as/"];
+    //server = [NSURL URLWithString: @"http://10.0.1.100/~evl/as/"];
     
     NSString* GMTOffset = @"-0600";
     //instantiates the labelTable
     _labelTable = [[UITableView alloc] initWithFrame:CGRectMake(10, 59, 320, 460) style: UITableViewStylePlain];
-    NSString *fileListURL = [[NSString alloc] initWithFormat:@"filelistplusdata.php?scientist=%@", _scientist ];
-    NSString *captureData = [NSString stringWithContentsOfURL:[NSURL URLWithString: fileListURL relativeToURL:server] encoding:NSUTF8StringEncoding error: nil];
+    //NSString *fileListURL = [[NSString alloc] initWithFormat:@"filelistplusdata.php?scientist=%@", _scientist ];
+    //NSString *captureData = [NSString stringWithContentsOfURL:[NSURL URLWithString: fileListURL relativeToURL:server] encoding:NSUTF8StringEncoding error: nil];
     //NSLog(@"%@", captureData);
+    NSArray   *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString* path = [[NSBundle mainBundle] pathForResource:@"dbimitation"
+                                                     ofType:@"txt"];
+    NSLog(@"%@",path);
+    int index = [path rangeOfString:@"/" options: NSBackwardsSearch].location;
+    NSString *relativePath = [path substringToIndex:index+1];
+    
+    NSString  *documentsDirectory = [paths objectAtIndex:0];
+    NSString *captureData = [NSString stringWithContentsOfFile:path encoding: NSUTF8StringEncoding error:nil];
+    
     captureData = [captureData stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]];
     captureDataArray = [captureData componentsSeparatedByString: @"\n"];
     _captureRecords = [[NSMutableDictionary alloc] init];
-    
     //for each entry line, which represents an image, checks to see if there is an existing record for that imageSet. If not, it creates a new record, and adds to the dictionary. Else, adds the new image to the existing record.
     formattedDate = [[NSDateFormatter alloc] init];
-    [formattedDate setDateFormat:@"yyyy-MM-dd HH:mm:ss Z"];
+    [formattedDate setDateFormat:@"MM/dd/yyyy HH:mm:ss Z"];
     NSDate *begin = [NSDate distantFuture];
     NSDate *end = [NSDate distantPast];
     int recordNumber = 0;
     NSMutableArray *firstPassImgSetToRecordNum = [[NSMutableArray alloc] init];
     for( int i = 0; i < captureDataArray.count; i++){
         NSString *recordText = [ [captureDataArray objectAtIndex:i ] stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]];
+        NSLog(@"%@", recordText);
         NSArray *record = [recordText componentsSeparatedByString: @"\t"];
+        //processes dateTime data
+        NSString* dateTime = [[NSString alloc] initWithFormat: @"%@ %@ %@", [record objectAtIndex:5], [record objectAtIndex:6], GMTOffset] ;
+        NSDate* fileDate = [formattedDate dateFromString:dateTime];
+        NSString* pathName = [relativePath stringByAppendingString:[record objectAtIndex:2]];
         if(![_captureRecords objectForKey: [record objectAtIndex:1]]){
-            //processes dateTime data
-            NSString* dateTime = [[NSString alloc] initWithFormat: @"%@ %@ %@", [record objectAtIndex:5], [record objectAtIndex:6], GMTOffset] ;
-            NSDate* fileDate = [formattedDate dateFromString:dateTime];
             if ( [begin earlierDate: fileDate] == fileDate) begin = fileDate;
             if ( [end laterDate: fileDate] == fileDate) end = fileDate;
-            
-            NSString* pathName = [@"images/" stringByAppendingString:[record objectAtIndex:2]];
-            CaptureRecord *newRecord = [[ CaptureRecord alloc] initWithPathName:[[server absoluteString] stringByAppendingString: pathName ] identifier: [[record objectAtIndex: 1] intValue]  author:[record objectAtIndex: 3] atTime: [formattedDate dateFromString:dateTime] withRecord: recordNumber notes: [record objectAtIndex: 7]];
+            CaptureRecord *newRecord = [[ CaptureRecord alloc] initWithPathName:pathName identifier: [[record objectAtIndex: 1] intValue]  author:[record objectAtIndex: 3] atTime: [formattedDate dateFromString:dateTime] withRecord: recordNumber notes: [record objectAtIndex: 7]];
             [_captureRecords setObject:newRecord forKey:[record objectAtIndex:1]];
             [firstPassImgSetToRecordNum insertObject: [record objectAtIndex:1] atIndex: recordNumber];
             recordNumber++;
         }else {
-            NSString* pathName = [@"images/" stringByAppendingString:[record objectAtIndex:2]];
-            NSString* dateTime = [[NSString alloc] initWithFormat: @"%@ %@ %@", [record objectAtIndex:5], [record objectAtIndex:6], GMTOffset] ;
-            NSDate* fileDate = [formattedDate dateFromString:dateTime];
-            [[_captureRecords objectForKey: [record objectAtIndex:1] ] addPathName: [[server absoluteString] stringByAppendingString: pathName] atTime: fileDate];
+            [[_captureRecords objectForKey: [record objectAtIndex:1] ] addPathName: pathName atTime: fileDate];
         }
     }
     
@@ -124,30 +131,30 @@ UIImage *unsorted;
     endTime.text = [formattedDate stringFromDate: end];
     
     //instantiates tableData from the web
-    NSString *tagListURL = [[NSString alloc] initWithFormat:@"taglist.php?scientist=%@", self.scientist];
-    NSString *tagList = [NSString stringWithContentsOfURL: [NSURL URLWithString: tagListURL relativeToURL:server] encoding:NSUTF8StringEncoding error:nil];
-    tagList = [tagList stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-    NSMutableArray *tagListData = [[ tagList componentsSeparatedByString:@"\n"] mutableCopy];
+//    NSString *tagListURL = [[NSString alloc] initWithFormat:@"taglist.php?scientist=%@", self.scientist];
+//    NSString *tagList = [NSString stringWithContentsOfURL: [NSURL URLWithString: tagListURL relativeToURL:server] encoding:NSUTF8StringEncoding error:nil];
+//    tagList = [tagList stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+//    NSMutableArray *tagListData = [[ tagList componentsSeparatedByString:@"\n"] mutableCopy];
     _tableData = [[NSMutableArray alloc] init];
-    for(NSString *tag in tagListData){
-        if( ![_tableData containsObject: tag]) [_tableData addObject: tag];
-    }
+//    for(NSString *tag in tagListData){
+//        if( ![_tableData containsObject: tag]) [_tableData addObject: tag];
+//    }
     
     //instantiates labels
     _labelsAddedToImage = [[NSMutableArray alloc] init];
     
-    NSString *tagPosURL = [[NSString alloc] initWithFormat:@"getalltags.php?scientist=%@", self.scientist];
-    NSString *tagPositions = [NSString stringWithContentsOfURL: [NSURL URLWithString: tagPosURL relativeToURL: server] encoding:NSUTF8StringEncoding error:nil];
-    
-    tagPositions = [tagPositions stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-    NSArray *tagPos = [tagPositions componentsSeparatedByString:@"\n"];
-    for(int i = 0; i < tagPos.count; i++){
-        NSString *recordText = [ [tagPos objectAtIndex:i ] stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]];
-        NSArray *record = [recordText componentsSeparatedByString: @"\t"];
-        if([_captureRecords objectForKey: [record objectAtIndex:0] ]){
-            [[_captureRecords objectForKey: [record objectAtIndex:0]] addTag: [[Tag alloc] initWithCenter:CGPointMake([[record objectAtIndex:2] intValue], [[record objectAtIndex: 3] intValue]) withIdentifier:[[record objectAtIndex: 0] intValue] withText:[[record objectAtIndex: 1] stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet] ] ]];
-        }
-    }
+//    NSString *tagPosURL = [[NSString alloc] initWithFormat:@"getalltags.php?scientist=%@", self.scientist];
+//    NSString *tagPositions = [NSString stringWithContentsOfURL: [NSURL URLWithString: tagPosURL relativeToURL: server] encoding:NSUTF8StringEncoding error:nil];
+//    
+//    tagPositions = [tagPositions stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+//    NSArray *tagPos = [tagPositions componentsSeparatedByString:@"\n"];
+//    for(int i = 0; i < tagPos.count; i++){
+//        NSString *recordText = [ [tagPos objectAtIndex:i ] stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]];
+//        NSArray *record = [recordText componentsSeparatedByString: @"\t"];
+//        if([_captureRecords objectForKey: [record objectAtIndex:0] ]){
+//            [[_captureRecords objectForKey: [record objectAtIndex:0]] addTag: [[Tag alloc] initWithCenter:CGPointMake([[record objectAtIndex:2] intValue], [[record objectAtIndex: 3] intValue]) withIdentifier:[[record objectAtIndex: 0] intValue] withText:[[record objectAtIndex: 1] stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet] ] ]];
+//        }
+//    }
     
     [_addLabelText setAlpha:1.0];
     
@@ -242,7 +249,6 @@ UIImage *unsorted;
     
     NSString *fileNameEnding = [NSString stringWithFormat:@"%@%@%@.txt", _user, _scientist, [formattedDate stringFromDate: date]];
     NSLog(@"%@", fileNameEnding);
-    NSString *documentsDirectory = [NSSearchPathForDirectoriesInDomains (NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
     NSString *fileName = [documentsDirectory stringByAppendingPathComponent:fileNameEnding];
     [formattedDate setDateFormat:@"MM/dd/YYYY HH:mm:ss"];
     //create file if it doesn't exist

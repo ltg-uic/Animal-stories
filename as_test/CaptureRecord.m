@@ -80,6 +80,7 @@
 }
 
 - (void) addPathName: (NSString *) pathName atTime: (NSDate *) date{
+    NSLog(@"adding pathName: %@", pathName);
     pathName = [pathName stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]];
     [self.timeArray addObject: date];
     [self.urlArray addObject:pathName];
@@ -94,26 +95,10 @@
         NSArray *reverseUrlArray = [[self.urlArray reverseObjectEnumerator] allObjects];
         orderedArray = [reverseUrlArray mutableCopy];
     }
-    
+    NSLog(@"%@", orderedArray);
     for (NSString *pathName in orderedArray){
-        
-        int index = [pathName rangeOfString:@"/" options: NSBackwardsSearch].location;
-        NSString *fileName = [pathName substringFromIndex:index];
-        NSArray   *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-        NSString  *documentsDirectory = [paths objectAtIndex:0];
-        NSString  *filePath = [NSString stringWithFormat:@"%@%@", documentsDirectory,fileName];
-        //NSLog(@"%@", filePath);
-        if(![[NSFileManager defaultManager] fileExistsAtPath:filePath] ){
-            //NSLog(@"File Does Not Already Exist");
-            NSURL  *url = [NSURL URLWithString:pathName];
-            NSData *urlData = [NSData dataWithContentsOfURL:url];
-            if ( urlData )
-            {
-                [urlData writeToFile:filePath atomically:YES];
-                NSLog(@"%@%@", documentsDirectory, fileName);   
-            }
-        }
-        UIImage *image = [UIImage imageWithContentsOfFile:filePath];
+            UIImage *image = [UIImage imageWithContentsOfFile:pathName];
+        NSLog(@"%@", image);
         if (image){
             [_pathNames addObject:image];
             numberOfImages++;
