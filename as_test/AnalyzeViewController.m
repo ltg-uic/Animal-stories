@@ -254,7 +254,7 @@ NSInteger yDist = 25;
 
             if(CGRectContainsPoint(frame, circle.center)){
                 [self.timeLineContainer addSubview: circle];
-                NSString *recordNewName = [[NSString alloc] initWithFormat:@"%@%f%f", record, circle.center.x, circle.center.y];
+                NSString *recordNewName = [[NSString alloc] initWithFormat:@"%@ %f%f", record, circle.center.x, circle.center.y];
                 [_dataPoints setValue:circle forKey: recordNewName];
                
                 totals[[_tableData count]]++;
@@ -271,7 +271,7 @@ NSInteger yDist = 25;
 
                         if(CGRectContainsPoint(frame, circle.center)){
                             [self.timeLineContainer addSubview: circle];
-                            NSString *recordNewName = [[NSString alloc] initWithFormat:@"%@%@%@", record, [[tag uiTag] text], NSStringFromCGPoint([[tag uiTag] center])];
+                            NSString *recordNewName = [[NSString alloc] initWithFormat:@"%@ %@%@", record, [[tag uiTag] text], NSStringFromCGPoint([[tag uiTag] center])];
                             [_dataPoints setValue:circle forKey: recordNewName];
                             totals[i]++;
                         }
@@ -319,12 +319,15 @@ NSInteger yDist = 25;
     for(NSString *circleRecord in _dataPoints){
         //NSLog(@"containsData: %@" , NSStringFromCGRect([[_dataPoints objectForKey:circleRecord] frame]));
         if(CGRectContainsPoint([[_dataPoints objectForKey:circleRecord] frame], tapLocation)){
+            NSLog(@"circleRecord : %@", circleRecord);
             NSString *circleRecordModified;
             NSRange range = [circleRecord rangeOfString:@" "];
             self.highlight.center = [[_dataPoints objectForKey:circleRecord] center];
             [self.timeLineContainer sendSubviewToBack: self.highlight];
-            circleRecordModified = [circleRecord substringToIndex:range.location + 1];
+            if(range.location > 0 && range.location < circleRecord.length) circleRecordModified = [circleRecord substringToIndex:range.location];
+            //else circleRecordModified = [circleRecord copy];
             self.currentRecord = [circleRecordModified mutableCopy];
+            NSLog(@"%@", self.captureRecords);
             if([[[self.captureRecords objectForKey:circleRecordModified] pathNames] count] < 1) [[self.captureRecords objectForKey:circleRecordModified] loadImages];
             self.currentImage.animationImages = [[self.captureRecords objectForKey:circleRecordModified] pathNames];
             self.currentImage.animationDuration = 2;
@@ -332,8 +335,10 @@ NSInteger yDist = 25;
             NSDateFormatter* formattedDate = [[NSDateFormatter alloc] init];
             [formattedDate setDateFormat:@"MM/dd/yyyy HH:mm:ss"];
             NSString *logData = [NSString stringWithFormat:@"\n%@ : Activated the image(s) for CaptureRecord: %@", [formattedDate stringFromDate:[NSDate date]], circleRecordModified];
+            NSLog(logData);
             [self.file seekToEndOfFile];
             [self.file writeData: [logData dataUsingEncoding:NSUTF8StringEncoding]];
+            break;
         }
     }
     

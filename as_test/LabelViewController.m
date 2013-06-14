@@ -448,11 +448,11 @@ UIImage *unsorted;
     [self.file seekToEndOfFile];
     [self.file writeData:[logData dataUsingEncoding:NSUTF8StringEncoding]];
     NSString *notesForDB=[note stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    NSString *content;
-    while(!content){
-        NSString *notesURL = [[NSString alloc] initWithFormat:@"notes.php?imgSetID=%d&notes=%@", [currentCaptureRecord intValue], notesForDB];
-        content = [NSString stringWithContentsOfURL: [NSURL URLWithString: notesURL relativeToURL: server] encoding:NSUTF8StringEncoding error:nil];
-    }
+//    NSString *content;
+//    while(!content){
+//        NSString *notesURL = [[NSString alloc] initWithFormat:@"notes.php?imgSetID=%d&notes=%@", [currentCaptureRecord intValue], notesForDB];
+//        content = [NSString stringWithContentsOfURL: [NSURL URLWithString: notesURL relativeToURL: server] encoding:NSUTF8StringEncoding error:nil];
+//    }
 }
 
 -(void)textViewDidBeginEditing:(UITextView *)textView{
@@ -611,10 +611,10 @@ UIImage *unsorted;
         [_tableData addObject: _addLabelText.text];
         [_labelTable reloadData];
         NSString *content;
-        while(!content){
-            NSString *stringText = [NSString stringWithFormat: @"insertTag.php?scientist=%@&tag=%@", _scientist, _addLabelText.text];
-            content =[NSString stringWithContentsOfURL:[NSURL URLWithString: stringText relativeToURL:server] encoding:NSUTF8StringEncoding error:nil];
-        }
+//        while(!content){
+//            NSString *stringText = [NSString stringWithFormat: @"insertTag.php?scientist=%@&tag=%@", _scientist, _addLabelText.text];
+//            content =[NSString stringWithContentsOfURL:[NSURL URLWithString: stringText relativeToURL:server] encoding:NSUTF8StringEncoding error:nil];
+//        }
         //NSLog(@"%@", addLabelData);
     }
     _addLabelText.text = @"";
@@ -711,11 +711,11 @@ UIImage *unsorted;
             if(_tableData.count < 10 ) tagName = [_tableData objectAtIndex:path.row - 1];
             else tagName = [_tableData objectAtIndex: path.row ];
             //NSLog(@"%@", tagName);
-            NSString *content;
-            while(!content){
-                NSString *stringText = [NSString stringWithFormat:@"deleteTag.php?scientist=%@&tag=%@", _scientist, tagName];
-                content =[NSString stringWithContentsOfURL:[NSURL URLWithString: stringText relativeToURL:server] encoding:NSUTF8StringEncoding error:nil];
-            }
+//            NSString *content;
+//            while(!content){
+//                NSString *stringText = [NSString stringWithFormat:@"deleteTag.php?scientist=%@&tag=%@", _scientist, tagName];
+//                content =[NSString stringWithContentsOfURL:[NSURL URLWithString: stringText relativeToURL:server] encoding:NSUTF8StringEncoding error:nil];
+//            }
             //NSLog(@"%@", addLabelData);
             //removes the tags from all records
             for(NSString *record in [_captureRecords allKeys]){
@@ -737,11 +737,11 @@ UIImage *unsorted;
             else oldTagName = [_tableData objectAtIndex:path.row];
             NSString *newTagName = [[self.edit textFieldAtIndex:0] text];
             //NSLog(@"%@, %@", oldTagName, newTagName);
-            NSString *content;
-            while(!content){
-                NSString *stringText = [NSString stringWithFormat:@"updateTagData.php?oldTag=%@&newTag=%@&scientist=%@", oldTagName, newTagName, _scientist];
-                content = [NSString stringWithContentsOfURL:[NSURL URLWithString: stringText relativeToURL:server] encoding:NSUTF8StringEncoding error:nil];
-            }
+//            NSString *content;
+//            while(!content){
+//                NSString *stringText = [NSString stringWithFormat:@"updateTagData.php?oldTag=%@&newTag=%@&scientist=%@", oldTagName, newTagName, _scientist];
+//                content = [NSString stringWithContentsOfURL:[NSURL URLWithString: stringText relativeToURL:server] encoding:NSUTF8StringEncoding error:nil];
+           //}
             //NSLog(@"%@", addLabelData);
             for(NSString *record in [_captureRecords allKeys]){
                 [[_captureRecords objectForKey:record] renameTag:oldTagName withTag: newTagName];
