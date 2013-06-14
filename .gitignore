@@ -16,3 +16,4 @@ DerivedData
 .idea/
 *.hmap
 as_test/startImage.png
+*.storyboard
