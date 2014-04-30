@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>031614BD-7000-4634-BDEF-C0E3A59FD45B</string>
+	<key>IDESourceControlProjectName</key>
+	<string>Neighborhood Safari</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>65AAB77C-7DE1-4844-927C-0F94F4E2F192</key>
+		<string>https://github.com/ltg-uic/Animal-stories.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>Neighborhood Safari.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>65AAB77C-7DE1-4844-927C-0F94F4E2F192</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/ltg-uic/Animal-stories.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>65AAB77C-7DE1-4844-927C-0F94F4E2F192</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>65AAB77C-7DE1-4844-927C-0F94F4E2F192</string>
+			<key>IDESourceControlWCCName</key>
+			<string>Animal-stories</string>
+		</dict>
+	</array>
+</dict>
+</plist>

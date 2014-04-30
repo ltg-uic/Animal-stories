@@ -51,7 +51,7 @@
 @synthesize tap;
 @synthesize highlight = _highlight;
 
-NSInteger yDist = 25;
+NSInteger yDist = 30;
 
 
 -(AnalyzeViewController *) init{
@@ -168,8 +168,8 @@ NSInteger yDist = 25;
     [_totals removeAllObjects];
     [_tableData insertObject:@"Unlabeled" atIndex: 0];
 
-    _leftLabel.center = CGPointMake(105, 315 + yDist * ([_tableData count] + 1));
-    _rightLabel.center = CGPointMake(914, 315 + yDist * ( [_tableData count]+ 1));
+    _leftLabel.center = CGPointMake(105, 315 + yDist * ([_tableData count] + 2));
+    _rightLabel.center = CGPointMake(914, 315 + yDist * ( [_tableData count]+ 2));
     
     self.timeLineContainer.contentSize = CGSizeMake(900, yDist* ([_tableData count] + 4));
     int totals[[_tableData count] + 2];

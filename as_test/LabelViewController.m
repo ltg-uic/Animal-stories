@@ -129,6 +129,7 @@ UIImage *unsorted;
     endTime.backgroundColor = [UIColor clearColor];
     endTime.font = [UIFont systemFontOfSize:12];
     endTime.text = [formattedDate stringFromDate: end];
+  
     
     //instantiates tableData from the web
 //    NSString *tagListURL = [[NSString alloc] initWithFormat:@"taglist.php?scientist=%@", self.scientist];
@@ -152,7 +153,9 @@ UIImage *unsorted;
 //        NSString *recordText = [ [tagPos objectAtIndex:i ] stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]];
 //        NSArray *record = [recordText componentsSeparatedByString: @"\t"];
 //        if([_captureRecords objectForKey: [record objectAtIndex:0] ]){
-//            [[_captureRecords objectForKey: [record objectAtIndex:0]] addTag: [[Tag alloc] initWithCenter:CGPointMake([[record objectAtIndex:2] intValue], [[record objectAtIndex: 3] intValue]) withIdentifier:[[record objectAtIndex: 0] intValue] withText:[[record objectAtIndex: 1] stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet] ] ]];
+            [[_captureRecords objectForKey: @"9"] addTag: [[Tag alloc] initWithCenter:CGPointMake(600 , 200) withIdentifier:1 withText: @"Unlabeled" ]];
+                [[_captureRecords objectForKey: @"2"] addTag: [[Tag alloc] initWithCenter:CGPointMake(600 , 200) withIdentifier:1 withText: @"Unlabeled" ]];
+                [[_captureRecords objectForKey: @"17"] addTag: [[Tag alloc] initWithCenter:CGPointMake(600 , 200) withIdentifier:1 withText: @"Unlabeled" ]];
 //        }
 //    }
     
@@ -228,7 +231,7 @@ UIImage *unsorted;
     self.labelTable.allowsSelectionDuringEditing = YES;
     _addLabelText.borderStyle = UITextBorderStyleRoundedRect;
     _addLabelText.alpha = 0.0;
-    
+
     //instantiates swipeRecognizers; one each for left and right
     _swipeRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeRecognizer:)];
     _swipeRecognizer.direction = UISwipeGestureRecognizerDirectionLeft;
@@ -482,7 +485,7 @@ UIImage *unsorted;
         if(currentRecordNum < 1) currentRecordNum = _captureRecords.count-1;
     }
     [[_captureRecords objectForKey:currentCaptureRecord] removeTagsFromView];
-    currentCaptureRecord = [NSString stringWithFormat:@"%d ", currentRecordNum];
+    currentCaptureRecord = [NSMutableString stringWithFormat:@"%d ", currentRecordNum];
     //NSLog(@"%@", currentCaptureRecord);
     self.currentImage.animationImages = [[_captureRecords objectForKey: currentCaptureRecord] pathNames];
     self.currentImage.animationDuration = 2;
@@ -646,8 +649,8 @@ UIImage *unsorted;
     if (tableView.editing){
         if(_tableData.count < 10){
             if(indexPath.row == 0){
-                self.addLabelText.frame = CGRectMake(addLabelText.frame.origin.x,cell.contentView.frame.origin.y + 2, cell.contentView.frame.size.width-20, cell.contentView.frame.size.height-6);
-                self.addLabelText.alpha = 1.0;
+                self.addLabelText.frame = CGRectMake(addLabelText.frame.origin.x,cell.contentView.frame.origin.y+2, cell.contentView.frame.size.width-80, cell.contentView.frame.size.height-6);
+                self.addLabelText.alpha = .8;
                 [cell.contentView addSubview: self.addLabelText];
                 [cell.contentView bringSubviewToFront:self.addLabelText];
                 //NSLog(@"added subview, %@", self.addLabelText);
@@ -771,6 +774,13 @@ UIImage *unsorted;
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return self.editing ;
+}
+
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath
+                                                                                                      *)indexPath
+{
+        cell.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"label_1.png"]]; //set image for cell 0
+    
 }
 
 @end
